@@ -1,0 +1,968 @@
+﻿**********Olson & Fazio 2001 RRR***************
+
+**************************************************************************************************************
+**************************************************************************************************************
+Stimulus items
+define stimuli items for all the  blocks
+**************************************************************************************************************
+**************************************************************************************************************
+
+******fillers******************
+<item Filler>
+/ 1 = "filler1.jpg"
+/ 2 = "filler2.jpg"
+/ 3 = "filler3.jpg"
+/ 4 = "filler4.jpg"
+/ 5 = "filler5.jpg"
+/ 6 = "filler6.jpg"
+/ 7 = "filler7.jpg"
+/ 8 = "filler8.jpg"
+/ 9 = "filler9.jpg"
+/ 10 = "filler10.jpg"
+/ 11 = "filler11.jpg"
+/ 12 = "filler12.jpg"
+/ 13 = "filler13.jpg"
+/ 14 = "filler14.jpg"
+/ 15 = "filler15.jpg"
+/ 16 = "filler16.jpg"
+/ 17 = "filler17.jpg"
+/ 18 = "filler18.jpg"
+/ 19 = "filler19.jpg"
+/ 20 = "filler20.jpg"
+/ 21 = "filler21.jpg"
+/ 22 = "filler22.jpg"
+/ 23 = "filler23.jpg"
+/ 24 = "filler24.jpg"
+/ 25 = "filler25.jpg"
+/ 26 = "filler26.jpg"
+/ 27 = "filler27.jpg"
+/ 28 = "filler28.jpg"
+/ 29 = "filler29.jpg"
+/ 30 = "filler30.jpg"
+/ 31 = "filler31.jpg"
+/ 32 = "filler32.jpg"
+/ 33 = "filler33.jpg"
+/ 34 = "filler34.jpg"
+/ 35 = "filler35.jpg"
+/ 36 = "filler36.jpg"
+/ 37 = "filler37.jpg"
+/ 38 = "filler38.jpg"
+/ 39 = "blank.jpg"
+/ 40 = "blank.jpg"
+/ 41 = "blank.jpg"
+/ 42 = "blank.jpg"
+/ 43 = "blank.jpg"
+/ 44 = "blank.jpg"
+/ 45 = "blank.jpg"
+/ 46 = "blank.jpg"
+/ 47 = "blank.jpg"
+/ 48 = "blank.jpg"
+/ 49 = "blank.jpg"
+/ 50 = "blank.jpg"
+/ 51 = "blank.jpg"
+/ 52 = "blank.jpg"
+</item>
+
+<picture Filler>
+/items =  Filler
+/ size = (80%, 80%)
+</picture>
+
+<picture Blank>
+/items =  ("blank.jpg")
+/ size = (80%, 80%)
+</picture>
+
+******targets******************
+<item target_gru>
+/ 1 = "target_gru1.jpg"
+/ 2 = "target_gru2.jpg"
+/ 3 = "target_gru3.jpg"
+/ 4 = "target_gru4.jpg"
+/ 5 = "target_gru5.jpg"
+/ 6 = "target_gru6.jpg"
+/ 7 = "target_gru7.jpg"
+/ 8 = "target_gru8.jpg"
+/ 9 = "target_gru9.jpg"
+/ 10 = "target_gru10.jpg"
+</item>
+
+<picture target_gru>
+/items =  target_gru
+/ size = (80%, 80%)
+</picture>
+
+<picture gru>
+/items = ("Grubbin.jpg")
+/ size = (40%, 40%)
+/position = (50%, 35%)
+</picture>
+
+<item target_cra>
+/ 1 = "target_cra1.jpg"
+/ 2 = "target_cra2.jpg"
+/ 3 = "target_cra3.jpg"
+/ 4 = "target_cra4.jpg"
+/ 5 = "target_cra5.jpg"
+/ 6 = "target_cra6.jpg"
+/ 7 = "target_cra7.jpg"
+/ 8 = "target_cra8.jpg"
+/ 9 = "target_cra9.jpg"
+/ 10 = "target_cra10.jpg"
+</item>
+
+<picture target_cra>
+/items =  target_cra
+/ size = (80%, 80%)
+</picture>
+
+<picture cra>
+/items = ("Cranidos.jpg")
+/ size = (40%, 40%)
+/position = (50%, 35%)
+</picture>
+
+<item target_mag>
+/ 1 = "target_mag1.jpg"
+/ 2 = "target_mag2.jpg"
+/ 3 = "target_mag3.jpg"
+/ 4 = "target_mag4.jpg"
+/ 5 = "target_mag5.jpg"
+/ 6 = "target_mag6.jpg"
+/ 7 = "target_mag7.jpg"
+/ 8 = "target_mag8.jpg"
+/ 9 = "target_mag9.jpg"
+/ 10 = "target_mag10.jpg"
+</item>
+
+<picture target_mag>
+/items =  target_mag
+/ size = (80%, 80%)
+</picture>
+
+<picture mag>
+/items = ("magearna.jpg")
+/ size = (40%, 40%)
+/position = (50%, 35%)
+</picture>
+
+<item target_pal>
+/ 1 = "target_pal1.jpg"
+/ 2 = "target_pal2.jpg"
+/ 3 = "target_pal3.jpg"
+/ 4 = "target_pal4.jpg"
+/ 5 = "target_pal5.jpg"
+/ 6 = "target_pal6.jpg"
+/ 7 = "target_pal7.jpg"
+/ 8 = "target_pal8.jpg"
+/ 9 = "target_pal9.jpg"
+/ 10 = "target_pal10.jpg"
+</item>
+
+<picture target_pal>
+/items =  target_pal
+/ size = (80%, 80%)
+</picture>
+
+<picture pal>
+/items = ("Palpitoad.jpg")
+/ size = (40%, 40%)
+/position = (50%, 35%)
+</picture>
+
+<item target_she>
+/ 1 = "target_she1.jpg"
+/ 2 = "target_she2.jpg"
+/ 3 = "target_she3.jpg"
+/ 4 = "target_she4.jpg"
+/ 5 = "target_she5.jpg"
+/ 6 = "target_she6.jpg"
+/ 7 = "target_she7.jpg"
+/ 8 = "target_she8.jpg"
+/ 9 = "target_she9.jpg"
+/ 10 = "target_she10.jpg"
+</item>
+
+<picture target_she>
+/items =  target_she
+/ size = (80%, 80%)
+</picture>
+
+<picture she>
+/items = ("Shelmet.jpg")
+/ size = (40%, 40%)
+/position = (50%, 35%)
+</picture>
+
+******CS-US paires**
+****************
+*****ber-pos*****
+<item ber_pos>
+/ 1 = "ber_posim1.jpg"
+/ 2 = "ber_posim2.jpg"
+/ 3 = "ber_posim3.jpg"
+/ 4 = "ber_posim4.jpg"
+/ 5 = "ber_posim5.jpg"
+/ 6 = "ber_posim6.jpg"
+/ 7 = "ber_posim7.jpg"
+/ 8 = "ber_posim8.jpg"
+/ 9 = "ber_posim9.jpg"
+/ 10 = "ber_posim10.jpg"
+/ 12 = "ber_poswo1.jpg"
+/ 12 = "ber_poswo2.jpg"
+/ 13 = "ber_poswo3.jpg"
+/ 14 = "ber_poswo4.jpg"
+/ 15 = "ber_poswo5.jpg"
+/ 16 = "ber_poswo6.jpg"
+/ 17 = "ber_poswo7.jpg"
+/ 18 = "ber_poswo8.jpg"
+/ 19 = "ber_poswo9.jpg"
+/ 20 = "ber_poswo10.jpg"
+</item>
+
+<picture ber_pos>
+/ numitems = 20
+/ items = ber_pos
+/ select = counter_ber_pos
+/ size = (80%, 80%)
+</picture>
+
+#counter ber-pos
+<counter counter_ber_pos>
+/ select = noreplace (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+</counter>
+
+*****ber-neg*****
+<item ber_neg>
+/ 1 = "ber_negim1.jpg"
+/ 2 = "ber_negim2.jpg"
+/ 3 = "ber_negim3.jpg"
+/ 4 = "ber_negim4.jpg"
+/ 5 = "ber_negim5.jpg"
+/ 6 = "ber_negim6.jpg"
+/ 7 = "ber_negim7.jpg"
+/ 8 = "ber_negim8.jpg"
+/ 9 = "ber_negim9.jpg"
+/ 10 = "ber_negim10.jpg"
+/ 12 = "ber_negwo1.jpg"
+/ 12 = "ber_negwo2.jpg"
+/ 13 = "ber_negwo3.jpg"
+/ 14 = "ber_negwo4.jpg"
+/ 15 = "ber_negwo5.jpg"
+/ 16 = "ber_negwo6.jpg"
+/ 17 = "ber_negwo7.jpg"
+/ 18 = "ber_negwo8.jpg"
+/ 19 = "ber_negwo9.jpg"
+/ 20 = "ber_negwo10.jpg"
+</item>
+
+<picture ber_neg>
+/ numitems = 20
+/ items = ber_neg
+/ select = counter_ber_neg
+/ size = (80%, 80%)
+</picture>
+
+
+#counter
+<counter counter_ber_neg>
+/ select = noreplace (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+</counter>
+
+
+*****gol-pos*****
+<item gol_pos>
+/ 1 = "gol_posim1.jpg"
+/ 2 = "gol_posim2.jpg"
+/ 3 = "gol_posim3.jpg"
+/ 4 = "gol_posim4.jpg"
+/ 5 = "gol_posim5.jpg"
+/ 6 = "gol_posim6.jpg"
+/ 7 = "gol_posim7.jpg"
+/ 8 = "gol_posim8.jpg"
+/ 9 = "gol_posim9.jpg"
+/ 10 = "gol_posim10.jpg"
+/ 12 = "gol_poswo1.jpg"
+/ 12 = "gol_poswo2.jpg"
+/ 13 = "gol_poswo3.jpg"
+/ 14 = "gol_poswo4.jpg"
+/ 15 = "gol_poswo5.jpg"
+/ 16 = "gol_poswo6.jpg"
+/ 17 = "gol_poswo7.jpg"
+/ 18 = "gol_poswo8.jpg"
+/ 19 = "gol_poswo9.jpg"
+/ 20 = "gol_poswo10.jpg"
+</item>
+
+<picture gol_pos>
+/ numitems = 20
+/ items = gol_pos
+/ select = counter_gol_pos
+/ size = (80%, 80%)
+</picture>
+
+
+#counter gol-pos
+<counter counter_gol_pos>
+/ select = noreplace (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+</counter>
+
+*****gol-neg*****
+<item gol_neg>
+/ 1 = "gol_negim1.jpg"
+/ 2 = "gol_negim2.jpg"
+/ 3 = "gol_negim3.jpg"
+/ 4 = "gol_negim4.jpg"
+/ 5 = "gol_negim5.jpg"
+/ 6 = "gol_negim6.jpg"
+/ 7 = "gol_negim7.jpg"
+/ 8 = "gol_negim8.jpg"
+/ 9 = "gol_negim9.jpg"
+/ 10 = "gol_negim10.jpg"
+/ 12 = "gol_negwo1.jpg"
+/ 12 = "gol_negwo2.jpg"
+/ 13 = "gol_negwo3.jpg"
+/ 14 = "gol_negwo4.jpg"
+/ 15 = "gol_negwo5.jpg"
+/ 16 = "gol_negwo6.jpg"
+/ 17 = "gol_negwo7.jpg"
+/ 18 = "gol_negwo8.jpg"
+/ 19 = "gol_negwo9.jpg"
+/ 20 = "gol_negwo10.jpg"
+</item>
+
+<picture gol_neg>
+/ numitems = 20
+/ items = gol_neg
+/ select = counter_gol_neg
+/ size = (80%, 80%)
+</picture>
+
+#counter
+<counter counter_gol_neg>
+/ select = noreplace (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+</counter>
+
+******Instructions******************
+<item instructionsStart>
+/ 1 = "Imagine that you are a security guard watching for deviant activity at a business. Your job requires that you pay attention at all times, and respond quickly when something suspicious happens.  
+
+In our lab we study attention and rapid responding, and in this experiment you’ll be asked to play the role of the security guard. 
+
+Specifically, you will be attending to a number of items presented on the computer screen, and you’ll be responding as quickly as  possible when a target item appears by pressing the spacebar.  
+
+ 
+
+Press the spacebar to continue"
+
+
+/ 2 = "The target item will appear at random several times throughout the experiment. The target item may appear as an image or as a name.  So be sure to pay attention at all times and focus on the screen, because you never know when the target item will appear.  
+
+A number of filler items that we’ve selected from our stimulus pool will also be shown randomly to make the task more challenging. These distractors are both pictures and words that were just randomly picked from our collection.  
+
+Sometimes two images will appear on the screen at the same time, and sometimes only one image will appear.  Be sure to hit the spacebar only when the target appears.  
+
+The target might appear anywhere on the screen as well, and it might also appear with other images. So whenever you see a target image or name anywhere on the screen, hit the spacebar.  
+ 
+
+
+Press the spacebar to continue."
+
+/3 = "The items will be displayed rapidly, so make sure that when you see a target, you hit the spacebar before it disappears.  
+
+Again, be sure to pay close attention throughout the experiment so that you can respond as quickly and accurately as possible.  
+
+There will be five separate surveillance tasks of about 4 minutes each.  
+
+Each task will have a different target, and all of the target items will be cartoon creatures. 
+
+
+
+Press the spacebar to continue."
+</item>
+
+<item inst_gru>
+
+/1 = "For this task, the target creature is Grubbin:
+
+~n~n~n~n~n~n~n~n~n~n~nSo whenever Grubbin (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Grubbin or the word GRUBBIN. 
+
+Press the spacebar to start the this task"
+</item>
+
+<item inst_mag>
+
+/1 = "For this task, the target creature is Magearna:
+
+~n~n~n~n~n~n~n~n~n~n~nSo whenever Magearna (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Magearna or the word MAGEARNA. 
+
+Press the spacebar to start the this task"
+</item>
+
+<item inst_cra>
+
+/1 = "For this task, the target creature is Cranidos:
+
+~n~n~n~n~n~n~n~n~n~n~nSo whenever Cranidos (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Cranidos or the word CRANIDOS. 
+
+Press the spacebar to start the this task"
+</item>
+
+<item inst_pal>
+
+/1 = "For this task, the target creature is Palpitoad:
+
+~n~n~n~n~n~n~n~n~n~n~nSo whenever Palpitoad (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Palpitoad or the word PALPITOAD. 
+
+Press the spacebar to start the this task"
+</item>
+
+
+<item inst_she>
+
+/1 = "For this task, the target creature is Shelmet:
+
+~n~n~n~n~n~n~n~n~n~n~nSo whenever Shelmet (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Shelmet or the word SHELMET. 
+
+Press the spacebar to start the this task"
+</item>
+
+
+<instruct>
+/ nextkey = (" ")
+/ nextlabel = "Continue"
+/ windowsize = (100%, 100%)
+/ screencolor = (255, 255, 255)
+/ fontstyle = ("Arial", 4%)
+/ txcolor = (0, 0, 0)
+</instruct>
+
+<text instS1>
+/items = instructionsStart
+/select = 1
+/fontstyle = ("Arial", 4%)
+/txcolor = (0, 0, 0)
+/size = (90%, 90%)
+</text>
+
+<text instS2>
+/items = instructionsStart
+/select = 2
+/fontstyle = ("Arial", 4%)
+/txcolor = (0, 0, 0)
+/size = (90%, 90%)
+</text>
+
+<text instS3>
+/items = instructionsStart
+/select = 3
+/fontstyle = ("Arial", 4%)
+/txcolor = (0, 0, 0)
+/size = (90%, 90%)
+</text>
+
+<text inst_gru>
+/items = inst_gru
+/fontstyle = ("Arial", 4%)
+/txcolor = (0, 0, 0)
+/size = (90%, 90%)
+</text>
+
+<text inst_mag>
+/items = inst_mag
+/fontstyle = ("Arial", 4%)
+/txcolor = (0, 0, 0)
+/size = (90%, 90%)
+</text>
+
+<text inst_cra>
+/items = inst_cra
+/fontstyle = ("Arial", 4%)
+/txcolor = (0, 0, 0)
+/size = (90%, 90%)
+</text>
+
+<text inst_pal>
+/items = inst_pal
+/fontstyle = ("Arial", 4%)
+/txcolor = (0, 0, 0)
+/size = (90%, 90%)
+</text>
+
+<text inst_she>
+/items = inst_she
+/fontstyle = ("Arial", 4%)
+/txcolor = (0, 0, 0)
+/size = (90%, 90%)
+</text>
+
+***********************************************************************
+Trials
+***********************************************************************
+***********************************************************************
+Instructions Trials
+***********************************************************************
+<trial instS1>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ errormessage = false
+/ stimulusframes = [1 = instS1]
+</trial>
+
+
+<trial instS2>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ errormessage = false
+/ stimulusframes = [1 = instS2]
+</trial>
+
+
+<trial instS3>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ errormessage = false
+/ stimulusframes = [1 = instS3]
+</trial>
+
+
+<trial inst_gru>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ errormessage = false
+/ stimulusframes = [1 = inst_gru, gru]
+</trial>
+
+<trial inst_mag>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ errormessage = false
+/ stimulusframes = [1 = inst_mag, mag]
+</trial>
+
+<trial inst_cra>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ errormessage = false
+/ stimulusframes = [1 = inst_cra, cra]
+</trial>
+
+<trial inst_pal>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ errormessage = false
+/ stimulusframes = [1 = inst_pal, pal]
+</trial>
+
+<trial inst_she>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ errormessage = false
+/ stimulusframes = [1 = inst_she, she]
+</trial>
+***********************************************************************
+Pairing Trails
+***********************************************************************
+*********ber_pos*************
+<trial ber_pos>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0= ber_pos; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+*********ber_neg*************
+<trial ber_neg>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0= ber_neg; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+
+*********gol_pos*************
+<trial gol_pos>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0= gol_pos; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+
+*********gol_neg*************
+<trial gol_neg>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0= gol_neg; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+
+
+***********************************************************************
+Target Trails
+***********************************************************************
+<trial target_gru>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0 = target_gru; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+
+<trial target_mag>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0 = target_mag; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+
+<trial target_cra>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0 = target_cra; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+
+<trial target_pal>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0 = target_pal; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+
+<trial target_she>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0 = target_she; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+
+***********************************************************************
+Regular Filler Trails
+***********************************************************************
+<trial Filler>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0 = Filler; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+
+<trial Blank>
+/ validresponse = (" ")
+/ correctresponse = (" ")
+/ stimulustimes = [0 = Blank; 1500 = Blank]
+/ beginresponsetime = 0
+/ responseinterrupt = frames
+/ trialduration = 1500
+</trial>
+
+
+<list triallist_gol_pos>
+/ items = (
+ trial.gol_pos, trial.gol_pos, trial.gol_pos, trial.gol_pos, trial.gol_pos, 
+ trial.gol_pos, trial.gol_pos, trial.gol_pos, trial.gol_pos, trial.gol_pos,
+ trial.gol_pos, trial.gol_pos, trial.gol_pos, trial.gol_pos, trial.gol_pos, 
+ trial.gol_pos, trial.gol_pos, trial.gol_pos, trial.gol_pos, trial.gol_pos)
+/ poolsize = 20
+</list>
+
+<list triallist_ber_pos>
+/ items = (
+ trial.ber_pos, trial.ber_pos, trial.ber_pos, trial.ber_pos, trial.ber_pos, 
+ trial.ber_pos, trial.ber_pos, trial.ber_pos, trial.ber_pos, trial.ber_pos, 
+ trial.ber_pos, trial.ber_pos, trial.ber_pos, trial.ber_pos, trial.ber_pos,  
+ trial.ber_pos, trial.ber_pos, trial.ber_pos, trial.ber_pos, trial.ber_pos)
+/ poolsize = 20
+</list>
+
+<list triallist_gol_neg>
+/ items = (
+ trial.gol_neg, trial.gol_neg, trial.gol_neg, trial.gol_neg, trial.gol_neg, 
+ trial.gol_neg, trial.gol_neg, trial.gol_neg, trial.gol_neg, trial.gol_neg, 
+ trial.gol_neg, trial.gol_neg, trial.gol_neg, trial.gol_neg, trial.gol_neg,  
+ trial.gol_neg, trial.gol_neg, trial.gol_neg, trial.gol_neg, trial.gol_neg)
+/ poolsize = 20
+</list>
+
+<list triallist_ber_neg>
+/ items = (
+ trial.ber_neg, trial.ber_neg, trial.ber_neg, trial.ber_neg, trial.ber_neg, 
+ trial.ber_neg, trial.ber_neg, trial.ber_neg, trial.ber_neg, trial.ber_neg, 
+ trial.ber_neg, trial.ber_neg, trial.ber_neg, trial.ber_neg, trial.ber_neg,  
+ trial.ber_neg, trial.ber_neg, trial.ber_neg, trial.ber_neg, trial.ber_neg)
+/ poolsize = 20
+</list>
+
+<list triallist_gru>
+/ items = (
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, 
+ trial.Filler, trial.Filler,  
+ trial.target_gru, trial.target_gru, trial.target_gru, trial.target_gru, trial.target_gru, 
+ trial.target_gru, trial.target_gru, trial.target_gru, trial.target_gru, trial.target_gru)
+/ poolsize = 62
+/ maxrunsize = 44
+</list>
+
+<list triallist_mag>
+/ items = (
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, 
+ trial.Filler, trial.Filler,  
+ trial.target_mag, trial.target_mag, trial.target_mag, trial.target_mag, trial.target_mag, 
+ trial.target_mag, trial.target_mag, trial.target_mag, trial.target_mag, trial.target_mag)
+/ poolsize = 62
+/ maxrunsize = 44
+</list>
+
+
+<list triallist_cra>
+/ items = (
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, 
+ trial.Filler, trial.Filler,  
+ trial.target_cra, trial.target_cra, trial.target_cra, trial.target_cra, trial.target_cra, 
+ trial.target_cra, trial.target_cra, trial.target_cra, trial.target_cra, trial.target_cra)
+/ poolsize = 62
+/ maxrunsize = 44
+</list>
+
+
+<list triallist_pal>
+/ items = (
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, 
+ trial.Filler, trial.Filler,   
+ trial.target_pal, trial.target_pal, trial.target_pal, trial.target_pal, trial.target_pal, 
+ trial.target_pal, trial.target_pal, trial.target_pal, trial.target_pal, trial.target_pal)
+/ poolsize = 62
+/ maxrunsize = 44
+</list>
+
+
+<list triallist_she>
+/ items = (
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler,
+ trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, trial.Filler, 
+ trial.Filler, trial.Filler,    
+ trial.target_she, trial.target_she, trial.target_she, trial.target_she, trial.target_she, 
+ trial.target_she, trial.target_she, trial.target_she, trial.target_she, trial.target_she)
+/ poolsize = 62
+/ maxrunsize = 44
+</list>
+***********************************************************************
+Blocks
+***********************************************************************
+<block instS>
+/ trials = [
+  1 = instS1;
+  2 = instS2;
+  3 = instS3]
+/ responsemode = correct
+/ recorddata = false
+</block>
+
+***********************************************************************
+ber-pos/gol-neg
+***********************************************************************
+<block block_gru_berpos>
+/ trials = [1 = inst_gru; 
+  2-10 =  list.triallist_gru; 11 = Blank; 12 = list.triallist_ber_pos; 13 = Blank; 
+  14-20 = list.triallist_gru; 21 = Blank; 22 = list.triallist_gol_neg; 23 = Blank; 
+  24-30 = list.triallist_gru; 31 = Blank; 32 = list.triallist_ber_pos; 33 = Blank; 
+  34-40 = list.triallist_gru; 41 = Blank; 42 = list.triallist_gol_neg; 43 = Blank; 
+  44-50 = list.triallist_gru; 51 = Blank; 52 = list.triallist_ber_pos; 53 = Blank; 
+  54-60 = list.triallist_gru; 61 = Blank; 62 = list.triallist_gol_neg; 63 = Blank; 
+  64-70 = list.triallist_gru; 71 = Blank; 72 = list.triallist_ber_pos; 73 = Blank; 
+  74-80 = list.triallist_gru; 81 = Blank; 82 = list.triallist_gol_neg; 83 = Blank; 
+  84-87 = list.triallist_gru]
+/ responsemode = correct
+/ recorddata = true
+</block>
+
+<block block_mag_berpos>
+/ trials = [1 = inst_mag; 
+  2-10 =  list.triallist_mag; 11 = Blank; 12 = list.triallist_ber_pos; 13 = Blank; 
+  14-20 = list.triallist_mag; 21 = Blank; 22 = list.triallist_gol_neg; 23 = Blank; 
+  24-30 = list.triallist_mag; 31 = Blank; 32 = list.triallist_ber_pos; 33 = Blank; 
+  34-40 = list.triallist_mag; 41 = Blank; 42 = list.triallist_gol_neg; 43 = Blank; 
+  44-50 = list.triallist_mag; 51 = Blank; 52 = list.triallist_ber_pos; 53 = Blank; 
+  54-60 = list.triallist_mag; 61 = Blank; 62 = list.triallist_gol_neg; 63 = Blank; 
+  64-70 = list.triallist_mag; 71 = Blank; 72 = list.triallist_ber_pos; 73 = Blank; 
+  74-80 = list.triallist_mag; 81 = Blank; 82 = list.triallist_gol_neg; 83 = Blank; 
+  84-87 = list.triallist_mag]
+/ responsemode = correct
+/ recorddata = true
+</block>
+
+
+<block block_cra_berpos>
+/ trials = [1 = inst_cra; 
+  2-10 =  list.triallist_cra; 11 = Blank; 12 = list.triallist_ber_pos; 13 = Blank; 
+  14-20 = list.triallist_cra; 21 = Blank; 22 = list.triallist_gol_neg; 23 = Blank; 
+  24-30 = list.triallist_cra; 31 = Blank; 32 = list.triallist_ber_pos; 33 = Blank; 
+  34-40 = list.triallist_cra; 41 = Blank; 42 = list.triallist_gol_neg; 43 = Blank; 
+  44-50 = list.triallist_cra; 51 = Blank; 52 = list.triallist_ber_pos; 53 = Blank; 
+  54-60 = list.triallist_cra; 61 = Blank; 62 = list.triallist_gol_neg; 63 = Blank; 
+  64-70 = list.triallist_cra; 71 = Blank; 72 = list.triallist_ber_pos; 73 = Blank; 
+  74-80 = list.triallist_cra; 81 = Blank; 82 = list.triallist_gol_neg; 83 = Blank; 
+  84-87 = list.triallist_cra]
+/ responsemode = correct
+/ recorddata = true
+</block>
+
+<block block_pal_berpos>
+/ trials = [1 = inst_pal; 
+  2-10 =  list.triallist_pal; 11 = Blank; 12 = list.triallist_ber_pos; 13 = Blank; 
+  14-20 = list.triallist_pal; 21 = Blank; 22 = list.triallist_gol_neg; 23 = Blank; 
+  24-30 = list.triallist_pal; 31 = Blank; 32 = list.triallist_ber_pos; 33 = Blank; 
+  34-40 = list.triallist_pal; 41 = Blank; 42 = list.triallist_gol_neg; 43 = Blank; 
+  44-50 = list.triallist_pal; 51 = Blank; 52 = list.triallist_ber_pos; 53 = Blank; 
+  54-60 = list.triallist_pal; 61 = Blank; 62 = list.triallist_gol_neg; 63 = Blank; 
+  64-70 = list.triallist_pal; 71 = Blank; 72 = list.triallist_ber_pos; 73 = Blank; 
+  74-80 = list.triallist_pal; 81 = Blank; 82 = list.triallist_gol_neg; 83 = Blank; 
+  84-87 = list.triallist_pal]
+/ responsemode = correct
+/ recorddata = true
+</block>
+
+<block block_she_berpos>
+/ trials = [1 = inst_she; 
+  2-10 =  list.triallist_she; 11 = Blank; 12 = list.triallist_ber_pos; 13 = Blank; 
+  14-20 = list.triallist_she; 21 = Blank; 22 = list.triallist_gol_neg; 23 = Blank; 
+  24-30 = list.triallist_she; 31 = Blank; 32 = list.triallist_ber_pos; 33 = Blank; 
+  34-40 = list.triallist_she; 41 = Blank; 42 = list.triallist_gol_neg; 43 = Blank; 
+  44-50 = list.triallist_she; 51 = Blank; 52 = list.triallist_ber_pos; 53 = Blank; 
+  54-60 = list.triallist_she; 61 = Blank; 62 = list.triallist_gol_neg; 63 = Blank; 
+  64-70 = list.triallist_she; 71 = Blank; 72 = list.triallist_ber_pos; 73 = Blank; 
+  74-80 = list.triallist_she; 81 = Blank; 82 = list.triallist_gol_neg; 83 = Blank; 
+  84-87 = list.triallist_she]
+/ responsemode = correct
+/ recorddata = true
+</block>
+
+***********************************************************************
+ber-pos/gol-neg
+***********************************************************************
+
+<block block_gru_berneg>
+/ trials = [1 = inst_gru; 
+  2-10 =  list.triallist_gru; 11 = Blank; 12 = list.triallist_ber_neg; 13 = Blank; 
+  14-20 = list.triallist_gru; 21 = Blank; 22 = list.triallist_gol_pos; 23 = Blank; 
+  24-30 = list.triallist_gru; 31 = Blank; 32 = list.triallist_ber_neg; 33 = Blank; 
+  34-40 = list.triallist_gru; 41 = Blank; 42 = list.triallist_gol_pos; 43 = Blank; 
+  44-50 = list.triallist_gru; 51 = Blank; 52 = list.triallist_ber_neg; 53 = Blank; 
+  54-60 = list.triallist_gru; 61 = Blank; 62 = list.triallist_gol_pos; 63 = Blank; 
+  64-70 = list.triallist_gru; 71 = Blank; 72 = list.triallist_ber_neg; 73 = Blank; 
+  74-80 = list.triallist_gru; 81 = Blank; 82 = list.triallist_gol_pos; 83 = Blank; 
+  84-87 = list.triallist_gru]
+/ responsemode = correct
+/ recorddata = true
+</block>
+
+<block block_mag_berneg>
+/ trials = [1 = inst_mag; 
+  2-10 =  list.triallist_mag; 11 = Blank; 12 = list.triallist_ber_neg; 13 = Blank; 
+  14-20 = list.triallist_mag; 21 = Blank; 22 = list.triallist_gol_pos; 23 = Blank; 
+  24-30 = list.triallist_mag; 31 = Blank; 32 = list.triallist_ber_neg; 33 = Blank; 
+  34-40 = list.triallist_mag; 41 = Blank; 42 = list.triallist_gol_pos; 43 = Blank; 
+  44-50 = list.triallist_mag; 51 = Blank; 52 = list.triallist_ber_neg; 53 = Blank; 
+  54-60 = list.triallist_mag; 61 = Blank; 62 = list.triallist_gol_pos; 63 = Blank; 
+  64-70 = list.triallist_mag; 71 = Blank; 72 = list.triallist_ber_neg; 73 = Blank; 
+  74-80 = list.triallist_mag; 81 = Blank; 82 = list.triallist_gol_pos; 83 = Blank; 
+  84-87 = list.triallist_mag]
+/ responsemode = correct
+/ recorddata = true
+</block>
+
+
+<block block_cra_berneg>
+/ trials = [1 = inst_cra; 
+  2-10 =  list.triallist_cra; 11 = Blank; 12 = list.triallist_ber_neg; 13 = Blank; 
+  14-20 = list.triallist_cra; 21 = Blank; 22 = list.triallist_gol_pos; 23 = Blank; 
+  24-30 = list.triallist_cra; 31 = Blank; 32 = list.triallist_ber_neg; 33 = Blank; 
+  34-40 = list.triallist_cra; 41 = Blank; 42 = list.triallist_gol_pos; 43 = Blank; 
+  44-50 = list.triallist_cra; 51 = Blank; 52 = list.triallist_ber_neg; 53 = Blank; 
+  54-60 = list.triallist_cra; 61 = Blank; 62 = list.triallist_gol_pos; 63 = Blank; 
+  64-70 = list.triallist_cra; 71 = Blank; 72 = list.triallist_ber_neg; 73 = Blank; 
+  74-80 = list.triallist_cra; 81 = Blank; 82 = list.triallist_gol_pos; 83 = Blank; 
+  84-87 = list.triallist_cra]
+/ responsemode = correct
+/ recorddata = true
+</block>
+
+<block block_pal_berneg>
+/ trials = [1 = inst_pal; 
+  2-10 =  list.triallist_pal; 11 = Blank; 12 = list.triallist_ber_neg; 13 = Blank; 
+  14-20 = list.triallist_pal; 21 = Blank; 22 = list.triallist_gol_pos; 23 = Blank; 
+  24-30 = list.triallist_pal; 31 = Blank; 32 = list.triallist_ber_neg; 33 = Blank; 
+  34-40 = list.triallist_pal; 41 = Blank; 42 = list.triallist_gol_pos; 43 = Blank; 
+  44-50 = list.triallist_pal; 51 = Blank; 52 = list.triallist_ber_neg; 53 = Blank; 
+  54-60 = list.triallist_pal; 61 = Blank; 62 = list.triallist_gol_pos; 63 = Blank; 
+  64-70 = list.triallist_pal; 71 = Blank; 72 = list.triallist_ber_neg; 73 = Blank; 
+  74-80 = list.triallist_pal; 81 = Blank; 82 = list.triallist_gol_pos; 83 = Blank; 
+  84-87 = list.triallist_pal]
+/ responsemode = correct
+/ recorddata = true
+</block>
+
+<block block_she_berneg>
+/ trials = [1 = inst_she; 
+  2-10 =  list.triallist_she; 11 = Blank; 12 = list.triallist_ber_neg; 13 = Blank; 
+  14-20 = list.triallist_she; 21 = Blank; 22 = list.triallist_gol_pos; 23 = Blank; 
+  24-30 = list.triallist_she; 31 = Blank; 32 = list.triallist_ber_neg; 33 = Blank; 
+  34-40 = list.triallist_she; 41 = Blank; 42 = list.triallist_gol_pos; 43 = Blank; 
+  44-50 = list.triallist_she; 51 = Blank; 52 = list.triallist_ber_neg; 53 = Blank; 
+  54-60 = list.triallist_she; 61 = Blank; 62 = list.triallist_gol_pos; 63 = Blank; 
+  64-70 = list.triallist_she; 71 = Blank; 72 = list.triallist_ber_neg; 73 = Blank; 
+  74-80 = list.triallist_she; 81 = Blank; 82 = list.triallist_gol_pos; 83 = Blank; 
+  84-87 = list.triallist_she]
+/ responsemode = correct
+/ recorddata = true
+</block>
+***********************************************************************
+Experiment
+***********************************************************************
+<defaults>
+/ screencolor = (255, 255, 255)
+/ txbgcolor = (255, 255, 255)
+/ txcolor = (0, 0, 0)
+/ fontstyle = ("Arial", 5%)
+/canvasaspectratio = (16,9)
+</defaults>
+
+<expt>
+/ blocks = [1 = instS; 2-6=noreplace(block_gru_berneg, block_mag_berneg, block_cra_berneg, block_pal_berneg, block_she_berneg)]
+</expt>
+

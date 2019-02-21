@@ -58,46 +58,47 @@ library(tidyverse)
 # build vectors of CS US trials, randomise order
 # these are popped from for all the 5 blocks so that they are never presented twice
 n_CS_US_trials_per_block <- 20
-trials_CS1_USpos <- paste(rep("CS1_USpos", n_CS_US_trials_per_block), seq(from = 1, to = n_CS_US_trials_per_block, by = 1), sep = "_")
-trials_CS2_USneg <- paste(rep("CS2_USneg", n_CS_US_trials_per_block), seq(from = 1, to = n_CS_US_trials_per_block, by = 1), sep = "_")
+trials_CS1_USpos <- paste0(rep("images/CS1_USpos_", n_CS_US_trials_per_block), seq(from = 1, to = n_CS_US_trials_per_block, by = 1), ".jpg")
+trials_CS2_USneg <- paste0(rep("images/CS2_USneg_", n_CS_US_trials_per_block), seq(from = 1, to = n_CS_US_trials_per_block, by = 1), ".jpg")
 
 # build vector of filler and target trials, randomise order
 generate_block <- function(target_name, n_filler_trials_per_block = 52, n_target_trials_per_block = 10) {
   
-  trials_filler <- paste(rep("filler", n_filler_trials_per_block), seq(from = 1, to = n_filler_trials_per_block, by = 1), sep = "_")
-  trials_target <- paste(rep(target_name, n_target_trials_per_block), seq(from = 1, to = n_target_trials_per_block, by = 1), sep = "_")
+  trials_filler <- paste0(rep("images/filler_", n_filler_trials_per_block), seq(from = 1, to = n_filler_trials_per_block, by = 1), ".jpg")
+  trials_target <- paste0(rep(paste0("images/", target_name), n_target_trials_per_block), 
+                          seq(from = 1, to = n_target_trials_per_block, by = 1), ".jpg")
   trials_combined <- append(trials_filler, trials_target) %>% sample()
   
   # insert CS-US trials into specific locations in a master vector
-  popped_trial <- c("blank", sample(trials_CS1_USpos, 1), "blank")
+  popped_trial <- c("images/blank.jpg", sample(trials_CS1_USpos, 1), "images/blank.jpg")
   trials_CS1_USpos_shuffled <- trials_CS1_USpos[trials_CS1_USpos != popped_trial]
   trials_combined <- append(trials_combined, popped_trial, after = 9)
   
-  popped_trial <- c("blank", sample(trials_CS2_USneg, 1), "blank")
+  popped_trial <- c("images/blank.jpg", sample(trials_CS2_USneg, 1), "images/blank.jpg")
   trials_CS2_USneg_shuffled <- trials_CS2_USneg[trials_CS2_USneg != popped_trial]
   trials_combined <- append(trials_combined, popped_trial, after = 19)
   
-  popped_trial <- c("blank", sample(trials_CS1_USpos, 1), "blank")
+  popped_trial <- c("images/blank.jpg", sample(trials_CS1_USpos, 1), "images/blank.jpg")
   trials_CS1_USpos_shuffled <- trials_CS1_USpos[trials_CS1_USpos != popped_trial]
   trials_combined <- append(trials_combined, popped_trial, after = 29)
   
-  popped_trial <- c("blank", sample(trials_CS2_USneg, 1), "blank")
+  popped_trial <- c("images/blank.jpg", sample(trials_CS2_USneg, 1), "images/blank.jpg")
   trials_CS2_USneg_shuffled <- trials_CS2_USneg[trials_CS2_USneg != popped_trial]
   trials_combined <- append(trials_combined, popped_trial, after = 39)
   
-  popped_trial <- c("blank", sample(trials_CS1_USpos, 1), "blank")
+  popped_trial <- c("images/blank.jpg", sample(trials_CS1_USpos, 1), "images/blank.jpg")
   trials_CS1_USpos_shuffled <- trials_CS1_USpos[trials_CS1_USpos != popped_trial]
   trials_combined <- append(trials_combined, popped_trial, after = 49)
   
-  popped_trial <- c("blank", sample(trials_CS2_USneg, 1), "blank")
+  popped_trial <- c("images/blank.jpg", sample(trials_CS2_USneg, 1), "images/blank.jpg")
   trials_CS2_USneg_shuffled <- trials_CS2_USneg[trials_CS2_USneg != popped_trial]
   trials_combined <- append(trials_combined, popped_trial, after = 59)
   
-  popped_trial <- c("blank", sample(trials_CS1_USpos, 1), "blank")
+  popped_trial <- c("images/blank.jpg", sample(trials_CS1_USpos, 1), "images/blank.jpg")
   trials_CS1_USpos_shuffled <- trials_CS1_USpos[trials_CS1_USpos != popped_trial]
   trials_combined <- append(trials_combined, popped_trial, after = 69)
   
-  popped_trial <- c("blank", sample(trials_CS2_USneg, 1), "blank")
+  popped_trial <- c("images/blank.jpg", sample(trials_CS2_USneg, 1), "images/blank.jpg")
   trials_CS2_USneg_shuffled <- trials_CS2_USneg[trials_CS2_USneg != popped_trial]
   trials_combined <- append(trials_combined, popped_trial, after = 79)
   
@@ -111,11 +112,11 @@ n_participants <- 150
 trials <- NULL
 
 for(i in 1:n_participants) {
-  block_a <- generate_block(target_name = "target_a")
-  block_b <- generate_block(target_name = "target_b")
-  block_c <- generate_block(target_name = "target_c")
-  block_d <- generate_block(target_name = "target_d")
-  block_e <- generate_block(target_name = "target_e")
+  block_a <- generate_block(target_name = "target_a_")
+  block_b <- generate_block(target_name = "target_b_")
+  block_c <- generate_block(target_name = "target_c_")
+  block_d <- generate_block(target_name = "target_d_")
+  block_e <- generate_block(target_name = "target_e_")
   
   blocks_combined <- block_a %>%
     append(., block_b, after = sample(c(0, 86), 1)) %>%
@@ -152,24 +153,41 @@ write_csv(trials, "trials.csv")
 
 ```{r}
 
+current_participant <- 13
+  
+starting_row <- (current_participant-1)*430+1
+
 subset_participant <- trials %>%
-  filter(participant == current_participant_code &
-         condition == sample(c(1,2,3,4), 1))
+  filter(participant == current_participant) 
+# &
+#          condition == sample(c(1,2,3,4), 1))
 
 subset_block_1 <- subset_participant %>%
-  filter(trial_number %in% 1*participant:86*participant)
+  filter(row_number %in% starting_row:(starting_row + 85))
 
 subset_block_2 <- subset_participant %>%
-  filter(trial_number %in% 1*participant*2:86*participant*2)
+  filter(row_number %in% (starting_row + 86):(starting_row + 171))
 
 subset_block_3 <- subset_participant %>%
-  filter(trial_number %in% 1*participant*3:86*participant*3)
+  filter(row_number %in% (starting_row + 172):(starting_row + 257))
 
 subset_block_4 <- subset_participant %>%
-  filter(trial_number %in% 1*participant*4:86*participant*4)
+  filter(row_number %in% (starting_row + 258):(starting_row + 343))
 
 subset_block_5 <- subset_participant %>%
-  filter(trial_number %in% 1*participant*5:86*participant*5)
+  filter(row_number %in% (starting_row + 344):(starting_row + 429))
+
+
+
+# ((expInfo['participant']-1)*430+1):((expInfo['participant']-1)*430+86)
+# 
+# ((expInfo['participant']-1)*430+87):((expInfo['participant']-1)*430+172)
+# 
+# ((expInfo['participant']-1)*430+173):((expInfo['participant']-1)*430+258)
+# 
+# ((expInfo['participant']-1)*430+259):((expInfo['participant']-1)*430+344)
+# 
+# ((expInfo['participant']-1)*430+345):((expInfo['participant']-1)*430+430)
 
 ```
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v3.0.4),
-    on Thu Feb 21 21:00:34 2019
+    on Fri Feb 22 15:14:40 2019
 If you publish work using this script please cite the PsychoPy publications:
     Peirce, JW (2007) PsychoPy - Psychophysics software in Python.
         Journal of Neuroscience Methods, 162(1-2), 8-13.
@@ -32,7 +32,7 @@ os.chdir(_thisDir)
 
 # Store info about the experiment session
 psychopyVersion = '3.0.4'
-expName = 'unconscious_ec_RRR'  # from the Builder filename that created this script
+expName = 'ec_RRR'  # from the Builder filename that created this script
 expInfo = {'participant': ''}
 dlg = gui.DlgFromDict(dictionary=expInfo, title=expName)
 if dlg.OK == False:
@@ -62,7 +62,7 @@ endExpNow = False  # flag for 'escape' or other condition => quit the exp
 win = visual.Window(
     size=[1440, 900], fullscr=True, screen=0,
     allowGUI=False, allowStencil=False,
-    monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
+    monitor='testMonitor', color='white', colorSpace='rgb',
     blendMode='avg', useFBO=True,
     units='height')
 # store frame rate of monitor if we can measure it
@@ -74,100 +74,135 @@ else:
 
 # Initialize components for Routine "instructions"
 instructionsClock = core.Clock()
+from numpy.random import randint
+condition_randomisation = randint(1, 3, size = 1)
+if condition_randomisation == 1:
+    condition = "CS1_USpos"
+elif condition_randomisation == 2:
+    condition = "CS1_USneg"
+file_name = "stimuli/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
 text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='[instructions]',
     font='Arial',
     pos=(0, 0), height=0.1, wrapWidth=None, ori=0, 
-    color='white', colorSpace='rgb', opacity=1, 
+    color='black', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
-    depth=-1.0);
+    depth=-2.0);
 
 # Initialize components for Routine "trial"
 trialClock = core.Clock()
 learning_phase_image = visual.ImageStim(
     win=win, name='learning_phase_image',
     image='sin', mask=None,
-    ori=0, pos=(0, 0), size=(0.8, 0.8),
+    ori=0, pos=(0, 0), size=(1, 1),
     color=[1,1,1], colorSpace='rgb', opacity=1,
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=-1.0)
 
 # Initialize components for Routine "instructions"
 instructionsClock = core.Clock()
+from numpy.random import randint
+condition_randomisation = randint(1, 3, size = 1)
+if condition_randomisation == 1:
+    condition = "CS1_USpos"
+elif condition_randomisation == 2:
+    condition = "CS1_USneg"
+file_name = "stimuli/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
 text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='[instructions]',
     font='Arial',
     pos=(0, 0), height=0.1, wrapWidth=None, ori=0, 
-    color='white', colorSpace='rgb', opacity=1, 
+    color='black', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
-    depth=-1.0);
+    depth=-2.0);
 
 # Initialize components for Routine "trial"
 trialClock = core.Clock()
 learning_phase_image = visual.ImageStim(
     win=win, name='learning_phase_image',
     image='sin', mask=None,
-    ori=0, pos=(0, 0), size=(0.8, 0.8),
+    ori=0, pos=(0, 0), size=(1, 1),
     color=[1,1,1], colorSpace='rgb', opacity=1,
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=-1.0)
 
 # Initialize components for Routine "instructions"
 instructionsClock = core.Clock()
+from numpy.random import randint
+condition_randomisation = randint(1, 3, size = 1)
+if condition_randomisation == 1:
+    condition = "CS1_USpos"
+elif condition_randomisation == 2:
+    condition = "CS1_USneg"
+file_name = "stimuli/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
 text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='[instructions]',
     font='Arial',
     pos=(0, 0), height=0.1, wrapWidth=None, ori=0, 
-    color='white', colorSpace='rgb', opacity=1, 
+    color='black', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
-    depth=-1.0);
+    depth=-2.0);
 
 # Initialize components for Routine "trial"
 trialClock = core.Clock()
 learning_phase_image = visual.ImageStim(
     win=win, name='learning_phase_image',
     image='sin', mask=None,
-    ori=0, pos=(0, 0), size=(0.8, 0.8),
+    ori=0, pos=(0, 0), size=(1, 1),
     color=[1,1,1], colorSpace='rgb', opacity=1,
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=-1.0)
 
 # Initialize components for Routine "instructions"
 instructionsClock = core.Clock()
+from numpy.random import randint
+condition_randomisation = randint(1, 3, size = 1)
+if condition_randomisation == 1:
+    condition = "CS1_USpos"
+elif condition_randomisation == 2:
+    condition = "CS1_USneg"
+file_name = "stimuli/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
 text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='[instructions]',
     font='Arial',
     pos=(0, 0), height=0.1, wrapWidth=None, ori=0, 
-    color='white', colorSpace='rgb', opacity=1, 
+    color='black', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
-    depth=-1.0);
+    depth=-2.0);
 
 # Initialize components for Routine "trial"
 trialClock = core.Clock()
 learning_phase_image = visual.ImageStim(
     win=win, name='learning_phase_image',
     image='sin', mask=None,
-    ori=0, pos=(0, 0), size=(0.8, 0.8),
+    ori=0, pos=(0, 0), size=(1, 1),
     color=[1,1,1], colorSpace='rgb', opacity=1,
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=-1.0)
 
 # Initialize components for Routine "instructions"
 instructionsClock = core.Clock()
+from numpy.random import randint
+condition_randomisation = randint(1, 3, size = 1)
+if condition_randomisation == 1:
+    condition = "CS1_USpos"
+elif condition_randomisation == 2:
+    condition = "CS1_USneg"
+file_name = "stimuli/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
 text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='[instructions]',
     font='Arial',
     pos=(0, 0), height=0.1, wrapWidth=None, ori=0, 
-    color='white', colorSpace='rgb', opacity=1, 
+    color='black', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
-    depth=-1.0);
+    depth=-2.0);
 
 # Initialize components for Routine "trial"
 trialClock = core.Clock()
 learning_phase_image = visual.ImageStim(
     win=win, name='learning_phase_image',
     image='sin', mask=None,
-    ori=0, pos=(0, 0), size=(0.8, 0.8),
+    ori=0, pos=(0, 0), size=(1, 1),
     color=[1,1,1], colorSpace='rgb', opacity=1,
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=-1.0)
@@ -182,6 +217,7 @@ instructionsClock.reset()  # clock
 frameN = -1
 continueRoutine = True
 # update component parameters for each repeat
+
 key_resp_continue = event.BuilderKeyResponse()
 # keep track of which components have finished
 instructionsComponents = [key_resp_continue, text_instructions]
@@ -195,6 +231,7 @@ while continueRoutine:
     t = instructionsClock.getTime()
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
+    
     
     # *key_resp_continue* updates
     if t >= 0.0 and key_resp_continue.status == NOT_STARTED:
@@ -242,13 +279,14 @@ while continueRoutine:
 for thisComponent in instructionsComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
+
 # the Routine "instructions" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
 block_1 = data.TrialHandler(nReps=1, method='sequential', 
     extraInfo=expInfo, originPath=-1,
-    trialList=data.importConditions('stimuli/trials.csv', selection=eval(range(((int(expInfo['participant'])-1)*430+1), ((int(expInfo['participant'])-1)*430+87), 1))),
+    trialList=data.importConditions(file_name, selection=range(1, 87, 1)),
     seed=None, name='block_1')
 thisExp.addLoop(block_1)  # add the loop to the experiment
 thisBlock_1 = block_1.trialList[0]  # so we can initialise stimuli with some values
@@ -299,7 +337,7 @@ for thisBlock_1 in block_1:
         if learning_phase_response.status == STARTED and t >= frameRemains:
             learning_phase_response.status = FINISHED
         if learning_phase_response.status == STARTED:
-            theseKeys = event.getKeys(keyList=['space'])
+            theseKeys = event.getKeys(keyList=['space', 'None'])
             
             # check for quit:
             if "escape" in theseKeys:
@@ -308,6 +346,11 @@ for thisBlock_1 in block_1:
                 if learning_phase_response.keys == []:  # then this was the first keypress
                     learning_phase_response.keys = theseKeys[0]  # just the first key pressed
                     learning_phase_response.rt = learning_phase_response.clock.getTime()
+                    # was this 'correct'?
+                    if (learning_phase_response.keys == str(correct_response)) or (learning_phase_response.keys == correct_response):
+                        learning_phase_response.corr = 1
+                    else:
+                        learning_phase_response.corr = 0
         
         # *learning_phase_image* updates
         if t >= 0.0 and learning_phase_image.status == NOT_STARTED:
@@ -343,7 +386,14 @@ for thisBlock_1 in block_1:
     # check responses
     if learning_phase_response.keys in ['', [], None]:  # No response was made
         learning_phase_response.keys=None
+        # was no response the correct answer?!
+        if str(correct_response).lower() == 'none':
+           learning_phase_response.corr = 1;  # correct non-response
+        else:
+           learning_phase_response.corr = 0;  # failed to respond (incorrectly)
+    # store data for block_1 (TrialHandler)
     block_1.addData('learning_phase_response.keys',learning_phase_response.keys)
+    block_1.addData('learning_phase_response.corr', learning_phase_response.corr)
     if learning_phase_response.keys != None:  # we had a response
         block_1.addData('learning_phase_response.rt', learning_phase_response.rt)
     thisExp.nextEntry()
@@ -357,6 +407,7 @@ instructionsClock.reset()  # clock
 frameN = -1
 continueRoutine = True
 # update component parameters for each repeat
+
 key_resp_continue = event.BuilderKeyResponse()
 # keep track of which components have finished
 instructionsComponents = [key_resp_continue, text_instructions]
@@ -370,6 +421,7 @@ while continueRoutine:
     t = instructionsClock.getTime()
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
+    
     
     # *key_resp_continue* updates
     if t >= 0.0 and key_resp_continue.status == NOT_STARTED:
@@ -417,13 +469,14 @@ while continueRoutine:
 for thisComponent in instructionsComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
+
 # the Routine "instructions" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
 block_2 = data.TrialHandler(nReps=1, method='sequential', 
     extraInfo=expInfo, originPath=-1,
-    trialList=data.importConditions('stimuli/trials.csv', selection=eval(range(((int(expInfo['participant'])-1)*430+87), ((int(expInfo['participant'])-1)*430+173), 1))),
+    trialList=data.importConditions(file_name, selection=range(87, 173, 1)),
     seed=None, name='block_2')
 thisExp.addLoop(block_2)  # add the loop to the experiment
 thisBlock_2 = block_2.trialList[0]  # so we can initialise stimuli with some values
@@ -474,7 +527,7 @@ for thisBlock_2 in block_2:
         if learning_phase_response.status == STARTED and t >= frameRemains:
             learning_phase_response.status = FINISHED
         if learning_phase_response.status == STARTED:
-            theseKeys = event.getKeys(keyList=['space'])
+            theseKeys = event.getKeys(keyList=['space', 'None'])
             
             # check for quit:
             if "escape" in theseKeys:
@@ -483,6 +536,11 @@ for thisBlock_2 in block_2:
                 if learning_phase_response.keys == []:  # then this was the first keypress
                     learning_phase_response.keys = theseKeys[0]  # just the first key pressed
                     learning_phase_response.rt = learning_phase_response.clock.getTime()
+                    # was this 'correct'?
+                    if (learning_phase_response.keys == str(correct_response)) or (learning_phase_response.keys == correct_response):
+                        learning_phase_response.corr = 1
+                    else:
+                        learning_phase_response.corr = 0
         
         # *learning_phase_image* updates
         if t >= 0.0 and learning_phase_image.status == NOT_STARTED:
@@ -518,7 +576,14 @@ for thisBlock_2 in block_2:
     # check responses
     if learning_phase_response.keys in ['', [], None]:  # No response was made
         learning_phase_response.keys=None
+        # was no response the correct answer?!
+        if str(correct_response).lower() == 'none':
+           learning_phase_response.corr = 1;  # correct non-response
+        else:
+           learning_phase_response.corr = 0;  # failed to respond (incorrectly)
+    # store data for block_2 (TrialHandler)
     block_2.addData('learning_phase_response.keys',learning_phase_response.keys)
+    block_2.addData('learning_phase_response.corr', learning_phase_response.corr)
     if learning_phase_response.keys != None:  # we had a response
         block_2.addData('learning_phase_response.rt', learning_phase_response.rt)
     thisExp.nextEntry()
@@ -532,6 +597,7 @@ instructionsClock.reset()  # clock
 frameN = -1
 continueRoutine = True
 # update component parameters for each repeat
+
 key_resp_continue = event.BuilderKeyResponse()
 # keep track of which components have finished
 instructionsComponents = [key_resp_continue, text_instructions]
@@ -545,6 +611,7 @@ while continueRoutine:
     t = instructionsClock.getTime()
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
+    
     
     # *key_resp_continue* updates
     if t >= 0.0 and key_resp_continue.status == NOT_STARTED:
@@ -592,13 +659,14 @@ while continueRoutine:
 for thisComponent in instructionsComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
+
 # the Routine "instructions" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
 block_3 = data.TrialHandler(nReps=1, method='sequential', 
     extraInfo=expInfo, originPath=-1,
-    trialList=data.importConditions('stimuli/trials.csv', selection=eval(range(((int(expInfo['participant'])-1)*430+173), ((int(expInfo['participant'])-1)*430+259), 1))),
+    trialList=data.importConditions(file_name, selection=range(173, 259, 1)),
     seed=None, name='block_3')
 thisExp.addLoop(block_3)  # add the loop to the experiment
 thisBlock_3 = block_3.trialList[0]  # so we can initialise stimuli with some values
@@ -649,7 +717,7 @@ for thisBlock_3 in block_3:
         if learning_phase_response.status == STARTED and t >= frameRemains:
             learning_phase_response.status = FINISHED
         if learning_phase_response.status == STARTED:
-            theseKeys = event.getKeys(keyList=['space'])
+            theseKeys = event.getKeys(keyList=['space', 'None'])
             
             # check for quit:
             if "escape" in theseKeys:
@@ -658,6 +726,11 @@ for thisBlock_3 in block_3:
                 if learning_phase_response.keys == []:  # then this was the first keypress
                     learning_phase_response.keys = theseKeys[0]  # just the first key pressed
                     learning_phase_response.rt = learning_phase_response.clock.getTime()
+                    # was this 'correct'?
+                    if (learning_phase_response.keys == str(correct_response)) or (learning_phase_response.keys == correct_response):
+                        learning_phase_response.corr = 1
+                    else:
+                        learning_phase_response.corr = 0
         
         # *learning_phase_image* updates
         if t >= 0.0 and learning_phase_image.status == NOT_STARTED:
@@ -693,7 +766,14 @@ for thisBlock_3 in block_3:
     # check responses
     if learning_phase_response.keys in ['', [], None]:  # No response was made
         learning_phase_response.keys=None
+        # was no response the correct answer?!
+        if str(correct_response).lower() == 'none':
+           learning_phase_response.corr = 1;  # correct non-response
+        else:
+           learning_phase_response.corr = 0;  # failed to respond (incorrectly)
+    # store data for block_3 (TrialHandler)
     block_3.addData('learning_phase_response.keys',learning_phase_response.keys)
+    block_3.addData('learning_phase_response.corr', learning_phase_response.corr)
     if learning_phase_response.keys != None:  # we had a response
         block_3.addData('learning_phase_response.rt', learning_phase_response.rt)
     thisExp.nextEntry()
@@ -707,6 +787,7 @@ instructionsClock.reset()  # clock
 frameN = -1
 continueRoutine = True
 # update component parameters for each repeat
+
 key_resp_continue = event.BuilderKeyResponse()
 # keep track of which components have finished
 instructionsComponents = [key_resp_continue, text_instructions]
@@ -720,6 +801,7 @@ while continueRoutine:
     t = instructionsClock.getTime()
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
+    
     
     # *key_resp_continue* updates
     if t >= 0.0 and key_resp_continue.status == NOT_STARTED:
@@ -767,13 +849,14 @@ while continueRoutine:
 for thisComponent in instructionsComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
+
 # the Routine "instructions" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
 block_4 = data.TrialHandler(nReps=1, method='sequential', 
     extraInfo=expInfo, originPath=-1,
-    trialList=data.importConditions('stimuli/trials.csv', selection=eval(range(((int(expInfo['participant'])-1)*430+259), ((int(expInfo['participant'])-1)*430+345), 1))),
+    trialList=data.importConditions(file_name, selection=range(259, 345, 1)),
     seed=None, name='block_4')
 thisExp.addLoop(block_4)  # add the loop to the experiment
 thisBlock_4 = block_4.trialList[0]  # so we can initialise stimuli with some values
@@ -824,7 +907,7 @@ for thisBlock_4 in block_4:
         if learning_phase_response.status == STARTED and t >= frameRemains:
             learning_phase_response.status = FINISHED
         if learning_phase_response.status == STARTED:
-            theseKeys = event.getKeys(keyList=['space'])
+            theseKeys = event.getKeys(keyList=['space', 'None'])
             
             # check for quit:
             if "escape" in theseKeys:
@@ -833,6 +916,11 @@ for thisBlock_4 in block_4:
                 if learning_phase_response.keys == []:  # then this was the first keypress
                     learning_phase_response.keys = theseKeys[0]  # just the first key pressed
                     learning_phase_response.rt = learning_phase_response.clock.getTime()
+                    # was this 'correct'?
+                    if (learning_phase_response.keys == str(correct_response)) or (learning_phase_response.keys == correct_response):
+                        learning_phase_response.corr = 1
+                    else:
+                        learning_phase_response.corr = 0
         
         # *learning_phase_image* updates
         if t >= 0.0 and learning_phase_image.status == NOT_STARTED:
@@ -868,7 +956,14 @@ for thisBlock_4 in block_4:
     # check responses
     if learning_phase_response.keys in ['', [], None]:  # No response was made
         learning_phase_response.keys=None
+        # was no response the correct answer?!
+        if str(correct_response).lower() == 'none':
+           learning_phase_response.corr = 1;  # correct non-response
+        else:
+           learning_phase_response.corr = 0;  # failed to respond (incorrectly)
+    # store data for block_4 (TrialHandler)
     block_4.addData('learning_phase_response.keys',learning_phase_response.keys)
+    block_4.addData('learning_phase_response.corr', learning_phase_response.corr)
     if learning_phase_response.keys != None:  # we had a response
         block_4.addData('learning_phase_response.rt', learning_phase_response.rt)
     thisExp.nextEntry()
@@ -882,6 +977,7 @@ instructionsClock.reset()  # clock
 frameN = -1
 continueRoutine = True
 # update component parameters for each repeat
+
 key_resp_continue = event.BuilderKeyResponse()
 # keep track of which components have finished
 instructionsComponents = [key_resp_continue, text_instructions]
@@ -895,6 +991,7 @@ while continueRoutine:
     t = instructionsClock.getTime()
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
+    
     
     # *key_resp_continue* updates
     if t >= 0.0 and key_resp_continue.status == NOT_STARTED:
@@ -942,13 +1039,14 @@ while continueRoutine:
 for thisComponent in instructionsComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
+
 # the Routine "instructions" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
 block_5 = data.TrialHandler(nReps=1, method='sequential', 
     extraInfo=expInfo, originPath=-1,
-    trialList=data.importConditions('stimuli/trials.csv', selection=eval(range(((int(expInfo['participant'])-1)*430+345), ((int(expInfo['participant'])-1)*430+431), 1))),
+    trialList=data.importConditions(file_name, selection=range(345, 431, 1)),
     seed=None, name='block_5')
 thisExp.addLoop(block_5)  # add the loop to the experiment
 thisBlock_5 = block_5.trialList[0]  # so we can initialise stimuli with some values
@@ -999,7 +1097,7 @@ for thisBlock_5 in block_5:
         if learning_phase_response.status == STARTED and t >= frameRemains:
             learning_phase_response.status = FINISHED
         if learning_phase_response.status == STARTED:
-            theseKeys = event.getKeys(keyList=['space'])
+            theseKeys = event.getKeys(keyList=['space', 'None'])
             
             # check for quit:
             if "escape" in theseKeys:
@@ -1008,6 +1106,11 @@ for thisBlock_5 in block_5:
                 if learning_phase_response.keys == []:  # then this was the first keypress
                     learning_phase_response.keys = theseKeys[0]  # just the first key pressed
                     learning_phase_response.rt = learning_phase_response.clock.getTime()
+                    # was this 'correct'?
+                    if (learning_phase_response.keys == str(correct_response)) or (learning_phase_response.keys == correct_response):
+                        learning_phase_response.corr = 1
+                    else:
+                        learning_phase_response.corr = 0
         
         # *learning_phase_image* updates
         if t >= 0.0 and learning_phase_image.status == NOT_STARTED:
@@ -1043,12 +1146,24 @@ for thisBlock_5 in block_5:
     # check responses
     if learning_phase_response.keys in ['', [], None]:  # No response was made
         learning_phase_response.keys=None
+        # was no response the correct answer?!
+        if str(correct_response).lower() == 'none':
+           learning_phase_response.corr = 1;  # correct non-response
+        else:
+           learning_phase_response.corr = 0;  # failed to respond (incorrectly)
+    # store data for block_5 (TrialHandler)
     block_5.addData('learning_phase_response.keys',learning_phase_response.keys)
+    block_5.addData('learning_phase_response.corr', learning_phase_response.corr)
     if learning_phase_response.keys != None:  # we had a response
         block_5.addData('learning_phase_response.rt', learning_phase_response.rt)
     thisExp.nextEntry()
     
 # completed 1 repeats of 'block_5'
+
+
+
+
+
 
 # these shouldn't be strictly necessary (should auto-save)
 thisExp.saveAsWideText(filename+'.csv')

@@ -72,7 +72,7 @@
     </Routine>
     <Routine name="instructions">
       <CodeComponent name="code">
-        <Param name="Begin Experiment" updates="constant" val="from numpy.random import randint&amp;#10;&amp;#10;condition_randomisation = randint(1, 3, size = 1)&amp;#10;if condition_randomisation == 1:&amp;#10;    condition = &quot;CS1_USpos&quot;&amp;#10;elif condition_randomisation == 2:&amp;#10;    condition = &quot;CS1_USneg&quot;&amp;#10;&amp;#10;file_name = &quot;stimuli/trials_participant_&quot; + str(expInfo['participant']) + &quot;_condition_&quot; + condition + &quot;.csv&quot;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="from numpy.random import randint&amp;#10;condition_randomisation = randint(1, 3, size = 1)&amp;#10;if condition_randomisation == 1:&amp;#10;    condition = &quot;CS1_USpos&quot;&amp;#10;elif condition_randomisation == 2:&amp;#10;    condition = &quot;CS1_USneg&quot;&amp;#10;file_name = &quot;stimuli/trials_participant_&quot; + str(expInfo['participant']) + &quot;_condition_&quot; + condition + &quot;.csv&quot;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>

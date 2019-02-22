@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v3.0.4),
-    on Fri Feb 22 15:14:40 2019
+    on Fri Feb 22 16:02:01 2019
 If you publish work using this script please cite the PsychoPy publications:
     Peirce, JW (2007) PsychoPy - Psychophysics software in Python.
         Journal of Neuroscience Methods, 162(1-2), 8-13.
@@ -80,7 +80,7 @@ if condition_randomisation == 1:
     condition = "CS1_USpos"
 elif condition_randomisation == 2:
     condition = "CS1_USneg"
-file_name = "stimuli/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
+file_name = "trials/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
 text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='[instructions]',
     font='Arial',
@@ -107,7 +107,7 @@ if condition_randomisation == 1:
     condition = "CS1_USpos"
 elif condition_randomisation == 2:
     condition = "CS1_USneg"
-file_name = "stimuli/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
+file_name = "trials/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
 text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='[instructions]',
     font='Arial',
@@ -134,7 +134,7 @@ if condition_randomisation == 1:
     condition = "CS1_USpos"
 elif condition_randomisation == 2:
     condition = "CS1_USneg"
-file_name = "stimuli/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
+file_name = "trials/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
 text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='[instructions]',
     font='Arial',
@@ -161,7 +161,7 @@ if condition_randomisation == 1:
     condition = "CS1_USpos"
 elif condition_randomisation == 2:
     condition = "CS1_USneg"
-file_name = "stimuli/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
+file_name = "trials/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
 text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='[instructions]',
     font='Arial',
@@ -188,7 +188,7 @@ if condition_randomisation == 1:
     condition = "CS1_USpos"
 elif condition_randomisation == 2:
     condition = "CS1_USneg"
-file_name = "stimuli/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
+file_name = "trials/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
 text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='[instructions]',
     font='Arial',

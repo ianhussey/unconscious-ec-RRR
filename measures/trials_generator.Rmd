@@ -1,0 +1,309 @@
+---
+title: "Unconscious EC RRR"
+subtitle: "Generate randomised trial files"
+author: "Ian Hussey^[Ghent University. Email: ian.hussey@ugent.be]"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    code_folding: hide
+    highlight: haddock
+    number_sections: no
+    theme: flatly
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE)
+
+# options
+options(knitr.table.format = "html") # necessary configuration of tables
+
+# disable scientific notation
+options(scipen = 999) 
+
+```
+
+```{r}
+
+# dependencies
+check_for_and_install_packages <- function(package) {
+  if (!package %in% installed.packages()) install.packages(package)
+}
+
+check_for_and_install_packages("tidyverse")
+
+library(tidyverse)
+
+```
+
+# Generate surveillance task trial sequences
+
+```{r}
+
+# build vector of filler and target trials, randomise order
+generate_block <- function(target_name, n_filler_trials_per_block = 52, n_target_trials_per_block = 10) {
+  
+  trials_filler <- paste0(rep("stimuli/filler", n_filler_trials_per_block), 
+                          seq(from = 1, to = n_filler_trials_per_block, by = 1), ".jpg")
+  trials_target <- paste0(rep(paste0("stimuli/", target_name), n_target_trials_per_block), 
+                          seq(from = 1, to = n_target_trials_per_block, by = 1), ".jpg")
+  trials_combined <- append(trials_filler, trials_target) %>% sample()
+  
+  # insert CS-US trials into specific locations in a master vector
+  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS1_US, 1), "stimuli/blank.jpg")
+  trials_CS1_US_shuffled <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 9)
+  
+  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS2_US, 1), "stimuli/blank.jpg")
+  trials_CS2_US_shuffled <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 19)
+  
+  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS1_US, 1), "stimuli/blank.jpg")
+  trials_CS1_US_shuffled <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 29)
+  
+  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS2_US, 1), "stimuli/blank.jpg")
+  trials_CS2_US_shuffled <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 39)
+  
+  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS1_US, 1), "stimuli/blank.jpg")
+  trials_CS1_US_shuffled <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 49)
+  
+  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS2_US, 1), "stimuli/blank.jpg")
+  trials_CS2_US_shuffled <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 59)
+  
+  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS1_US, 1), "stimuli/blank.jpg")
+  trials_CS1_US_shuffled <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 69)
+  
+  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS2_US, 1), "stimuli/blank.jpg")
+  trials_CS2_US_shuffled <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 79)
+  
+  return(trials_combined)
+}
+
+generate_block_file <- function(target_name){
+
+  data.frame(stimulus = generate_block(target_name = target_name)) %>%
+    rownames_to_column(var = "trial_number") %>%
+    mutate(participant = i,
+           trial_number = as.numeric(as.character(trial_number))) %>% 
+    select(participant, trial_number, stimulus) %>%
+    mutate(trial_type = ifelse(grepl("filler", stimulus), "filler",
+                               ifelse(grepl("blank", stimulus), "blank",
+                                      ifelse(grepl("target", stimulus), "target",
+                                             ifelse(grepl("cs", stimulus), "CSUS", NA)))),
+           target_trial = ifelse(grepl("target", trial_type), TRUE, FALSE),
+           correct_response = ifelse(target_trial == TRUE, "space", "None")) %>%
+    write_csv(., paste0("trials/surveillance_trials_participant_", i, "_condition_", condition, "_", target_name, ".csv"))
+}
+
+
+```
+
+# Generate evaluation task trial sequences
+
+```{r}
+
+# build vector of filler and target trials, randomise order
+generate_block_2 <- function(n_filler_trials_per_block = 20, n_cs_trials_per_block = 10) {
+  
+  trials_combined <- 
+    paste0(rep("stimuli/evaluation_stimuli_filler_", n_filler_trials_per_block), 
+           seq(from = 1, to = n_filler_trials_per_block, by = 1), ".jpg") %>% 
+    sample()
+  
+  trials_cs <- 
+    paste0(rep("stimuli/evaluation_stimuli_CS_", n_cs_trials_per_block), 
+           seq(from = 1, to = n_cs_trials_per_block, by = 1), ".jpg")
+  
+  # insert CS trials into specific locations in a master vector
+  popped_trial <- sample(trials_cs, 1)
+  trials_cs <- trials_cs[trials_cs != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 2)
+  
+  popped_trial <- sample(trials_cs, 1)
+  trials_cs <- trials_cs[trials_cs != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 5)
+  
+  popped_trial <- sample(trials_cs, 1)
+  trials_cs <- trials_cs[trials_cs != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 8)
+  
+  popped_trial <- sample(trials_cs, 1)
+  trials_cs <- trials_cs[trials_cs != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 11)
+  
+  popped_trial <- sample(trials_cs, 1)
+  trials_cs <- trials_cs[trials_cs != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 14)
+  
+  popped_trial <- sample(trials_cs, 1)
+  trials_cs <- trials_cs[trials_cs != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 17)
+  
+  popped_trial <- sample(trials_cs, 1)
+  trials_cs <- trials_cs[trials_cs != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 20)
+  
+  popped_trial <- sample(trials_cs, 1)
+  trials_cs <- trials_cs[trials_cs != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 23)
+  
+  popped_trial <- sample(trials_cs, 1)
+  trials_cs <- trials_cs[trials_cs != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 26)
+  
+  popped_trial <- sample(trials_cs, 1)
+  trials_cs <- trials_cs[trials_cs != popped_trial]
+  trials_combined <- append(trials_combined, popped_trial, after = 29)
+  
+  return(trials_combined)
+}
+
+
+generate_block_file_2 <- function(){
+
+  data.frame(evaluation_stimulus = generate_block_2()) %>%
+    rownames_to_column(var = "trial_number") %>%
+    mutate(participant = i,
+           trial_number = as.numeric(as.character(trial_number))) %>% 
+    select(participant, trial_number, evaluation_stimulus) %>%
+    mutate(trial_type = ifelse(grepl("filler", evaluation_stimulus), "filler",
+                               ifelse(grepl("CS", evaluation_stimulus), "CS", NA)),
+           left_stimulus = recode(evaluation_stimulus,
+                                  "stimuli/evaluation_stimuli_CS_1.jpg"	= "CS1",
+                                  "stimuli/evaluation_stimuli_CS_2.jpg" =	"CS1",
+                                  "stimuli/evaluation_stimuli_CS_3.jpg" =	"CS1",
+                                  "stimuli/evaluation_stimuli_CS_4.jpg" =	"CS2",
+                                  "stimuli/evaluation_stimuli_CS_5.jpg" =	"CS2",
+                                  "stimuli/evaluation_stimuli_CS_6.jpg" =	"CS2",
+                                  "stimuli/evaluation_stimuli_CS_7.jpg" =	"f",
+                                  "stimuli/evaluation_stimuli_CS_8.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_CS_9.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_CS_10.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_1.jpg" =	"f",
+                                  "stimuli/evaluation_stimuli_filler_2.jpg" =	"f",
+                                  "stimuli/evaluation_stimuli_filler_3.jpg" =	"f",
+                                  "stimuli/evaluation_stimuli_filler_4.jpg" =	"f",
+                                  "stimuli/evaluation_stimuli_filler_5.jpg" =	"f",
+                                  "stimuli/evaluation_stimuli_filler_6.jpg" =	"f",
+                                  "stimuli/evaluation_stimuli_filler_7.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_8.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_9.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_10.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_11.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_12.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_13.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_14.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_15.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_16.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_17.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_18.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_19.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_19.jpg" =	"t",
+                                  "stimuli/evaluation_stimuli_filler_20.jpg" =	"t"),
+            right_stimulus = recode(evaluation_stimulus,
+                                    "stimuli/evaluation_stimuli_CS_1.jpg" = "CS2",
+                                    "stimuli/evaluation_stimuli_CS_2.jpg" = "f",
+                                    "stimuli/evaluation_stimuli_CS_3.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_CS_4.jpg" = "CS1",
+                                    "stimuli/evaluation_stimuli_CS_5.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_CS_6.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_CS_7.jpg" = "CS2",
+                                    "stimuli/evaluation_stimuli_CS_8.jpg" = "CS1",
+                                    "stimuli/evaluation_stimuli_CS_9.jpg" = "CS1",
+                                    "stimuli/evaluation_stimuli_CS_10.jpg" = "CS2",
+                                    "stimuli/evaluation_stimuli_filler_1.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_2.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_3.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_4.jpg" = "f",
+                                    "stimuli/evaluation_stimuli_filler_5.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_6.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_7.jpg" = "f",
+                                    "stimuli/evaluation_stimuli_filler_8.jpg" = "f",
+                                    "stimuli/evaluation_stimuli_filler_9.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_10.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_11.jpg" = "f",
+                                    "stimuli/evaluation_stimuli_filler_12.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_13.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_14.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_15.jpg" = "f",
+                                    "stimuli/evaluation_stimuli_filler_16.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_17.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_18.jpg" = "f",
+                                    "stimuli/evaluation_stimuli_filler_19.jpg" = "t",
+                                    "stimuli/evaluation_stimuli_filler_20.jpg" = "t"),
+           response_indicating_CS1_preferred = ifelse(left_stimulus == "CS1" | right_stimulus == "CS2", "e", 
+                                                      ifelse(right_stimulus == "CS1" | left_stimulus == "CS2", "i", "None"))) %>%
+    write_csv(., paste0("trials/evaluation_trials_participant_", i, ".csv"))
+}
+
+```
+
+# Run functions and save to disk
+
+```{r}
+
+## Create data for N participants
+n_participants <- 150
+
+
+# create the trials folder if it doens't already exist
+dir.create(file.path("trials/"))
+
+
+### Surveillance task
+
+## Condition 1: CS1_USpos
+
+condition <- "CS1_USpos"
+
+# build vectors of CS US pairings
+trials_CS1_US <- paste0(rep("stimuli/cs1_pos", 20), seq(from = 1, to = 20, by = 1), ".jpg")
+trials_CS2_US <- paste0(rep("stimuli/cs2_neg", 20), seq(from = 1, to = 20, by = 1), ".jpg")
+
+for(i in 1:n_participants) {
+  generate_block_file("target1_")
+  generate_block_file("target2_")
+  generate_block_file("target3_")
+  generate_block_file("target4_")
+  generate_block_file("target5_")
+}
+
+
+## Condition 2: CS1_USneg
+
+condition <- "CS1_USneg"
+
+# build vectors of CS US pairings
+trials_CS1_US <- paste0(rep("stimuli/cs1_neg", 20), seq(from = 1, to = 20, by = 1), ".jpg")
+trials_CS2_US <- paste0(rep("stimuli/cs2_pos", 20), seq(from = 1, to = 20, by = 1), ".jpg")
+
+for(i in 1:n_participants) {
+  generate_block_file("target1_")
+  generate_block_file("target2_")
+  generate_block_file("target3_")
+  generate_block_file("target4_")
+  generate_block_file("target5_")
+}
+
+
+### Evaluation task
+for(i in 1:n_participants) {
+  generate_block_file_2()
+}
+
+```
+
+
+
+
+

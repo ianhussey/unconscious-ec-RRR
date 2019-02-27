@@ -4,7 +4,7 @@
     <Param name="Completed URL" updates="None" val="" valType="str"/>
     <Param name="Data filename" updates="None" val="u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])" valType="code"/>
     <Param name="Enable Escape" updates="None" val="True" valType="bool"/>
-    <Param name="Experiment info" updates="None" val="{'participant': ''}" valType="code"/>
+    <Param name="Experiment info" updates="None" val="{'age': '', 'gender': '', 'participant': '', 'UseMonkey': 'n'}" valType="code"/>
     <Param name="Force stereo" updates="None" val="True" valType="bool"/>
     <Param name="Full-screen window" updates="None" val="True" valType="bool"/>
     <Param name="HTML path" updates="None" val="html" valType="str"/>
@@ -35,14 +35,14 @@
         <Param name="allowedKeys" updates="constant" val="'space', 'None'" valType="code"/>
         <Param name="correctAns" updates="constant" val="$correct_response" valType="str"/>
         <Param name="discard previous" updates="constant" val="True" valType="bool"/>
-        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="durationEstim" updates="None" val="1.5" valType="code"/>
         <Param name="forceEndRoutine" updates="constant" val="False" valType="bool"/>
         <Param name="name" updates="None" val="learning_phase_response" valType="code"/>
         <Param name="startEstim" updates="None" val="" valType="code"/>
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
         <Param name="startVal" updates="None" val="0.0" valType="code"/>
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="1.5" valType="code"/>
+        <Param name="stopVal" updates="constant" val="surveillance_duration" valType="code"/>
         <Param name="store" updates="constant" val="first key" valType="str"/>
         <Param name="storeCorrect" updates="constant" val="True" valType="bool"/>
         <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
@@ -50,7 +50,7 @@
       <ImageComponent name="learning_phase_image">
         <Param name="color" updates="constant" val="$[1,1,1]" valType="str"/>
         <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
-        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="durationEstim" updates="None" val="1.5" valType="code"/>
         <Param name="flipHoriz" updates="constant" val="False" valType="bool"/>
         <Param name="flipVert" updates="constant" val="False" valType="bool"/>
         <Param name="image" updates="set every repeat" val="$stimulus" valType="str"/>
@@ -63,19 +63,19 @@
         <Param name="size" updates="constant" val="(1.78, 1)" valType="code"/>
         <Param name="startEstim" updates="None" val="" valType="code"/>
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
-        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="startVal" updates="None" val="0" valType="code"/>
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="1.5" valType="code"/>
+        <Param name="stopVal" updates="constant" val="surveillance_duration" valType="code"/>
         <Param name="texture resolution" updates="constant" val="128" valType="code"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
       </ImageComponent>
     </Routine>
     <Routine name="surveillance_instructions_2">
       <CodeComponent name="code">
-        <Param name="Begin Experiment" updates="constant" val="from numpy.random import randint&amp;#10;condition_randomisation = randint(1, 3, size = 1)&amp;#10;if condition_randomisation == 1:&amp;#10;    condition = &quot;CS1_USpos&quot;&amp;#10;elif condition_randomisation == 2:&amp;#10;    condition = &quot;CS1_USneg&quot;&amp;#10;&amp;#10;#file_name = &quot;trials/trials_participant_&quot; + str(expInfo['participant']) + &quot;_condition_&quot; + condition + &quot;.csv&quot;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="# dependencies&amp;#10;from numpy.random import randint&amp;#10;from psychopy.hardware.emulator import ResponseEmulator&amp;#10;&amp;#10;# randomly assign to condition&amp;#10;condition_randomisation = randint(1, 3, size = 1)&amp;#10;if condition_randomisation == 1:&amp;#10;    condition = &quot;CS1_USpos&quot;&amp;#10;elif condition_randomisation == 2:&amp;#10;    condition = &quot;CS1_USneg&quot;&amp;#10;&amp;#10;# auto response monkey &amp;#10;if str(expInfo['UseMonkey']) == 'y':&amp;#10;    monkey = True&amp;#10;    surveillance_duration = 0.1&amp;#10;else: &amp;#10;    monkey = False&amp;#10;    surveillance_duration = 1.5&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="#file_name = &quot;trials/&quot; + block_id + &quot;.csv&quot; &amp;#10;#file_name = &quot;trials/&quot; + &quot;condition_&quot; + condition + &quot;_&quot; + block_id + &quot;.csv&quot;&amp;#10;file_name = &quot;trials/trials_participant_&quot; + str(expInfo['participant']) + &quot;_condition_&quot; + condition + &quot;_&quot; + block_id + &quot;_.csv&quot;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="file_name = &quot;trials/trials_participant_&quot; + str(expInfo['participant']) + &quot;_condition_&quot; + condition + &quot;_&quot; + block_id + &quot;_.csv&quot;&amp;#10;&amp;#10;# simulate responses using ResponseEmulator, for testing&amp;#10;if monkey:&amp;#10;    simulated_responses = [(1, 'space')]&amp;#10;    responder = ResponseEmulator(simulated_responses)&amp;#10;    responder.start()" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
@@ -166,49 +166,24 @@
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
     </Routine>
-    <Routine name="surveillance_instructions_1">
-      <KeyboardComponent name="key_resp_continue_2">
-        <Param name="allowedKeys" updates="constant" val="'space'" valType="code"/>
-        <Param name="correctAns" updates="constant" val="" valType="str"/>
-        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
-        <Param name="durationEstim" updates="None" val="" valType="code"/>
-        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
-        <Param name="name" updates="None" val="key_resp_continue_2" valType="code"/>
-        <Param name="startEstim" updates="None" val="" valType="code"/>
-        <Param name="startType" updates="None" val="time (s)" valType="str"/>
-        <Param name="startVal" updates="None" val="0.0" valType="code"/>
-        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="" valType="code"/>
-        <Param name="store" updates="constant" val="nothing" valType="str"/>
-        <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
-        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
-      </KeyboardComponent>
-      <TextComponent name="text_instructions_2">
-        <Param name="color" updates="constant" val="black" valType="str"/>
-        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
-        <Param name="durationEstim" updates="None" val="" valType="code"/>
-        <Param name="flip" updates="constant" val="" valType="str"/>
-        <Param name="font" updates="constant" val="Arial" valType="str"/>
-        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
-        <Param name="letterHeight" updates="constant" val="0.03" valType="code"/>
-        <Param name="name" updates="None" val="text_instructions_2" valType="code"/>
-        <Param name="opacity" updates="constant" val="1" valType="code"/>
-        <Param name="ori" updates="constant" val="0" valType="code"/>
-        <Param name="pos" updates="constant" val="(0, 0)" valType="code"/>
-        <Param name="startEstim" updates="None" val="" valType="code"/>
-        <Param name="startType" updates="None" val="time (s)" valType="str"/>
-        <Param name="startVal" updates="None" val="0.0" valType="code"/>
-        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="" valType="code"/>
-        <Param name="text" updates="set every repeat" val="$first_instructions_text" valType="str"/>
-        <Param name="units" updates="None" val="from exp settings" valType="str"/>
-        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
-      </TextComponent>
-    </Routine>
     <Routine name="distractor_1">
+      <CodeComponent name="code_distractor_1">
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# simulate responses using ResponseEmulator, for testing&amp;#10;if monkey:&amp;#10;    simulated_responses = [(0.3, '3'), (0.4, 'return')]&amp;#10;    responder = ResponseEmulator(simulated_responses)&amp;#10;    responder.start()" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="name" updates="None" val="code_distractor_1" valType="code"/>
+      </CodeComponent>
       <RatingScaleComponent name="distractor_1_rating">
         <Param name="categoryChoices" updates="constant" val="" valType="str"/>
-        <Param name="customize_everything" updates="constant" val="" valType="str"/>
+        <Param name="customize_everything" updates="constant" val="lineColor='Black', textColor='Black'" valType="str"/>
         <Param name="disappear" updates="constant" val="False" valType="bool"/>
         <Param name="durationEstim" updates="None" val="" valType="code"/>
         <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
@@ -219,10 +194,10 @@
         <Param name="markerStart" updates="constant" val="" valType="str"/>
         <Param name="name" updates="None" val="distractor_1_rating" valType="code"/>
         <Param name="pos" updates="constant" val="0, -0.4" valType="str"/>
-        <Param name="scaleDescription" updates="constant" val="" valType="str"/>
+        <Param name="scaleDescription" updates="constant" val=" " valType="str"/>
         <Param name="showAccept" updates="constant" val="True" valType="bool"/>
         <Param name="singleClick" updates="constant" val="False" valType="bool"/>
-        <Param name="size" updates="constant" val="1.0" valType="code"/>
+        <Param name="size" updates="constant" val="2.0" valType="code"/>
         <Param name="startEstim" updates="None" val="" valType="code"/>
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
         <Param name="startVal" updates="None" val="0.0" valType="code"/>
@@ -235,7 +210,7 @@
         <Param name="visualAnalogScale" updates="constant" val="False" valType="bool"/>
       </RatingScaleComponent>
       <TextComponent name="distractor_1_text">
-        <Param name="color" updates="constant" val="white" valType="str"/>
+        <Param name="color" updates="constant" val="black" valType="str"/>
         <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
         <Param name="durationEstim" updates="None" val="" valType="code"/>
         <Param name="flip" updates="constant" val="" valType="str"/>
@@ -257,23 +232,37 @@
       </TextComponent>
     </Routine>
     <Routine name="distractor_2">
+      <CodeComponent name="code_distractor_2">
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# simulate responses using ResponseEmulator, for testing&amp;#10;if monkey:&amp;#10;    simulated_responses = [(0.3, '3'), (0.4, 'return')]&amp;#10;    responder = ResponseEmulator(simulated_responses)&amp;#10;    responder.start()" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="name" updates="None" val="code_distractor_2" valType="code"/>
+      </CodeComponent>
       <RatingScaleComponent name="distractor_2_rating">
         <Param name="categoryChoices" updates="constant" val="" valType="str"/>
-        <Param name="customize_everything" updates="constant" val="" valType="str"/>
+        <Param name="customize_everything" updates="constant" val="lineColor='Black', textColor='Black'" valType="str"/>
         <Param name="disappear" updates="constant" val="False" valType="bool"/>
         <Param name="durationEstim" updates="None" val="" valType="code"/>
         <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
         <Param name="high" updates="constant" val="7" valType="code"/>
-        <Param name="labels" updates="constant" val="Strong disagreement, Strong agreement" valType="str"/>
+        <Param name="labels" updates="constant" val="Extremely uncharacteristic, Extremely characteristic" valType="str"/>
         <Param name="low" updates="constant" val="1" valType="code"/>
         <Param name="marker" updates="constant" val="triangle" valType="str"/>
         <Param name="markerStart" updates="constant" val="" valType="str"/>
         <Param name="name" updates="None" val="distractor_2_rating" valType="code"/>
         <Param name="pos" updates="constant" val="0, -0.4" valType="str"/>
-        <Param name="scaleDescription" updates="constant" val="" valType="str"/>
+        <Param name="scaleDescription" updates="constant" val=" " valType="str"/>
         <Param name="showAccept" updates="constant" val="True" valType="bool"/>
         <Param name="singleClick" updates="constant" val="False" valType="bool"/>
-        <Param name="size" updates="constant" val="1.0" valType="code"/>
+        <Param name="size" updates="constant" val="2.0" valType="code"/>
         <Param name="startEstim" updates="None" val="" valType="code"/>
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
         <Param name="startVal" updates="None" val="0.0" valType="code"/>
@@ -286,7 +275,7 @@
         <Param name="visualAnalogScale" updates="constant" val="False" valType="bool"/>
       </RatingScaleComponent>
       <TextComponent name="distractor_2_text">
-        <Param name="color" updates="constant" val="white" valType="str"/>
+        <Param name="color" updates="constant" val="black" valType="str"/>
         <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
         <Param name="durationEstim" updates="None" val="" valType="code"/>
         <Param name="flip" updates="constant" val="" valType="str"/>
@@ -307,12 +296,65 @@
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
     </Routine>
+    <Routine name="instructions">
+      <CodeComponent name="code_instructions">
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# simulate responses using ResponseEmulator, for testing&amp;#10;if monkey:&amp;#10;    simulated_responses = [(2, 'space')]&amp;#10;    responder = ResponseEmulator(simulated_responses)&amp;#10;    responder.start()" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="name" updates="None" val="code_instructions" valType="code"/>
+      </CodeComponent>
+      <KeyboardComponent name="instructions_response">
+        <Param name="allowedKeys" updates="constant" val="'space'" valType="code"/>
+        <Param name="correctAns" updates="constant" val="" valType="str"/>
+        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
+        <Param name="name" updates="None" val="instructions_response" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="store" updates="constant" val="nothing" valType="str"/>
+        <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
+        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
+      </KeyboardComponent>
+      <TextComponent name="text_instructions">
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.03" valType="code"/>
+        <Param name="name" updates="None" val="text_instructions" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, 0)" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="text" updates="set every repeat" val="$instructions_text" valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+      </TextComponent>
+    </Routine>
   </Routines>
   <Flow>
     <LoopInitiator loopType="TrialHandler" name="surveillance_instructions_loop">
-      <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('first_instructions_text', 'first instructions text 1')]), OrderedDict([('first_instructions_text', 'first instructions text 2')]), OrderedDict([('first_instructions_text', 'first instructions text 3')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="instructions_1.xlsx" valType="str"/>
+      <Param name="Selected rows" updates="None" val="0:3" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -320,14 +362,14 @@
       <Param name="name" updates="None" val="surveillance_instructions_loop" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
-    <Routine name="surveillance_instructions_1"/>
+    <Routine name="instructions"/>
     <LoopTerminator name="surveillance_instructions_loop"/>
     <LoopInitiator loopType="TrialHandler" name="surveillance_blocks_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="None" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="instructions_2.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('instructions_text_top', 'For this task, the target creature is Crandios:'), ('instructions_text_bottom', 'So whenever Crandios (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Crandio or the word CRANDIOS. \n\nPress the spacebar to start the this task'), ('block_id', 'target1'), ('example_image', 'stimuli/t1.jpg')]), OrderedDict([('instructions_text_top', 'For this task, the target creature is Shelmet:'), ('instructions_text_bottom', 'So whenever Shelmet (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Shelmet or the word SHELMET. \n\nPress the spacebar to start the this task'), ('block_id', 'target2'), ('example_image', 'stimuli/t2.jpg')]), OrderedDict([('instructions_text_top', 'For this task, the target creature is Grubbin:'), ('instructions_text_bottom', 'So whenever Grubbin (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Grubbin or the word GRUBBIN. \n\nPress the spacebar to start the this task'), ('block_id', 'target3'), ('example_image', 'stimuli/t3.jpg')]), OrderedDict([('instructions_text_top', 'For this task, the target creature is Magearna:'), ('instructions_text_bottom', 'So whenever Magerana (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of MAGEARNA or the word MAGERANA. \n\nPress the spacebar to start the this task'), ('block_id', 'target4'), ('example_image', 'stimuli/t4.jpg')]), OrderedDict([('instructions_text_top', 'For this task, the target creature is Palpitoad:'), ('instructions_text_bottom', 'So whenever Palpitoad (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Palpitoad or the word PALPITOAD. \n\nPress the spacebar to start the this task'), ('block_id', 'target5'), ('example_image', 'stimuli/t5.jpg')])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="instructions_surveillance.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
-      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="random" valType="str"/>
       <Param name="nReps" updates="None" val="1" valType="code"/>
       <Param name="name" updates="None" val="surveillance_blocks_loop" valType="code"/>
@@ -348,6 +390,19 @@
     <Routine name="surveillance_trial"/>
     <LoopTerminator name="surveillance_trials_loop"/>
     <LoopTerminator name="surveillance_blocks_loop"/>
+    <LoopInitiator loopType="TrialHandler" name="distractor_1_instructions_loop">
+      <Param name="Selected rows" updates="None" val="3:5" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('instructions_text', &quot;Imagine that you are a security guard watching for deviant activity at a business. Your job requires that you pay attention at all times, and respond quickly when something suspicious happens.  \n\nIn our lab we study attention and rapid responding, and in this experiment you'll be asked to play the role of the security guard. \n\nSpecifically, you will be attending to a number of items presented on the computer screen, and you'll be responding as quickly as  possible when a target item appears by pressing the spacebar.  \n\n\nPress the spacebar to continue&quot;)]), OrderedDict([('instructions_text', &quot;The target item will appear at random several times throughout the experiment. The target item may appear as an image or as a name.  So be sure to pay attention at all times and focus on the screen, because you never know when the target item will appear.  \n\nA number of filler items that we've selected from our stimulus pool will also be shown randomly to make the task more challenging. These distractors are both pictures and words that were just randomly picked from our collection.  \n\nSometimes two images will appear on the screen at the same time, and sometimes only one image will appear.  Be sure to hit the spacebar only when the target appears.  \n\nThe target might appear anywhere on the screen as well, and it might also appear with other images. So whenever you see a target image or name anywhere on the screen, hit the spacebar.  \n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'The items will be displayed rapidly, so make sure that when you see a target, you hit the spacebar before it disappears.  \n\nAgain, be sure to pay close attention throughout the experiment so that you can respond as quickly and accurately as possible.  \n\nThere will be five separate surveillance tasks of about 4 minutes each.  \n\nEach task will have a different target, and all of the target items will be cartoon creatures. \n\n\nPress the spacebar to continue.')])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="False" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="1" valType="code"/>
+      <Param name="name" updates="None" val="distractor_1_instructions_loop" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="instructions"/>
+    <LoopTerminator name="distractor_1_instructions_loop"/>
     <LoopInitiator loopType="TrialHandler" name="distractor_1_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="[OrderedDict([('distractor_1_items', 'I would prefer complex to simple problems.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I like to have the responsibility of handling a situation that requires a lot of thinking.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'Thinking is not my idea of fun.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I would rather do something that requires little thought than something that is sure to challenge my thinking abilities.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I try to anticipate and avoid situations where there is likely a chance I will have to think in depth about something.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I find satisfaction in deliberating hard and for long hours.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I only think as hard as I have to.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I prefer to think about small, daily projects to long-term ones.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', &quot;I like tasks that require little thought once I've learned them.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement&quot;)]), OrderedDict([('distractor_1_items', 'The idea of relying on thought to make my way to the top appeals to me.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I really enjoy a task that involves coming up with new solutions to problems.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', &quot;Learning new ways to think doesn't excite me very much.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement&quot;)]), OrderedDict([('distractor_1_items', 'I prefer my life to be filled with puzzles that I must solve.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'The notion of thinking abstractly is appealing to me.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I feel relief rather than satisfaction after completing a task that required a lot of mental effort.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', &quot;It's enough for me that something gets the job done; I don't care how or why it works.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement&quot;)]), OrderedDict([('distractor_1_items', 'I usually end up deliberating about issues even when they do not affect me personally.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')])]" valType="str"/>
@@ -355,12 +410,25 @@
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
-      <Param name="nReps" updates="None" val="" valType="code"/>
+      <Param name="nReps" updates="None" val="1" valType="code"/>
       <Param name="name" updates="None" val="distractor_1_loop" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
     <Routine name="distractor_1"/>
     <LoopTerminator name="distractor_1_loop"/>
+    <LoopInitiator loopType="TrialHandler" name="distractor_2_instructions_loop">
+      <Param name="Selected rows" updates="None" val="5:6" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('instructions_text', &quot;Imagine that you are a security guard watching for deviant activity at a business. Your job requires that you pay attention at all times, and respond quickly when something suspicious happens.  \n\nIn our lab we study attention and rapid responding, and in this experiment you'll be asked to play the role of the security guard. \n\nSpecifically, you will be attending to a number of items presented on the computer screen, and you'll be responding as quickly as  possible when a target item appears by pressing the spacebar.  \n\n\nPress the spacebar to continue&quot;)]), OrderedDict([('instructions_text', &quot;The target item will appear at random several times throughout the experiment. The target item may appear as an image or as a name.  So be sure to pay attention at all times and focus on the screen, because you never know when the target item will appear.  \n\nA number of filler items that we've selected from our stimulus pool will also be shown randomly to make the task more challenging. These distractors are both pictures and words that were just randomly picked from our collection.  \n\nSometimes two images will appear on the screen at the same time, and sometimes only one image will appear.  Be sure to hit the spacebar only when the target appears.  \n\nThe target might appear anywhere on the screen as well, and it might also appear with other images. So whenever you see a target image or name anywhere on the screen, hit the spacebar.  \n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'The items will be displayed rapidly, so make sure that when you see a target, you hit the spacebar before it disappears.  \n\nAgain, be sure to pay close attention throughout the experiment so that you can respond as quickly and accurately as possible.  \n\nThere will be five separate surveillance tasks of about 4 minutes each.  \n\nEach task will have a different target, and all of the target items will be cartoon creatures. \n\n\nPress the spacebar to continue.')])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="False" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="1" valType="code"/>
+      <Param name="name" updates="None" val="distractor_2_instructions_loop" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="instructions"/>
+    <LoopTerminator name="distractor_2_instructions_loop"/>
     <LoopInitiator loopType="TrialHandler" name="distractor_2_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="[OrderedDict([('distractor_2_items', 'I form opinions about everything.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I prefer to avoid taking extreme positions.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'It is very important to me to hold strong opinions.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I want to know exactly what is good and bad about everything.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I often prefer to remain neutral about complex issues.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'If something does not affect me, I do not usually determine if it is good or bad.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I enjoy strongly liking and disliking new things.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'There are many things for which I do not have a preference.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'It bothers me to remain neutral.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I like to have strong opinions even when I am not personally involved.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I have many more opinions than the average person.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I would rather have a strong opinion than no opinion at all.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I pay a lot of attention to whether things are good or bad.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I only form strong opinions when I have to.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I like to decide that new things are really good or bad.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I am pretty much indifferent to many important issues.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')])]" valType="str"/>

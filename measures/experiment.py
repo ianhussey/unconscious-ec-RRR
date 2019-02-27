@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v3.0.4),
-    on Wed Feb 27 18:35:01 2019
+    on Wed Feb 27 20:21:24 2019
 If you publish work using this script please cite the PsychoPy publications:
     Peirce, JW (2007) PsychoPy - Psychophysics software in Python.
         Journal of Neuroscience Methods, 162(1-2), 8-13.
@@ -33,7 +33,7 @@ os.chdir(_thisDir)
 # Store info about the experiment session
 psychopyVersion = '3.0.4'
 expName = 'ec_RRR'  # from the Builder filename that created this script
-expInfo = {'participant': ''}
+expInfo = {'age': '', 'gender': '', 'participant': '', 'UseMonkey': 'n'}
 dlg = gui.DlgFromDict(dictionary=expInfo, title=expName)
 if dlg.OK == False:
     core.quit()  # user pressed cancel
@@ -72,26 +72,39 @@ if expInfo['frameRate'] != None:
 else:
     frameDur = 1.0 / 60.0  # could not measure, so guess
 
-# Initialize components for Routine "surveillance_instructions_1"
-surveillance_instructions_1Clock = core.Clock()
-text_instructions_2 = visual.TextStim(win=win, name='text_instructions_2',
+# Initialize components for Routine "instructions"
+instructionsClock = core.Clock()
+
+text_instructions = visual.TextStim(win=win, name='text_instructions',
     text='default text',
     font='Arial',
     pos=(0, 0), height=0.03, wrapWidth=None, ori=0, 
     color='black', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
-    depth=-1.0);
+    depth=-2.0);
 
 # Initialize components for Routine "surveillance_instructions_2"
 surveillance_instructions_2Clock = core.Clock()
+# dependencies
 from numpy.random import randint
+from psychopy.hardware.emulator import ResponseEmulator
+
+# randomly assign to condition
 condition_randomisation = randint(1, 3, size = 1)
 if condition_randomisation == 1:
     condition = "CS1_USpos"
 elif condition_randomisation == 2:
     condition = "CS1_USneg"
 
-#file_name = "trials/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + ".csv"
+# auto response monkey 
+if str(expInfo['UseMonkey']) == 'y':
+    monkey = True
+    surveillance_duration = 0.1
+else: 
+    monkey = False
+    surveillance_duration = 1.5
+
+
 example = visual.ImageStim(
     win=win, name='example',
     image='sin', mask=None,
@@ -124,27 +137,51 @@ learning_phase_image = visual.ImageStim(
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=-1.0)
 
+# Initialize components for Routine "instructions"
+instructionsClock = core.Clock()
+
+text_instructions = visual.TextStim(win=win, name='text_instructions',
+    text='default text',
+    font='Arial',
+    pos=(0, 0), height=0.03, wrapWidth=None, ori=0, 
+    color='black', colorSpace='rgb', opacity=1, 
+    languageStyle='LTR',
+    depth=-2.0);
+
 # Initialize components for Routine "distractor_1"
 distractor_1Clock = core.Clock()
-distractor_1_rating = visual.RatingScale(win=win, name='distractor_1_rating', marker='triangle', size=1.0, pos=[0.0, -0.4], low=1, high=7, labels=['Strong disagreement', ' Strong agreement'], scale='')
+
+distractor_1_rating = visual.RatingScale(win=win, name='distractor_1_rating', lineColor='Black', textColor='Black')
 distractor_1_text = visual.TextStim(win=win, name='distractor_1_text',
     text='default text',
     font='Arial',
     pos=(0, 0.2), height=0.03, wrapWidth=None, ori=0, 
-    color='white', colorSpace='rgb', opacity=1, 
+    color='black', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
-    depth=-1.0);
+    depth=-2.0);
+
+# Initialize components for Routine "instructions"
+instructionsClock = core.Clock()
+
+text_instructions = visual.TextStim(win=win, name='text_instructions',
+    text='default text',
+    font='Arial',
+    pos=(0, 0), height=0.03, wrapWidth=None, ori=0, 
+    color='black', colorSpace='rgb', opacity=1, 
+    languageStyle='LTR',
+    depth=-2.0);
 
 # Initialize components for Routine "distractor_2"
 distractor_2Clock = core.Clock()
-distractor_2_rating = visual.RatingScale(win=win, name='distractor_2_rating', marker='triangle', size=1.0, pos=[0.0, -0.4], low=1, high=7, labels=['Strong disagreement', ' Strong agreement'], scale='')
+
+distractor_2_rating = visual.RatingScale(win=win, name='distractor_2_rating', lineColor='Black', textColor='Black')
 distractor_2_text = visual.TextStim(win=win, name='distractor_2_text',
     text='default text',
     font='Arial',
     pos=(0, 0.2), height=0.03, wrapWidth=None, ori=0, 
-    color='white', colorSpace='rgb', opacity=1, 
+    color='black', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
-    depth=-1.0);
+    depth=-2.0);
 
 # Create some handy timers
 globalClock = core.Clock()  # to track the time since experiment started
@@ -153,7 +190,7 @@ routineTimer = core.CountdownTimer()  # to track time remaining of each (non-sli
 # set up handler to look after randomisation of conditions etc
 surveillance_instructions_loop = data.TrialHandler(nReps=1, method='sequential', 
     extraInfo=expInfo, originPath=-1,
-    trialList=data.importConditions('instructions_1.xlsx'),
+    trialList=data.importConditions('instructions.xlsx', selection='0:3'),
     seed=None, name='surveillance_instructions_loop')
 thisExp.addLoop(surveillance_instructions_loop)  # add the loop to the experiment
 thisSurveillance_instructions_loop = surveillance_instructions_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -169,36 +206,42 @@ for thisSurveillance_instructions_loop in surveillance_instructions_loop:
         for paramName in thisSurveillance_instructions_loop:
             exec('{} = thisSurveillance_instructions_loop[paramName]'.format(paramName))
     
-    # ------Prepare to start Routine "surveillance_instructions_1"-------
+    # ------Prepare to start Routine "instructions"-------
     t = 0
-    surveillance_instructions_1Clock.reset()  # clock
+    instructionsClock.reset()  # clock
     frameN = -1
     continueRoutine = True
     # update component parameters for each repeat
-    key_resp_continue_2 = event.BuilderKeyResponse()
-    text_instructions_2.setText(first_instructions_text)
+    # simulate responses using ResponseEmulator, for testing
+    if monkey:
+        simulated_responses = [(2, 'space')]
+        responder = ResponseEmulator(simulated_responses)
+        responder.start()
+    instructions_response = event.BuilderKeyResponse()
+    text_instructions.setText(instructions_text)
     # keep track of which components have finished
-    surveillance_instructions_1Components = [key_resp_continue_2, text_instructions_2]
-    for thisComponent in surveillance_instructions_1Components:
+    instructionsComponents = [instructions_response, text_instructions]
+    for thisComponent in instructionsComponents:
         if hasattr(thisComponent, 'status'):
             thisComponent.status = NOT_STARTED
     
-    # -------Start Routine "surveillance_instructions_1"-------
+    # -------Start Routine "instructions"-------
     while continueRoutine:
         # get current time
-        t = surveillance_instructions_1Clock.getTime()
+        t = instructionsClock.getTime()
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
         
-        # *key_resp_continue_2* updates
-        if t >= 0.0 and key_resp_continue_2.status == NOT_STARTED:
+        
+        # *instructions_response* updates
+        if t >= 0.0 and instructions_response.status == NOT_STARTED:
             # keep track of start time/frame for later
-            key_resp_continue_2.tStart = t
-            key_resp_continue_2.frameNStart = frameN  # exact frame index
-            key_resp_continue_2.status = STARTED
+            instructions_response.tStart = t
+            instructions_response.frameNStart = frameN  # exact frame index
+            instructions_response.status = STARTED
             # keyboard checking is just starting
             event.clearEvents(eventType='keyboard')
-        if key_resp_continue_2.status == STARTED:
+        if instructions_response.status == STARTED:
             theseKeys = event.getKeys(keyList=['space'])
             
             # check for quit:
@@ -208,12 +251,12 @@ for thisSurveillance_instructions_loop in surveillance_instructions_loop:
                 # a response ends the routine
                 continueRoutine = False
         
-        # *text_instructions_2* updates
-        if t >= 0.0 and text_instructions_2.status == NOT_STARTED:
+        # *text_instructions* updates
+        if t >= 0.0 and text_instructions.status == NOT_STARTED:
             # keep track of start time/frame for later
-            text_instructions_2.tStart = t
-            text_instructions_2.frameNStart = frameN  # exact frame index
-            text_instructions_2.setAutoDraw(True)
+            text_instructions.tStart = t
+            text_instructions.frameNStart = frameN  # exact frame index
+            text_instructions.setAutoDraw(True)
         
         # check for quit (typically the Esc key)
         if endExpNow or event.getKeys(keyList=["escape"]):
@@ -223,7 +266,7 @@ for thisSurveillance_instructions_loop in surveillance_instructions_loop:
         if not continueRoutine:  # a component has requested a forced-end of Routine
             break
         continueRoutine = False  # will revert to True if at least one component still running
-        for thisComponent in surveillance_instructions_1Components:
+        for thisComponent in instructionsComponents:
             if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                 continueRoutine = True
                 break  # at least one component has not yet finished
@@ -232,11 +275,12 @@ for thisSurveillance_instructions_loop in surveillance_instructions_loop:
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
     
-    # -------Ending Routine "surveillance_instructions_1"-------
-    for thisComponent in surveillance_instructions_1Components:
+    # -------Ending Routine "instructions"-------
+    for thisComponent in instructionsComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
-    # the Routine "surveillance_instructions_1" was not non-slip safe, so reset the non-slip timer
+    
+    # the Routine "instructions" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
 # completed 1 repeats of 'surveillance_instructions_loop'
 
@@ -244,7 +288,7 @@ for thisSurveillance_instructions_loop in surveillance_instructions_loop:
 # set up handler to look after randomisation of conditions etc
 surveillance_blocks_loop = data.TrialHandler(nReps=1, method='random', 
     extraInfo=expInfo, originPath=-1,
-    trialList=data.importConditions('instructions_2.xlsx'),
+    trialList=data.importConditions('instructions_surveillance.xlsx'),
     seed=None, name='surveillance_blocks_loop')
 thisExp.addLoop(surveillance_blocks_loop)  # add the loop to the experiment
 thisSurveillance_blocks_loop = surveillance_blocks_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -266,9 +310,13 @@ for thisSurveillance_blocks_loop in surveillance_blocks_loop:
     frameN = -1
     continueRoutine = True
     # update component parameters for each repeat
-    #file_name = "trials/" + block_id + ".csv" 
-    #file_name = "trials/" + "condition_" + condition + "_" + block_id + ".csv"
     file_name = "trials/trials_participant_" + str(expInfo['participant']) + "_condition_" + condition + "_" + block_id + "_.csv"
+    
+    # simulate responses using ResponseEmulator, for testing
+    if monkey:
+        simulated_responses = [(1, 'space')]
+        responder = ResponseEmulator(simulated_responses)
+        responder.start()
     key_resp_continue = event.BuilderKeyResponse()
     example.setImage(example_image)
     text_instructions_top.setText(instructions_text_top)
@@ -375,7 +423,6 @@ for thisSurveillance_blocks_loop in surveillance_blocks_loop:
         surveillance_trialClock.reset()  # clock
         frameN = -1
         continueRoutine = True
-        routineTimer.add(1.500000)
         # update component parameters for each repeat
         learning_phase_response = event.BuilderKeyResponse()
         learning_phase_image.setImage(stimulus)
@@ -386,7 +433,7 @@ for thisSurveillance_blocks_loop in surveillance_blocks_loop:
                 thisComponent.status = NOT_STARTED
         
         # -------Start Routine "surveillance_trial"-------
-        while continueRoutine and routineTimer.getTime() > 0:
+        while continueRoutine:
             # get current time
             t = surveillance_trialClock.getTime()
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
@@ -401,7 +448,7 @@ for thisSurveillance_blocks_loop in surveillance_blocks_loop:
                 # keyboard checking is just starting
                 win.callOnFlip(learning_phase_response.clock.reset)  # t=0 on next screen flip
                 event.clearEvents(eventType='keyboard')
-            frameRemains = 0.0 + 1.5- win.monitorFramePeriod * 0.75  # most of one frame period left
+            frameRemains = 0.0 + surveillance_duration- win.monitorFramePeriod * 0.75  # most of one frame period left
             if learning_phase_response.status == STARTED and t >= frameRemains:
                 learning_phase_response.status = FINISHED
             if learning_phase_response.status == STARTED:
@@ -421,12 +468,12 @@ for thisSurveillance_blocks_loop in surveillance_blocks_loop:
                             learning_phase_response.corr = 0
             
             # *learning_phase_image* updates
-            if t >= 0.0 and learning_phase_image.status == NOT_STARTED:
+            if t >= 0 and learning_phase_image.status == NOT_STARTED:
                 # keep track of start time/frame for later
                 learning_phase_image.tStart = t
                 learning_phase_image.frameNStart = frameN  # exact frame index
                 learning_phase_image.setAutoDraw(True)
-            frameRemains = 0.0 + 1.5- win.monitorFramePeriod * 0.75  # most of one frame period left
+            frameRemains = 0 + surveillance_duration- win.monitorFramePeriod * 0.75  # most of one frame period left
             if learning_phase_image.status == STARTED and t >= frameRemains:
                 learning_phase_image.setAutoDraw(False)
             
@@ -464,17 +511,115 @@ for thisSurveillance_blocks_loop in surveillance_blocks_loop:
         surveillance_trials_loop.addData('learning_phase_response.corr', learning_phase_response.corr)
         if learning_phase_response.keys != None:  # we had a response
             surveillance_trials_loop.addData('learning_phase_response.rt', learning_phase_response.rt)
+        # the Routine "surveillance_trial" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
         thisExp.nextEntry()
         
     # completed 1 repeats of 'surveillance_trials_loop'
-    
-    thisExp.nextEntry()
     
 # completed 1 repeats of 'surveillance_blocks_loop'
 
 
 # set up handler to look after randomisation of conditions etc
-distractor_1_loop = data.TrialHandler(nReps=None, method='sequential', 
+distractor_1_instructions_loop = data.TrialHandler(nReps=1, method='sequential', 
+    extraInfo=expInfo, originPath=-1,
+    trialList=data.importConditions('instructions.xlsx', selection='3:5'),
+    seed=None, name='distractor_1_instructions_loop')
+thisExp.addLoop(distractor_1_instructions_loop)  # add the loop to the experiment
+thisDistractor_1_instructions_loop = distractor_1_instructions_loop.trialList[0]  # so we can initialise stimuli with some values
+# abbreviate parameter names if possible (e.g. rgb = thisDistractor_1_instructions_loop.rgb)
+if thisDistractor_1_instructions_loop != None:
+    for paramName in thisDistractor_1_instructions_loop:
+        exec('{} = thisDistractor_1_instructions_loop[paramName]'.format(paramName))
+
+for thisDistractor_1_instructions_loop in distractor_1_instructions_loop:
+    currentLoop = distractor_1_instructions_loop
+    # abbreviate parameter names if possible (e.g. rgb = thisDistractor_1_instructions_loop.rgb)
+    if thisDistractor_1_instructions_loop != None:
+        for paramName in thisDistractor_1_instructions_loop:
+            exec('{} = thisDistractor_1_instructions_loop[paramName]'.format(paramName))
+    
+    # ------Prepare to start Routine "instructions"-------
+    t = 0
+    instructionsClock.reset()  # clock
+    frameN = -1
+    continueRoutine = True
+    # update component parameters for each repeat
+    # simulate responses using ResponseEmulator, for testing
+    if monkey:
+        simulated_responses = [(2, 'space')]
+        responder = ResponseEmulator(simulated_responses)
+        responder.start()
+    instructions_response = event.BuilderKeyResponse()
+    text_instructions.setText(instructions_text)
+    # keep track of which components have finished
+    instructionsComponents = [instructions_response, text_instructions]
+    for thisComponent in instructionsComponents:
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    
+    # -------Start Routine "instructions"-------
+    while continueRoutine:
+        # get current time
+        t = instructionsClock.getTime()
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        
+        # *instructions_response* updates
+        if t >= 0.0 and instructions_response.status == NOT_STARTED:
+            # keep track of start time/frame for later
+            instructions_response.tStart = t
+            instructions_response.frameNStart = frameN  # exact frame index
+            instructions_response.status = STARTED
+            # keyboard checking is just starting
+            event.clearEvents(eventType='keyboard')
+        if instructions_response.status == STARTED:
+            theseKeys = event.getKeys(keyList=['space'])
+            
+            # check for quit:
+            if "escape" in theseKeys:
+                endExpNow = True
+            if len(theseKeys) > 0:  # at least one key was pressed
+                # a response ends the routine
+                continueRoutine = False
+        
+        # *text_instructions* updates
+        if t >= 0.0 and text_instructions.status == NOT_STARTED:
+            # keep track of start time/frame for later
+            text_instructions.tStart = t
+            text_instructions.frameNStart = frameN  # exact frame index
+            text_instructions.setAutoDraw(True)
+        
+        # check for quit (typically the Esc key)
+        if endExpNow or event.getKeys(keyList=["escape"]):
+            core.quit()
+        
+        # check if all components have finished
+        if not continueRoutine:  # a component has requested a forced-end of Routine
+            break
+        continueRoutine = False  # will revert to True if at least one component still running
+        for thisComponent in instructionsComponents:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # -------Ending Routine "instructions"-------
+    for thisComponent in instructionsComponents:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    
+    # the Routine "instructions" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+# completed 1 repeats of 'distractor_1_instructions_loop'
+
+
+# set up handler to look after randomisation of conditions etc
+distractor_1_loop = data.TrialHandler(nReps=1, method='sequential', 
     extraInfo=expInfo, originPath=-1,
     trialList=data.importConditions('distractor_1.xlsx'),
     seed=None, name='distractor_1_loop')
@@ -498,6 +643,11 @@ for thisDistractor_1_loop in distractor_1_loop:
     frameN = -1
     continueRoutine = True
     # update component parameters for each repeat
+    # simulate responses using ResponseEmulator, for testing
+    if monkey:
+        simulated_responses = [(0.3, '3'), (0.4, 'return')]
+        responder = ResponseEmulator(simulated_responses)
+        responder.start()
     distractor_1_rating.reset()
     distractor_1_text.setText(distractor_1_items)
     # keep track of which components have finished
@@ -512,6 +662,7 @@ for thisDistractor_1_loop in distractor_1_loop:
         t = distractor_1Clock.getTime()
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
+        
         # *distractor_1_rating* updates
         if t >= 0.0 and distractor_1_rating.status == NOT_STARTED:
             # keep track of start time/frame for later
@@ -548,6 +699,7 @@ for thisDistractor_1_loop in distractor_1_loop:
     for thisComponent in distractor_1Components:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
+    
     # store data for distractor_1_loop (TrialHandler)
     distractor_1_loop.addData('distractor_1_rating.response', distractor_1_rating.getRating())
     distractor_1_loop.addData('distractor_1_rating.rt', distractor_1_rating.getRT())
@@ -555,7 +707,105 @@ for thisDistractor_1_loop in distractor_1_loop:
     routineTimer.reset()
     thisExp.nextEntry()
     
-# completed  repeats of 'distractor_1_loop'
+# completed 1 repeats of 'distractor_1_loop'
+
+
+# set up handler to look after randomisation of conditions etc
+distractor_2_instructions_loop = data.TrialHandler(nReps=1, method='sequential', 
+    extraInfo=expInfo, originPath=-1,
+    trialList=data.importConditions('instructions.xlsx', selection='5:6'),
+    seed=None, name='distractor_2_instructions_loop')
+thisExp.addLoop(distractor_2_instructions_loop)  # add the loop to the experiment
+thisDistractor_2_instructions_loop = distractor_2_instructions_loop.trialList[0]  # so we can initialise stimuli with some values
+# abbreviate parameter names if possible (e.g. rgb = thisDistractor_2_instructions_loop.rgb)
+if thisDistractor_2_instructions_loop != None:
+    for paramName in thisDistractor_2_instructions_loop:
+        exec('{} = thisDistractor_2_instructions_loop[paramName]'.format(paramName))
+
+for thisDistractor_2_instructions_loop in distractor_2_instructions_loop:
+    currentLoop = distractor_2_instructions_loop
+    # abbreviate parameter names if possible (e.g. rgb = thisDistractor_2_instructions_loop.rgb)
+    if thisDistractor_2_instructions_loop != None:
+        for paramName in thisDistractor_2_instructions_loop:
+            exec('{} = thisDistractor_2_instructions_loop[paramName]'.format(paramName))
+    
+    # ------Prepare to start Routine "instructions"-------
+    t = 0
+    instructionsClock.reset()  # clock
+    frameN = -1
+    continueRoutine = True
+    # update component parameters for each repeat
+    # simulate responses using ResponseEmulator, for testing
+    if monkey:
+        simulated_responses = [(2, 'space')]
+        responder = ResponseEmulator(simulated_responses)
+        responder.start()
+    instructions_response = event.BuilderKeyResponse()
+    text_instructions.setText(instructions_text)
+    # keep track of which components have finished
+    instructionsComponents = [instructions_response, text_instructions]
+    for thisComponent in instructionsComponents:
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    
+    # -------Start Routine "instructions"-------
+    while continueRoutine:
+        # get current time
+        t = instructionsClock.getTime()
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        
+        # *instructions_response* updates
+        if t >= 0.0 and instructions_response.status == NOT_STARTED:
+            # keep track of start time/frame for later
+            instructions_response.tStart = t
+            instructions_response.frameNStart = frameN  # exact frame index
+            instructions_response.status = STARTED
+            # keyboard checking is just starting
+            event.clearEvents(eventType='keyboard')
+        if instructions_response.status == STARTED:
+            theseKeys = event.getKeys(keyList=['space'])
+            
+            # check for quit:
+            if "escape" in theseKeys:
+                endExpNow = True
+            if len(theseKeys) > 0:  # at least one key was pressed
+                # a response ends the routine
+                continueRoutine = False
+        
+        # *text_instructions* updates
+        if t >= 0.0 and text_instructions.status == NOT_STARTED:
+            # keep track of start time/frame for later
+            text_instructions.tStart = t
+            text_instructions.frameNStart = frameN  # exact frame index
+            text_instructions.setAutoDraw(True)
+        
+        # check for quit (typically the Esc key)
+        if endExpNow or event.getKeys(keyList=["escape"]):
+            core.quit()
+        
+        # check if all components have finished
+        if not continueRoutine:  # a component has requested a forced-end of Routine
+            break
+        continueRoutine = False  # will revert to True if at least one component still running
+        for thisComponent in instructionsComponents:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # -------Ending Routine "instructions"-------
+    for thisComponent in instructionsComponents:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    
+    # the Routine "instructions" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+# completed 1 repeats of 'distractor_2_instructions_loop'
 
 
 # set up handler to look after randomisation of conditions etc
@@ -583,6 +833,11 @@ for thisDistractor_2_loop in distractor_2_loop:
     frameN = -1
     continueRoutine = True
     # update component parameters for each repeat
+    # simulate responses using ResponseEmulator, for testing
+    if monkey:
+        simulated_responses = [(0.3, '3'), (0.4, 'return')]
+        responder = ResponseEmulator(simulated_responses)
+        responder.start()
     distractor_2_rating.reset()
     distractor_2_text.setText(distractor_2_items)
     # keep track of which components have finished
@@ -597,6 +852,7 @@ for thisDistractor_2_loop in distractor_2_loop:
         t = distractor_2Clock.getTime()
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
+        
         # *distractor_2_rating* updates
         if t >= 0.0 and distractor_2_rating.status == NOT_STARTED:
             # keep track of start time/frame for later
@@ -633,6 +889,7 @@ for thisDistractor_2_loop in distractor_2_loop:
     for thisComponent in distractor_2Components:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
+    
     # store data for distractor_2_loop (TrialHandler)
     distractor_2_loop.addData('distractor_2_rating.response', distractor_2_rating.getRating())
     distractor_2_loop.addData('distractor_2_rating.rt', distractor_2_rating.getRT())
@@ -641,6 +898,11 @@ for thisDistractor_2_loop in distractor_2_loop:
     thisExp.nextEntry()
     
 # completed 1 repeats of 'distractor_2_loop'
+
+
+
+
+
 
 
 # these shouldn't be strictly necessary (should auto-save)

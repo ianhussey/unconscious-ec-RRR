@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v3.0.4),
-    on Wed Feb 27 23:02:32 2019
+    on Wed Feb 27 23:20:16 2019
 If you publish work using this script please cite the PsychoPy publications:
     Peirce, JW (2007) PsychoPy - Psychophysics software in Python.
         Journal of Neuroscience Methods, 162(1-2), 8-13.
@@ -155,7 +155,7 @@ text_instructions = visual.TextStim(win=win, name='text_instructions',
 # Initialize components for Routine "filler_1"
 filler_1Clock = core.Clock()
 
-filler_1_rating = visual.RatingScale(win=win, name='filler_1_rating', lineColor='Black', textColor='Black')
+filler_1_rating = visual.RatingScale(win=win, name='filler_1_rating', lineColor='Black', textColor='Black', scale=None)
 filler_1_text = visual.TextStim(win=win, name='filler_1_text',
     text='default text',
     font='Arial',
@@ -178,7 +178,7 @@ text_instructions = visual.TextStim(win=win, name='text_instructions',
 # Initialize components for Routine "filler_2"
 filler_2Clock = core.Clock()
 
-filler_2_rating = visual.RatingScale(win=win, name='filler_2_rating', lineColor='Black', textColor='Black')
+filler_2_rating = visual.RatingScale(win=win, name='filler_2_rating', lineColor='Black', textColor='Black', scale=None)
 filler_2_text = visual.TextStim(win=win, name='filler_2_text',
     text='default text',
     font='Arial',
@@ -292,9 +292,6 @@ for thisSurveillance_instructions_loop in surveillance_instructions_loop:
         simulated_responses = [(2, 'space')]
         responder = ResponseEmulator(simulated_responses)
         responder.start()
-    
-    # write this value to disk
-    thisExp.addData('condition', condition)
     instructions_response = event.BuilderKeyResponse()
     text_instructions.setText(instructions_text)
     # keep track of which components have finished
@@ -632,9 +629,6 @@ for thisFiller_1_instructions_loop in filler_1_instructions_loop:
         simulated_responses = [(2, 'space')]
         responder = ResponseEmulator(simulated_responses)
         responder.start()
-    
-    # write this value to disk
-    thisExp.addData('condition', condition)
     instructions_response = event.BuilderKeyResponse()
     text_instructions.setText(instructions_text)
     # keep track of which components have finished
@@ -828,9 +822,6 @@ for thisFiller_2_instructions_loop in filler_2_instructions_loop:
         simulated_responses = [(2, 'space')]
         responder = ResponseEmulator(simulated_responses)
         responder.start()
-    
-    # write this value to disk
-    thisExp.addData('condition', condition)
     instructions_response = event.BuilderKeyResponse()
     text_instructions.setText(instructions_text)
     # keep track of which components have finished
@@ -1024,9 +1015,6 @@ for thisEvaluation_instructions_loop in evaluation_instructions_loop:
         simulated_responses = [(2, 'space')]
         responder = ResponseEmulator(simulated_responses)
         responder.start()
-    
-    # write this value to disk
-    thisExp.addData('condition', condition)
     instructions_response = event.BuilderKeyResponse()
     text_instructions.setText(instructions_text)
     # keep track of which components have finished
@@ -1309,9 +1297,6 @@ for thisEnd_message_loop in end_message_loop:
         simulated_responses = [(2, 'space')]
         responder = ResponseEmulator(simulated_responses)
         responder.start()
-    
-    # write this value to disk
-    thisExp.addData('condition', condition)
     instructions_response = event.BuilderKeyResponse()
     text_instructions.setText(instructions_text)
     # keep track of which components have finished

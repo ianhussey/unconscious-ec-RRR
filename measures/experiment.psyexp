@@ -250,7 +250,7 @@
       </CodeComponent>
       <RatingScaleComponent name="filler_1_rating">
         <Param name="categoryChoices" updates="constant" val="" valType="str"/>
-        <Param name="customize_everything" updates="constant" val="lineColor='Black', textColor='Black'" valType="str"/>
+        <Param name="customize_everything" updates="constant" val="lineColor='Black', textColor='Black', scale=None" valType="str"/>
         <Param name="disappear" updates="constant" val="False" valType="bool"/>
         <Param name="durationEstim" updates="None" val="" valType="code"/>
         <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
@@ -315,7 +315,7 @@
       </CodeComponent>
       <RatingScaleComponent name="filler_2_rating">
         <Param name="categoryChoices" updates="constant" val="" valType="str"/>
-        <Param name="customize_everything" updates="constant" val="lineColor='Black', textColor='Black'" valType="str"/>
+        <Param name="customize_everything" updates="constant" val="lineColor='Black', textColor='Black', scale=None" valType="str"/>
         <Param name="disappear" updates="constant" val="False" valType="bool"/>
         <Param name="durationEstim" updates="None" val="" valType="code"/>
         <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>

@@ -30,7 +30,7 @@
     <Param name="logging level" updates="None" val="exp" valType="code"/>
   </Settings>
   <Routines>
-    <Routine name="trial">
+    <Routine name="surveillance_trial">
       <KeyboardComponent name="learning_phase_response">
         <Param name="allowedKeys" updates="constant" val="'space', 'None'" valType="code"/>
         <Param name="correctAns" updates="constant" val="$correct_response" valType="str"/>
@@ -70,7 +70,7 @@
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
       </ImageComponent>
     </Routine>
-    <Routine name="instructions">
+    <Routine name="surveillance_instructions_2">
       <CodeComponent name="code">
         <Param name="Begin Experiment" updates="constant" val="from numpy.random import randint&amp;#10;condition_randomisation = randint(1, 3, size = 1)&amp;#10;if condition_randomisation == 1:&amp;#10;    condition = &quot;CS1_USpos&quot;&amp;#10;elif condition_randomisation == 2:&amp;#10;    condition = &quot;CS1_USneg&quot;&amp;#10;&amp;#10;#file_name = &quot;trials/trials_participant_&quot; + str(expInfo['participant']) + &quot;_condition_&quot; + condition + &quot;.csv&quot;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
@@ -166,7 +166,7 @@
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
     </Routine>
-    <Routine name="first_instructions">
+    <Routine name="surveillance_instructions_1">
       <KeyboardComponent name="key_resp_continue_2">
         <Param name="allowedKeys" updates="constant" val="'space'" valType="code"/>
         <Param name="correctAns" updates="constant" val="" valType="str"/>
@@ -207,7 +207,7 @@
     </Routine>
   </Routines>
   <Flow>
-    <LoopInitiator loopType="TrialHandler" name="instructions_loop">
+    <LoopInitiator loopType="TrialHandler" name="surveillance_instructions_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="[OrderedDict([('first_instructions_text', 'first instructions text 1')]), OrderedDict([('first_instructions_text', 'first instructions text 2')]), OrderedDict([('first_instructions_text', 'first instructions text 3')])]" valType="str"/>
       <Param name="conditionsFile" updates="None" val="instructions_1.xlsx" valType="str"/>
@@ -215,12 +215,12 @@
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
       <Param name="nReps" updates="None" val="1" valType="code"/>
-      <Param name="name" updates="None" val="instructions_loop" valType="code"/>
+      <Param name="name" updates="None" val="surveillance_instructions_loop" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
-    <Routine name="first_instructions"/>
-    <LoopTerminator name="instructions_loop"/>
-    <LoopInitiator loopType="TrialHandler" name="blocks_loop">
+    <Routine name="surveillance_instructions_1"/>
+    <LoopTerminator name="surveillance_instructions_loop"/>
+    <LoopInitiator loopType="TrialHandler" name="surveillance_blocks_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
       <Param name="conditionsFile" updates="None" val="instructions_2.xlsx" valType="str"/>
@@ -228,11 +228,11 @@
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="random" valType="str"/>
       <Param name="nReps" updates="None" val="1" valType="code"/>
-      <Param name="name" updates="None" val="blocks_loop" valType="code"/>
+      <Param name="name" updates="None" val="surveillance_blocks_loop" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
-    <Routine name="instructions"/>
-    <LoopInitiator loopType="TrialHandler" name="trials_loop">
+    <Routine name="surveillance_instructions_2"/>
+    <LoopInitiator loopType="TrialHandler" name="surveillance_trials_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
       <Param name="conditionsFile" updates="None" val="$file_name" valType="str"/>
@@ -240,11 +240,11 @@
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
       <Param name="nReps" updates="None" val="1" valType="code"/>
-      <Param name="name" updates="None" val="trials_loop" valType="code"/>
+      <Param name="name" updates="None" val="surveillance_trials_loop" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
-    <Routine name="trial"/>
-    <LoopTerminator name="trials_loop"/>
-    <LoopTerminator name="blocks_loop"/>
+    <Routine name="surveillance_trial"/>
+    <LoopTerminator name="surveillance_trials_loop"/>
+    <LoopTerminator name="surveillance_blocks_loop"/>
   </Flow>
 </PsychoPy2experiment>

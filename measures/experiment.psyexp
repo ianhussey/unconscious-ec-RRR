@@ -205,6 +205,108 @@
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
     </Routine>
+    <Routine name="distractor_1">
+      <RatingScaleComponent name="distractor_1_rating">
+        <Param name="categoryChoices" updates="constant" val="" valType="str"/>
+        <Param name="customize_everything" updates="constant" val="" valType="str"/>
+        <Param name="disappear" updates="constant" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
+        <Param name="high" updates="constant" val="7" valType="code"/>
+        <Param name="labels" updates="constant" val="Strong disagreement, Strong agreement" valType="str"/>
+        <Param name="low" updates="constant" val="1" valType="code"/>
+        <Param name="marker" updates="constant" val="triangle" valType="str"/>
+        <Param name="markerStart" updates="constant" val="" valType="str"/>
+        <Param name="name" updates="None" val="distractor_1_rating" valType="code"/>
+        <Param name="pos" updates="constant" val="0, -0.4" valType="str"/>
+        <Param name="scaleDescription" updates="constant" val="" valType="str"/>
+        <Param name="showAccept" updates="constant" val="True" valType="bool"/>
+        <Param name="singleClick" updates="constant" val="False" valType="bool"/>
+        <Param name="size" updates="constant" val="1.0" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="condition" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="storeHistory" updates="constant" val="False" valType="bool"/>
+        <Param name="storeRating" updates="constant" val="True" valType="bool"/>
+        <Param name="storeRatingTime" updates="constant" val="True" valType="bool"/>
+        <Param name="tickHeight" updates="constant" val="" valType="str"/>
+        <Param name="visualAnalogScale" updates="constant" val="False" valType="bool"/>
+      </RatingScaleComponent>
+      <TextComponent name="distractor_1_text">
+        <Param name="color" updates="constant" val="white" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.03" valType="code"/>
+        <Param name="name" updates="None" val="distractor_1_text" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, 0.2)" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="text" updates="set every repeat" val="$distractor_1_items" valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+      </TextComponent>
+    </Routine>
+    <Routine name="distractor_2">
+      <RatingScaleComponent name="distractor_2_rating">
+        <Param name="categoryChoices" updates="constant" val="" valType="str"/>
+        <Param name="customize_everything" updates="constant" val="" valType="str"/>
+        <Param name="disappear" updates="constant" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
+        <Param name="high" updates="constant" val="7" valType="code"/>
+        <Param name="labels" updates="constant" val="Strong disagreement, Strong agreement" valType="str"/>
+        <Param name="low" updates="constant" val="1" valType="code"/>
+        <Param name="marker" updates="constant" val="triangle" valType="str"/>
+        <Param name="markerStart" updates="constant" val="" valType="str"/>
+        <Param name="name" updates="None" val="distractor_2_rating" valType="code"/>
+        <Param name="pos" updates="constant" val="0, -0.4" valType="str"/>
+        <Param name="scaleDescription" updates="constant" val="" valType="str"/>
+        <Param name="showAccept" updates="constant" val="True" valType="bool"/>
+        <Param name="singleClick" updates="constant" val="False" valType="bool"/>
+        <Param name="size" updates="constant" val="1.0" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="condition" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="storeHistory" updates="constant" val="False" valType="bool"/>
+        <Param name="storeRating" updates="constant" val="True" valType="bool"/>
+        <Param name="storeRatingTime" updates="constant" val="True" valType="bool"/>
+        <Param name="tickHeight" updates="constant" val="" valType="str"/>
+        <Param name="visualAnalogScale" updates="constant" val="False" valType="bool"/>
+      </RatingScaleComponent>
+      <TextComponent name="distractor_2_text">
+        <Param name="color" updates="constant" val="white" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.03" valType="code"/>
+        <Param name="name" updates="None" val="distractor_2_text" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, 0.2)" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="text" updates="set every repeat" val="$distractor_2_items" valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+      </TextComponent>
+    </Routine>
   </Routines>
   <Flow>
     <LoopInitiator loopType="TrialHandler" name="surveillance_instructions_loop">
@@ -246,5 +348,31 @@
     <Routine name="surveillance_trial"/>
     <LoopTerminator name="surveillance_trials_loop"/>
     <LoopTerminator name="surveillance_blocks_loop"/>
+    <LoopInitiator loopType="TrialHandler" name="distractor_1_loop">
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('distractor_1_items', 'I would prefer complex to simple problems.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I like to have the responsibility of handling a situation that requires a lot of thinking.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'Thinking is not my idea of fun.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I would rather do something that requires little thought than something that is sure to challenge my thinking abilities.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I try to anticipate and avoid situations where there is likely a chance I will have to think in depth about something.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I find satisfaction in deliberating hard and for long hours.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I only think as hard as I have to.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I prefer to think about small, daily projects to long-term ones.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', &quot;I like tasks that require little thought once I've learned them.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement&quot;)]), OrderedDict([('distractor_1_items', 'The idea of relying on thought to make my way to the top appeals to me.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I really enjoy a task that involves coming up with new solutions to problems.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', &quot;Learning new ways to think doesn't excite me very much.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement&quot;)]), OrderedDict([('distractor_1_items', 'I prefer my life to be filled with puzzles that I must solve.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'The notion of thinking abstractly is appealing to me.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', 'I feel relief rather than satisfaction after completing a task that required a lot of mental effort.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')]), OrderedDict([('distractor_1_items', &quot;It's enough for me that something gets the job done; I don't care how or why it works.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement&quot;)]), OrderedDict([('distractor_1_items', 'I usually end up deliberating about issues even when they do not affect me personally.\n\n1 = strong disagreement\n2 = moderate disagreement\n3 = slight disagreement\n4 = neither agreement nor disagreement\n5 = slight agreement\n6 = moderate agreement\n7 = strong agreement')])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="distractor_1.xlsx" valType="str"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="" valType="code"/>
+      <Param name="name" updates="None" val="distractor_1_loop" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="distractor_1"/>
+    <LoopTerminator name="distractor_1_loop"/>
+    <LoopInitiator loopType="TrialHandler" name="distractor_2_loop">
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('distractor_2_items', 'I form opinions about everything.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I prefer to avoid taking extreme positions.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'It is very important to me to hold strong opinions.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I want to know exactly what is good and bad about everything.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I often prefer to remain neutral about complex issues.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'If something does not affect me, I do not usually determine if it is good or bad.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I enjoy strongly liking and disliking new things.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'There are many things for which I do not have a preference.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'It bothers me to remain neutral.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I like to have strong opinions even when I am not personally involved.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I have many more opinions than the average person.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I would rather have a strong opinion than no opinion at all.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I pay a lot of attention to whether things are good or bad.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I only form strong opinions when I have to.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I like to decide that new things are really good or bad.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')]), OrderedDict([('distractor_2_items', 'I am pretty much indifferent to many important issues.\n\n1 = extremely uncharacteristic\n2 = slightly uncharacteristic\n3 = neither characteristic nor uncharacteristic\n4 = slightly characteristic\n5 = extremely characteristic')])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="distractor_2.xlsx" valType="str"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="1" valType="code"/>
+      <Param name="name" updates="None" val="distractor_2_loop" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="distractor_2"/>
+    <LoopTerminator name="distractor_2_loop"/>
   </Flow>
 </PsychoPy2experiment>

@@ -962,6 +962,6 @@ Experiment
 </defaults>
 
 <expt>
-/ blocks = [1 = instS; 2-6=noreplace(block_t1_cs1neg, block_t2_cs1neg, block_t3_cs1neg, block_t4_cs1neg, block_t5_cs1neg)]
+/ blocks = [1 = instS; 2-6=noreplace(block_t1_cs1pos, block_t2_cs1pos, block_t3_cs1pos, block_t4_cs1pos, block_t5_cs1pos)]
 </expt>
 

@@ -13,10 +13,6 @@ output:
     toc_float: yes
 ---
 
-# to do & notes
-
-what counterbalancing options are needed other than CS1-pos vs CS2-pos?
-
 ```{r setup, include=FALSE}
 
 knitr::opts_chunk$set(echo = TRUE, 
@@ -47,9 +43,6 @@ library(tidyverse)
 # Generate trial sequences
 
 ```{r}
-
-# create data for many participants
-n_participants <- 150
 
 # build vector of filler and target trials, randomise order
 generate_block <- function(target_name, n_filler_trials_per_block = 52, n_target_trials_per_block = 10) {
@@ -96,11 +89,32 @@ generate_block <- function(target_name, n_filler_trials_per_block = 52, n_target
   return(trials_combined)
 }
 
+generate_block_file <- function(target_name){
+  data.frame(stimulus = generate_block(target_name = target_name)) %>%
+    rownames_to_column(var = "trial_number") %>%
+    mutate(participant = i,
+           trial_number = as.numeric(as.character(trial_number))) %>% 
+    select(participant, trial_number, stimulus) %>%
+    mutate(trial_type = ifelse(grepl("filler", stimulus), "filler",
+                               ifelse(grepl("blank", stimulus), "blank",
+                                      ifelse(grepl("target", stimulus), "target",
+                                             ifelse(grepl("cs", stimulus), "CSUS", NA)))),
+           target_trial = ifelse(grepl("target", trial_type), TRUE, FALSE),
+           correct_response = ifelse(target_trial == TRUE, "space", "None")) %>%
+    write_csv(., paste0("trials_participant_", i, "_condition_", condition, "_", target_name, ".csv"))
+}
+
+
 ```
 
-## Condition 1: CS1_USpos
 
 ```{r}
+
+## Create data for N participants
+n_participants <- 150
+
+
+## Condition 1: CS1_USpos
 
 condition <- "CS1_USpos"
 
@@ -108,42 +122,16 @@ condition <- "CS1_USpos"
 trials_CS1_US <- paste0(rep("stimuli/cs1_pos", 20), seq(from = 1, to = 20, by = 1), ".jpg")
 trials_CS2_US <- paste0(rep("stimuli/cs2_neg", 20), seq(from = 1, to = 20, by = 1), ".jpg")
 
-
-trials <- NULL
-
 for(i in 1:n_participants) {
-  block_a <- generate_block(target_name = "target1_")
-  block_b <- generate_block(target_name = "target2_")
-  block_c <- generate_block(target_name = "target3_")
-  block_d <- generate_block(target_name = "target4_")
-  block_e <- generate_block(target_name = "target5_")
-  
-  blocks_combined <- block_a %>%
-    append(., block_b, after = sample(c(0, 86), 1)) %>%
-    append(., block_c, after = sample(c(0, 86, 86*2), 1)) %>%
-    append(., block_d, after = sample(c(0, 86, 86*2, 86*3), 1)) %>%
-    append(., block_e, after = sample(c(0, 86, 86*2, 86*3, 86*4), 1))
-  
-  data_participant <- data.frame(stimulus = blocks_combined) %>%
-    rownames_to_column(var = "trial_number") %>%
-    mutate(participant = i,
-           trial_number = as.numeric(as.character(trial_number))) %>% 
-    select(participant, trial_number, stimulus) %>%
-    mutate(trial_type = ifelse(grepl("filler", stimulus), "filler",
-                               ifelse(grepl("blank", stimulus), "blank",
-                                      ifelse(grepl("target", stimulus), "target",
-                                             ifelse(grepl("cs", stimulus), "CSUS", NA)))),
-           target_trial = ifelse(grepl("target", trial_type), TRUE, FALSE),
-           correct_response = ifelse(target_trial == TRUE, "space", "None")) 
-  
-  write_csv(data_participant, paste0("trials_participant_", i, "_condition_", condition, ".csv")) 
+  generate_block_file("target1_")
+  generate_block_file("target2_")
+  generate_block_file("target3_")
+  generate_block_file("target4_")
+  generate_block_file("target5_")
 }
 
-```
 
 ## Condition 2: CS1_USneg
-
-```{r}
 
 condition <- "CS1_USneg"
 
@@ -151,35 +139,12 @@ condition <- "CS1_USneg"
 trials_CS1_US <- paste0(rep("stimuli/cs1_neg", 20), seq(from = 1, to = 20, by = 1), ".jpg")
 trials_CS2_US <- paste0(rep("stimuli/cs2_pos", 20), seq(from = 1, to = 20, by = 1), ".jpg")
 
-
-trials <- NULL
-
 for(i in 1:n_participants) {
-  block_a <- generate_block(target_name = "target1_")
-  block_b <- generate_block(target_name = "target2_")
-  block_c <- generate_block(target_name = "target3_")
-  block_d <- generate_block(target_name = "target4_")
-  block_e <- generate_block(target_name = "target5_")
-  
-  blocks_combined <- block_a %>%
-    append(., block_b, after = sample(c(0, 86), 1)) %>%
-    append(., block_c, after = sample(c(0, 86, 86*2), 1)) %>%
-    append(., block_d, after = sample(c(0, 86, 86*2, 86*3), 1)) %>%
-    append(., block_e, after = sample(c(0, 86, 86*2, 86*3, 86*4), 1))
-  
-  data_participant <- data.frame(stimulus = blocks_combined) %>%
-    rownames_to_column(var = "trial_number") %>%
-    mutate(participant = i,
-           trial_number = as.numeric(as.character(trial_number))) %>% 
-    select(participant, trial_number, stimulus) %>%
-    mutate(trial_type = ifelse(grepl("filler", stimulus), "filler",
-                               ifelse(grepl("blank", stimulus), "blank",
-                                      ifelse(grepl("target", stimulus), "target",
-                                             ifelse(grepl("cs", stimulus), "CSUS", NA)))),
-           target_trial = ifelse(grepl("target", trial_type), TRUE, FALSE),
-           correct_response = ifelse(target_trial == TRUE, "space", "None"))
-  
-  write_csv(data_participant, paste0("trials_participant_", i, "_condition_", condition, ".csv")) 
+  generate_block_file("target1_")
+  generate_block_file("target2_")
+  generate_block_file("target3_")
+  generate_block_file("target4_")
+  generate_block_file("target5_")
 }
 
 ```

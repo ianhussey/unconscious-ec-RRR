@@ -1,0 +1,210 @@
+---
+title: "Unconscious EC RRR"
+subtitle: "Process data"
+author: "Ian Hussey^[Ghent University. Email: ian.hussey@ugent.be]"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    code_folding: hide
+    highlight: haddock
+    number_sections: no
+    theme: flatly
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE)
+
+# options
+options(knitr.table.format = "html") # necessary configuration of tables
+
+# disable scientific notation
+options(scipen = 999) 
+
+```
+
+```{r}
+
+# dependencies
+check_for_and_install_packages <- function(package) {
+  if (!package %in% installed.packages()) install.packages(package)
+}
+
+check_for_and_install_packages("tidyverse")
+check_for_and_install_packages("plyr")
+check_for_and_install_packages("data.table")
+
+library(tidyverse)
+
+```
+
+# Get data
+
+```{r}
+
+# load these packages only for this chunk, then unload them, as they interfere with tidyverse packages
+library(plyr)
+library(data.table)
+
+# list all folders in a given folder. ie all data collection sites' separate data folders
+the_directories <- 
+  list.dirs(path = "raw", full.names = TRUE, recursive = FALSE) %>%
+  paste0(., "/")
+
+# function to get all files with the extension ".csv" in a given folder, and read them into a single data frame
+all_csv_files_to_data_frame <- function(the_path){
+  require(tidyverse)
+  require(plyr)
+  require(data.table)
+  
+  data_output <- 
+    list.files(path = the_path, pattern = "\\.csv$") %>%
+    paste0(the_directories[i], .) %>%
+    lapply(fread, header = TRUE) %>%
+    rbind.fill() %>%
+    as.tibble()
+  
+  return(data_output)
+}
+
+# pull data from each site into a single list
+## declare empty list
+data_raw_list <- list()
+
+## loop over directories and files in them
+for(i in seq_along(the_directories)){
+  data_from_given_site <- all_csv_files_to_data_frame(the_path = the_directories[i])
+  data_from_given_site$site <- i
+  data_raw_list[[i]] <- data_from_given_site
+}
+
+## flatten list
+data_raw <- dplyr::bind_rows(data_raw_list)
+
+# detach("package:plyr", unload=TRUE)
+# detach("package:data.table", unload=TRUE)
+
+```
+
+# Process data
+
+```{r}
+
+# colnames(data_trimmed)
+data_trimmed <- data_raw %>%
+  rename(filler_1_rating = filler_1_rating.response,
+         filler_2_rating = filler_2_rating.response,
+         surveillance_response_correct = surveillance_response.corr,
+         evaluation_CS1_preferred = evaluation_response.corr) %>%
+  mutate(simulated_data = ifelse(UseMonkey == "y", TRUE, FALSE),
+         unique_id = paste(data_collection_site, participant, sep = "_")) %>%
+  select(unique_id, age, gender,
+         data_collection_site,
+         condition,
+         simulated_data,
+         # surveillance task
+         surveillance_response_correct,
+         # filler task
+         filler_1_rating,
+         filler_2_rating,
+         # evaluation task
+         evaluation_response_indicating_CS1_preferred,
+         evaluation_CS1_preferred,
+         left_stimulus,
+         right_stimulus)
+
+         # to be added!!!!!
+         # %>%
+         #   # filter out simulated data
+         #   filter(simulated_data == FALSE)
+
+# process data from each task
+data_demographics <- data_trimmed %>%
+  distinct(unique_id, .keep_all = TRUE) %>%
+  select(unique_id, age, gender, data_collection_site, condition, simulated_data)
+
+data_surveillance <- data_trimmed %>%
+  filter(!is.na(surveillance_response_correct)) %>%
+  group_by(unique_id) %>%
+  summarize(perc_accuracy_surveillance_response = round(mean(surveillance_response_correct)*100, 1)) %>%
+  ungroup()
+
+data_filler_1 <- data_trimmed %>%
+  filter(!is.na(filler_1_rating)) %>%
+  group_by(unique_id) %>%
+  summarize(sum_score_filler_1 = sum(filler_1_rating)) %>%
+  ungroup()
+
+data_filler_2 <- data_trimmed %>%
+  filter(!is.na(filler_2_rating)) %>%
+  group_by(unique_id) %>%
+  summarize(sum_score_filler_2 = sum(filler_2_rating)) %>%
+  ungroup()
+
+data_evaluation <- data_trimmed %>%
+  filter(!is.na(evaluation_CS1_preferred) & 
+           evaluation_response_indicating_CS1_preferred != "None") %>%
+  # original study codes preference for CS1 as +1 and preference for CS2 as -1, so we do the same here. 
+  mutate(evaluation_CS1_preferred = ifelse(evaluation_CS1_preferred == 1, 1, 
+                                           ifelse(evaluation_CS1_preferred == 0, -1, NA))) %>%
+  group_by(unique_id) %>%
+  summarize(sum_score_evaluation_CS1_preferred = sum(evaluation_CS1_preferred)) %>%
+  ungroup()
+
+# combine 
+data_combined <- data_demographics %>%
+  left_join(data_surveillance, by = "unique_id") %>%
+  left_join(data_filler_1,     by = "unique_id") %>%
+  left_join(data_filler_2,     by = "unique_id") %>%
+  left_join(data_evaluation,   by = "unique_id") 
+
+
+
+# sim data for testing - to be removed!!!
+# data_combined <- read.csv("processed/data_combined_simulated.csv")
+# data_combined <- data_combined %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined) %>%
+#   rbind(data_combined)
+
+
+
+# exclusions
+## From protocol: "Performance in the surveillance task: we will exclude participants with more than three standard deviations beyond the mean error number in the surveillance task (error = responding to non-target trials, or not responding to target trials)."
+data_exclusions <- data_combined %>%
+  group_by(data_collection_site) %>%
+  summarize(mean_perc_accuracy_surveillance_response_by_site = round(mean(perc_accuracy_surveillance_response), 2),
+            sd_perc_accuracy_surveillance_response_by_site = round(sd(perc_accuracy_surveillance_response), 2)) %>%
+  ungroup()
+  
+# combine exclusion data
+data_processed <- data_combined %>%
+  left_join(data_exclusions, by = "data_collection_site") %>%
+  mutate(exclude_surveillance = ifelse(perc_accuracy_surveillance_response > mean_perc_accuracy_surveillance_response_by_site +
+                                         sd_perc_accuracy_surveillance_response_by_site*3 |
+                            perc_accuracy_surveillance_response < mean_perc_accuracy_surveillance_response_by_site - 
+                              sd_perc_accuracy_surveillance_response_by_site*3,
+                          TRUE, FALSE))
+  
+# write to disk
+write_csv(data_processed, "processed/data_processed.csv")
+
+```
+
+
+
+

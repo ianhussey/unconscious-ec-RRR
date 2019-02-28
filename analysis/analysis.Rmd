@@ -1,0 +1,379 @@
+---
+title: "Unconscious EC RRR"
+subtitle: "Analyses and meta analysis"
+author: "Ian Hussey^[Ghent University. Email: ian.hussey@ugent.be]"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    code_folding: hide
+    highlight: haddock
+    number_sections: no
+    theme: flatly
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE)
+
+# options
+options(knitr.table.format = "html") # necessary configuration of tables
+
+# disable scientific notation
+options(scipen = 999) 
+
+```
+
+# Dependencies
+
+```{r}
+
+
+check_for_and_install_packages <- function(package) {
+  if (!package %in% installed.packages()) install.packages(package)
+}
+
+check_for_and_install_packages("tidyverse")
+check_for_and_install_packages("effsize")
+check_for_and_install_packages("BayesFactor")
+check_for_and_install_packages("bootES")
+check_for_and_install_packages("metafor")
+check_for_and_install_packages("knitr")
+check_for_and_install_packages("kableExtra")
+check_for_and_install_packages("brmstools")
+check_for_and_install_packages("devtools")
+check_for_and_install_packages("broom")
+if (!"brmstools" %in% installed.packages()) devtools::install_github("mvuorre/brmstools")
+if (!"patchwork" %in% installed.packages()) devtools::install_github("thomasp85/patchwork")
+
+library(tidyverse)
+library(broom)
+library(effsize)
+library(bootES)
+library(BayesFactor)
+library(metafor)
+library(knitr)
+library(kableExtra)
+library(brmstools)
+library(patchwork)
+
+```
+
+# Data
+
+```{r}
+
+# get data
+data_processed <- read.csv("../data/processed/data_processed.csv") 
+
+```
+
+# Functions
+
+```{r}
+
+# function to round all numerics in a data frame -----
+round_df <- function(df, digits) {
+  nums <- vapply(df, is.numeric, FUN.VALUE = logical(1))
+  df[,nums] <- round(df[,nums], digits = digits)
+  (df)
+}
+
+# apa format p value
+apa_p_value <- function(p){
+  p_formatted <- ifelse(p >= 0.001, paste("=", round(p, 3)),
+                        ifelse(p < 0.001, "< .001", NA))
+  p_formatted <- gsub(pattern = "0.", replacement = ".", x = p_formatted, fixed = TRUE)
+  p_formatted
+}
+
+# function to perform between groups t test, along with summary stats, cohen's d, and Bayes Factor using default prior (r = .707) -----
+analysis_workflow <- function(data) {
+  
+  # summary stats
+  summary_means <- data %>%
+    group_by(condition) %>%
+    dplyr::summarize(mean = mean(DV)) %>%
+    spread(condition, mean) %>%
+    rename(mean_CS1_USpos = CS1_USpos,
+           mean_CS1_USneg = CS1_USneg) %>%
+    round_df(3)
+  
+  summary_sds <- data %>%
+    group_by(condition) %>%
+    dplyr::summarize(sd = sd(DV)) %>%
+    spread(condition, sd) %>%
+    rename(sd_CS1_USpos = CS1_USpos,
+           sd_CS1_USneg = CS1_USneg) %>%
+    round_df(3)
+  
+  # t test
+  results_t_test <- t.test(formula = DV ~ IV,
+                           alternative = "two.sided",
+                           paired = FALSE,
+                           data = data) %>%
+    tidy() %>%
+    mutate(t = round(statistic, 2),
+           df = round(parameter, 2),
+           p = apa_p_value(p.value)) %>%
+    select(t, df, p)
+  
+  # effect size
+  results_cohens_d_temp <- data %>%
+    bootES(.,
+           R           = 2000,
+           data.col    = "DV",
+           group.col   = "IV",
+           contrast    = c(A = "CS1_USneg", B = "CS1_USpos"),
+           effect.type = "cohens.d",
+           ci.type     = "bca",
+           ci.conf     = 0.95)
+  
+  results_cohens_d <- data.frame(cohens_d        = round(results_cohens_d_temp$t0,        3),
+                                 cohens_d_se     = round(sd(results_cohens_d_temp$t),     3),
+                                 cohens_d_ci_lwr = round(results_cohens_d_temp$bounds[1], 3),
+                                 cohens_d_ci_upr = round(results_cohens_d_temp$bounds[2], 3))
+  
+  # bayes factor t test
+  results_bf_t_test_temp <- ttestBF(formula = DV ~ IV,
+                                    data = data)
+  
+  results_bf_t_test <- data.frame(BF10 = round(exp(results_bf_t_test_temp@bayesFactor$bf), 2)) %>%
+    mutate(BF10 = ifelse(BF10 > 10000, ">10000", BF10))
+  
+  results <- cbind(summary_means,
+                   summary_sds,
+                   results_t_test,
+                   results_cohens_d,
+                   results_bf_t_test)
+  
+  return(results)
+}
+
+
+# meta analysis and forest plot workflow -----
+meta_analysis_workflow <- function(data, 
+                                   effect_size_label, 
+                                   reference_line, 
+                                   plot = TRUE) {
+  
+  # fit random effects model 
+  fitted_model <- 
+    rma(yi = yi, 
+        sei = sei,
+        data = data,
+        slab = data_collection_site)
+  
+  p_value <- apa_p_value(fitted_model$pval)
+  
+  # model predictions
+  meta_analysis_results <-
+    predict(fitted_model, digits = 5) %>%
+    as.data.frame() %>%
+    gather() %>%
+    round_df(2) %>%
+    dplyr::rename(metric = key,
+                  estimate = value) %>%
+    mutate(metric = dplyr::recode(metric,
+                                  "pred" = paste0("Meta analysed ", effect_size_label),
+                                  "ci.lb" = "95% CI lower",
+                                  "ci.ub" = "95% CI upper",
+                                  "cr.lb" = "95% CR lower",
+                                  "cr.ub" = "95% CR upper"))
+  
+  meta_analysis_results <- rbind(meta_analysis_results,
+                                 data.frame(metric = "p",
+                                            estimate = p_value))
+  
+  # summarize results
+  meta_analysis_results_text <- 
+    paste0("k = ", fitted_model$k, ", ", 
+           effect_size_label, " = ", meta_analysis_results$estimate[1],
+           # dynamic indexing of some values as different models return variables in different locations, but relative location is reliable
+           ", 95% CI = [", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-4],  
+           ", ", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-3], 
+           "], 95% CR = [", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-2], 
+           ", ", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-1],
+           "], p ", meta_analysis_results$estimate[length(meta_analysis_results$estimate)])
+  
+  heterogeneity_test_results_text <- 
+    paste0("Q(df = ",    fitted_model$k - 1, ") = ", round(fitted_model$QE, 2), 
+           ", p = ",     ifelse(fitted_model$pval < 0.001, "< .001", as.character(round(fitted_model$pval, 3))),
+           ", tau^2 = ", round(fitted_model$tau2, 2), 
+           ", I^2 = ",   round(fitted_model$I2, 2),
+           ", H^2 = ",   round(fitted_model$H2, 2))
+  
+  if (plot == TRUE) {
+    forest_plot <- metafor::forest(fitted_model,
+                                   xlab = effect_size_label,
+                                   addcred = TRUE,
+                                   refline = reference_line)
+  } else {
+    forest_plot <- NULL
+  }
+  
+  
+  return(list(fitted_model = fitted_model, 
+              meta_analysis_results = meta_analysis_results,
+              meta_analysis_results_text = meta_analysis_results_text,
+              heterogeneity_test_results_text = heterogeneity_test_results_text,
+              forest_plot = forest_plot))
+}
+
+```
+
+# Exclusion strategy 1: Olson & Fazio (2002)
+
+## Analyses by site
+
+additional exclusions needed!!!
+
+```{r}
+
+# do exclusions
+data_for_analysis <- data_processed %>%
+  filter(exclude_surveillance == FALSE & simulated_data == FALSE) %>%
+  mutate(DV = sum_score_evaluation_CS1_preferred,
+         IV = condition)
+
+# apply analyses to each site
+results_by_site <- data_for_analysis %>%
+  group_by(data_collection_site) %>%
+  do(analysis_workflow(data = .)) %>%
+  ungroup()
+
+# print
+results_by_site %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+```
+
+## Meta analysis
+
+Notes on meta analysed effect size:
+
+Credibility intervals refer to the interval of effect sizes likely to be observed in a future study on the basis of the width of estimation of the true effect size combined with variation in this true effect size (e.g., due to heterogeneity). 
+
+Notes on heterogeneity metrics:
+
+- Q and its p value: A measure of weighted squared deviations. Depends on number of studies.
+- tau^2: Population between-studies variance, ie estimated amount of total true heterogeneity in the effect. Is on the same scale as the meta analysed effect size (e.g., Cohen's d).
+- I^2: Percentage of variation in the observed effects that is due to true heterogeneity (as quantified by tau^2) as opposed to sampling variation. Metric is therefore a description of data in sample, not an underlying quality associated with the true effect. Can be thought of as analogous to the reliability of a scale, which also represents the percentage of true variance as portion of total variance. Range 0-100, lower values preferable. E.g., 0 = no variability in observed effects to be explained as a systematic influence (e.g., some due to some moderator) as its all just sampling variation. Does not depend on the effect size scale or the number of studies.
+- H^2: Total variability / sampling variability, i.e., (true variability / sampling variability)/sampling variability. Lower values preferable, i.e., refer to less true variation to be explained as systematic (e.g., due to some moderator).
+
+```{r}
+
+data_for_meta <- results_by_site %>%
+  mutate(yi = cohens_d, 
+         sei = cohens_d_se) %>%
+  select(data_collection_site, yi, sei)
+
+# meta analyse results
+meta_results <- meta_analysis_workflow(data              = data_for_meta,
+                                       effect_size_label = "Cohen's d",
+                                       reference_line    = 0,
+                                       plot = TRUE)
+
+```
+
+- Meta anaysis results: `r meta_results$meta_analysis_results_text`
+- Heterogeneity tests: `r meta_results$heterogeneity_test_results_text`
+
+# Exclusion strategy 2: Bar-Anan, De-Houwer & Nosek (2010)
+
+## Analyses by site
+
+additional exclusions needed!!!
+
+```{r}
+
+# do exclusions
+data_for_analysis <- data_processed %>%
+  filter(exclude_surveillance == FALSE & simulated_data == FALSE) %>%
+  mutate(DV = sum_score_evaluation_CS1_preferred,
+         IV = condition)
+
+# apply analyses to each site
+results_by_site <- data_for_analysis %>%
+  group_by(data_collection_site) %>%
+  do(analysis_workflow(data = .)) %>%
+  ungroup()
+
+# print
+results_by_site %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+```
+
+## Meta analysis
+
+```{r}
+
+data_for_meta <- results_by_site %>%
+  mutate(yi = cohens_d, 
+         sei = cohens_d_se) %>%
+  select(data_collection_site, yi, sei)
+
+# meta analyse results
+meta_results <- meta_analysis_workflow(data              = data_for_meta,
+                                       effect_size_label = "Cohen's d",
+                                       reference_line    = 0,
+                                       plot = TRUE)
+
+```
+
+- Meta anaysis results: `r meta_results$meta_analysis_results_text`
+- Heterogeneity tests: `r meta_results$heterogeneity_test_results_text`
+
+# Exclusion strategy 3: Hybrid strategy
+
+## Analyses by site
+
+additional exclusions needed!!!
+
+```{r}
+
+# do exclusions
+data_for_analysis <- data_processed %>%
+  filter(exclude_surveillance == FALSE & simulated_data == FALSE) %>%
+  mutate(DV = sum_score_evaluation_CS1_preferred,
+         IV = condition)
+
+# apply analyses to each site
+results_by_site <- data_for_analysis %>%
+  group_by(data_collection_site) %>%
+  do(analysis_workflow(data = .)) %>%
+  ungroup()
+
+# print
+results_by_site %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+```
+
+## Meta analysis
+
+```{r}
+
+data_for_meta <- results_by_site %>%
+  mutate(yi = cohens_d, 
+         sei = cohens_d_se) %>%
+  select(data_collection_site, yi, sei)
+
+# meta analyse results
+meta_results <- meta_analysis_workflow(data              = data_for_meta,
+                                       effect_size_label = "Cohen's d",
+                                       reference_line    = 0,
+                                       plot = TRUE)
+
+```
+
+- Meta anaysis results: `r meta_results$meta_analysis_results_text`
+- Heterogeneity tests: `r meta_results$heterogeneity_test_results_text`
+

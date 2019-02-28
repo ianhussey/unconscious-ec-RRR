@@ -27,7 +27,7 @@
     <Param name="colorSpace" updates="None" val="rgb" valType="str"/>
     <Param name="expName" updates="None" val="ec_RRR" valType="str"/>
     <Param name="exportHTML" updates="None" val="on Sync" valType="str"/>
-    <Param name="logging level" updates="None" val="exp" valType="code"/>
+    <Param name="logging level" updates="None" val="error" valType="code"/>
   </Settings>
   <Routines>
     <Routine name="surveillance_trial">
@@ -47,7 +47,7 @@
       </CodeComponent>
       <KeyboardComponent name="surveillance_response">
         <Param name="allowedKeys" updates="constant" val="'space', 'None'" valType="code"/>
-        <Param name="correctAns" updates="constant" val="$correct_response" valType="str"/>
+        <Param name="correctAns" updates="constant" val="$surveillance_correct_response" valType="str"/>
         <Param name="discard previous" updates="constant" val="True" valType="bool"/>
         <Param name="durationEstim" updates="None" val="1.5" valType="code"/>
         <Param name="forceEndRoutine" updates="constant" val="False" valType="bool"/>
@@ -380,7 +380,7 @@
       </CodeComponent>
       <KeyboardComponent name="evaluation_response">
         <Param name="allowedKeys" updates="constant" val="'e', 'i'" valType="code"/>
-        <Param name="correctAns" updates="constant" val="$response_indicating_CS1_preferred" valType="str"/>
+        <Param name="correctAns" updates="constant" val="$evaluation_response_indicating_CS1_preferred" valType="str"/>
         <Param name="discard previous" updates="constant" val="True" valType="bool"/>
         <Param name="durationEstim" updates="None" val="" valType="code"/>
         <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
@@ -524,6 +524,17 @@
     </Routine>
   </Routines>
   <Flow>
+    <LoopInitiator loopType="TrialHandler" name="record_data_collection_site_variable">
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('data_collection_site', 'e.g., Unkelbach')])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="data_collection_site.xlsx" valType="str"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="False" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="1" valType="code"/>
+      <Param name="name" updates="None" val="record_data_collection_site_variable" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
     <LoopInitiator loopType="TrialHandler" name="surveillance_instructions_loop">
       <Param name="Selected rows" updates="None" val="0:3" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
@@ -666,5 +677,6 @@
     </LoopInitiator>
     <Routine name="instructions"/>
     <LoopTerminator name="end_message_loop"/>
+    <LoopTerminator name="record_data_collection_site_variable"/>
   </Flow>
 </PsychoPy2experiment>

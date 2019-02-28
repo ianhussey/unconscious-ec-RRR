@@ -101,7 +101,7 @@ generate_block_file <- function(target_name){
                                       ifelse(grepl("target", stimulus), "target",
                                              ifelse(grepl("cs", stimulus), "CSUS", NA)))),
            target_trial = ifelse(grepl("target", trial_type), TRUE, FALSE),
-           correct_response = ifelse(target_trial == TRUE, "space", "None")) %>%
+           surveillance_correct_response = ifelse(target_trial == TRUE, "space", "None")) %>%
     write_csv(., paste0("trials/surveillance_trials_participant_", i, "_condition_", condition, "_", target_name, ".csv"))
 }
 
@@ -241,8 +241,8 @@ generate_block_file_2 <- function(){
                                     "stimuli/evaluation_stimuli_filler_18.jpg" = "f",
                                     "stimuli/evaluation_stimuli_filler_19.jpg" = "t",
                                     "stimuli/evaluation_stimuli_filler_20.jpg" = "t"),
-           response_indicating_CS1_preferred = ifelse(left_stimulus == "CS1" | right_stimulus == "CS2", "e", 
-                                                      ifelse(right_stimulus == "CS1" | left_stimulus == "CS2", "i", "None"))) %>%
+           evaluation_response_indicating_CS1_preferred = ifelse(left_stimulus == "CS1" | right_stimulus == "CS2", "e", 
+                                                                 ifelse(right_stimulus == "CS1" | left_stimulus == "CS2", "i", "None"))) %>%
     write_csv(., paste0("trials/evaluation_trials_participant_", i, ".csv"))
 }
 

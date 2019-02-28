@@ -23,6 +23,8 @@
 
 In order to change all text used within the experiment to your local language, translate the text in the files `filler_1.xlsx`, `filler_2.xlsx`, `instructions.xlsx`, `instructions_evaluation.xlsx`, and `instructions_surveillance.xlsx`. The PsychoPy script will pull text from these files to be used in the study. Ensure you preserve line breaks etc used in the files so that they are presented correctly on screen. Cells that you should not alter are protected to prevent accidential changes.
 
+NB **please do not modify** `data_collection_site.xlsx`. The materials have been provided to you with this variable already customised and predefined for your site, which will be used for data processing and analysis.
+
 #### Stimuli
 
 Stimuli should be pre-rated in a seperate sample from the population you will collect data from. The least familiar and most neutral stimuli should be selected for inclusion in the study. If it isn't possible to pre-rate stimuli, we have provided stimuli that we have pre-rated using an online sample. You should already have discussed this step with Tal when you agreed with her to collect data for this study - if not, please touch base with her. If your data from pre-ratings suggests that different stimuli should be used to those employed here, please contact Tal for advice on how to make these changes in a way that conforms to the precise requests of the original authors.  
@@ -37,7 +39,23 @@ Stimuli should be pre-rated in a seperate sample from the population you will co
 
 ## To do
 
-- What counterbalancing options are needed other than CS1-pos vs CS2-pos?
+- two participant columns?
+- highest point of filler 2 is still 7 not 5, despite code saying 5?
+- awareness task still needed!
+- processing code has sections to be removed (commented with !!!)
+- adjust how to as we'll construct materials ourselves
+- post experiment questionnaire
+  - some processing to be done by the labs
+- familiarity scale to be processed, but its exploratory.
+- add awareness exclusions to analysis and data processing
+- Three sets of analyses will be carried out:
+  - One including all participants
+  - One excluding aware participants using the Olson & Fazio procedure
+  - One excluding aware participants using Bar-Anan, De-Houwer & Nosek (2010) procedure.
+  - Both of the above
+- change meta to hedge's g?
+
+
 
 
 

@@ -43,7 +43,7 @@ Stimuli should be pre-rated in a seperate sample from the population you will co
 - highest point of filler 2 is still 7 not 5, despite code saying 5?
 - awareness task still needed!
 - processing code has sections to be removed (commented with !!!)
-- adjust how to as we'll construct materials ourselves
+- adjust how to say we'll construct materials ourselves
 - post experiment questionnaire
   - some processing to be done by the labs
 - familiarity scale to be processed, but its exploratory.

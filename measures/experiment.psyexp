@@ -297,6 +297,27 @@
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
+      <TextComponent name="awareness_2_trial">
+        <Param name="color" updates="constant" val="white" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.1" valType="code"/>
+        <Param name="name" updates="None" val="awareness_2_trial" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, -0.5)" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="1.0" valType="code"/>
+        <Param name="text" updates="constant" val="press" valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+      </TextComponent>
     </Routine>
     <Routine name="filler_2">
       <CodeComponent name="code_filler_2">
@@ -522,6 +543,167 @@
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
     </Routine>
+    <Routine name="awareness_1_trial">
+      <CodeComponent name="code_awareness_1">
+        <Param name="Begin Experiment" updates="constant" val="inputText = &quot;&quot;" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="theseKeys=&quot;&quot;&amp;#10;shift_flag = False&amp;#10;awareness_1_show_response.alignHoriz ='left'&amp;#10;&amp;#10;# write this value to disk&amp;#10;thisExp.addData('condition', condition)&amp;#10;&amp;#10;# simulate responses using ResponseEmulator, for testing&amp;#10;if monkey:&amp;#10;    simulated_responses = [(2, 'return')]&amp;#10;    responder = ResponseEmulator(simulated_responses)&amp;#10;    responder.start()" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="n = len(theseKeys)&amp;#10;i = 0&amp;#10;while i &lt; n:&amp;#10;&amp;#10;# pressing RETURN ends the trial&amp;#10;    if theseKeys[i] == 'return':&amp;#10;        continueRoutine = False&amp;#10;        break&amp;#10;&amp;#10;# lose the final character&amp;#10;    elif theseKeys[i] == 'backspace':&amp;#10;        inputText = inputText[:-1]  &amp;#10;        i = i + 1&amp;#10;&amp;#10;    elif theseKeys[i] == 'space':&amp;#10;        inputText += ' '&amp;#10;        i = i + 1&amp;#10;&amp;#10;    elif theseKeys[i] == 'period':&amp;#10;        inputText += '.'&amp;#10;        i = i + 1&amp;#10;&amp;#10;    elif theseKeys[i] == 'comma':&amp;#10;        inputText += ','&amp;#10;        i = i + 1&amp;#10;&amp;#10;    elif theseKeys[i] == 'question':&amp;#10;        inputText += '?'&amp;#10;        i = i + 1&amp;#10;&amp;#10;    elif theseKeys[i] == 'doublequote':&amp;#10;        inputText += '&quot;'&amp;#10;        i = i + 1&amp;#10;&amp;#10;    elif theseKeys[i] == 'apostrophe':&amp;#10;        inputText += &quot;'&quot;&amp;#10;        i = i + 1&amp;#10;&amp;#10;    elif theseKeys[i] in ['lshift', 'rshift']:&amp;#10;        shift_flag = True&amp;#10;        i = i + 1&amp;#10;&amp;#10;    else:&amp;#10;        if len(theseKeys[i]) == 1:&amp;#10;            # we only have 1 char so should be a normal key, &amp;#10;            # otherwise it might be 'ctrl' or similar so ignore it&amp;#10;            if shift_flag:&amp;#10;                inputText += chr( ord(theseKeys[i]) - ord(' '))&amp;#10;                shift_flag = False&amp;#10;            else:&amp;#10;                inputText += theseKeys[i]&amp;#10;&amp;#10;        i = i + 1&amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="# let's store the final text string into the results finle...&amp;#10;thisExp.addData('inputText', inputText)&amp;#10;inputText=&quot;&quot;" valType="extendedCode"/>
+        <Param name="name" updates="None" val="code_awareness_1" valType="code"/>
+      </CodeComponent>
+      <PolygonComponent name="box">
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="fillColor" updates="constant" val="lightgrey" valType="str"/>
+        <Param name="fillColorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="interpolate" updates="constant" val="linear" valType="str"/>
+        <Param name="lineColor" updates="constant" val="black" valType="str"/>
+        <Param name="lineColorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="lineWidth" updates="constant" val="2" valType="code"/>
+        <Param name="nVertices" updates="constant" val="4" valType="int"/>
+        <Param name="name" updates="None" val="box" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="[0, -0.15]" valType="code"/>
+        <Param name="shape" updates="constant" val="rectangle" valType="str"/>
+        <Param name="size" updates="constant" val="(1.1, 0.4)" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+      </PolygonComponent>
+      <TextComponent name="awareness_1_question">
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.03" valType="code"/>
+        <Param name="name" updates="None" val="awareness_1_question" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, 0.25)" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="text" updates="set every repeat" val="$awareness_1_question_text" valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+      </TextComponent>
+      <TextComponent name="awareness_1_show_response">
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.03" valType="code"/>
+        <Param name="name" updates="None" val="awareness_1_show_response" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="[-0.5, -0.15]" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="text" updates="set every frame" val="$(inputText)" valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+      </TextComponent>
+      <KeyboardComponent name="awareness_1_response">
+        <Param name="allowedKeys" updates="constant" val="" valType="code"/>
+        <Param name="correctAns" updates="constant" val="" valType="str"/>
+        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="forceEndRoutine" updates="constant" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="awareness_1_response" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="store" updates="constant" val="all keys" valType="str"/>
+        <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
+        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
+      </KeyboardComponent>
+    </Routine>
+    <Routine name="awareness_2_trial">
+      <CodeComponent name="code_awareness_2">
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# simulate responses using ResponseEmulator, for testing&amp;#10;if monkey:&amp;#10;    simulated_responses = [(0.3, '1'), (0.6, 'return')]&amp;#10;    responder = ResponseEmulator(simulated_responses)&amp;#10;    responder.start()&amp;#10;&amp;#10;# write this value to disk&amp;#10;thisExp.addData('condition', condition)" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="name" updates="None" val="code_awareness_2" valType="code"/>
+      </CodeComponent>
+      <RatingScaleComponent name="awareness_2_rating">
+        <Param name="categoryChoices" updates="constant" val="" valType="str"/>
+        <Param name="customize_everything" updates="constant" val="lineColor='Black', textColor='Black', scale=None" valType="str"/>
+        <Param name="disappear" updates="constant" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
+        <Param name="high" updates="constant" val="awareness_2_response_max" valType="code"/>
+        <Param name="labels" updates="constant" val="Strong disagreement, Strong agreement" valType="str"/>
+        <Param name="low" updates="constant" val="1" valType="code"/>
+        <Param name="marker" updates="constant" val="triangle" valType="str"/>
+        <Param name="markerStart" updates="constant" val="" valType="str"/>
+        <Param name="name" updates="None" val="awareness_2_rating" valType="code"/>
+        <Param name="pos" updates="constant" val="0, -0.4" valType="str"/>
+        <Param name="scaleDescription" updates="constant" val="" valType="str"/>
+        <Param name="showAccept" updates="constant" val="True" valType="bool"/>
+        <Param name="singleClick" updates="constant" val="False" valType="bool"/>
+        <Param name="size" updates="constant" val="2.0" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="condition" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="storeHistory" updates="constant" val="False" valType="bool"/>
+        <Param name="storeRating" updates="constant" val="True" valType="bool"/>
+        <Param name="storeRatingTime" updates="constant" val="True" valType="bool"/>
+        <Param name="tickHeight" updates="constant" val="" valType="str"/>
+        <Param name="visualAnalogScale" updates="constant" val="False" valType="bool"/>
+      </RatingScaleComponent>
+      <TextComponent name="awareness_2_text">
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.03" valType="code"/>
+        <Param name="name" updates="None" val="awareness_2_text" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, 0.2)" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="text" updates="set every repeat" val="$awareness_2_question_text" valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+      </TextComponent>
+    </Routine>
   </Routines>
   <Flow>
     <LoopInitiator loopType="TrialHandler" name="record_data_collection_site_variable">
@@ -664,8 +846,47 @@
     <Routine name="evaluation_trial"/>
     <LoopTerminator name="evaluation_trials"/>
     <LoopTerminator name="evaluation_loop"/>
-    <LoopInitiator loopType="TrialHandler" name="end_message_loop">
+    <LoopInitiator loopType="TrialHandler" name="awareness_instructions_loop">
       <Param name="Selected rows" updates="None" val="8:9" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('instructions_text', &quot;Imagine that you are a security guard watching for deviant activity at a business. Your job requires that you pay attention at all times, and respond quickly when something suspicious happens.  \n\nIn our lab we study attention and rapid responding, and in this experiment you'll be asked to play the role of the security guard. \n\nSpecifically, you will be attending to a number of items presented on the computer screen, and you'll be responding as quickly as  possible when a target item appears by pressing the spacebar.  \n\n\nPress the spacebar to continue&quot;)]), OrderedDict([('instructions_text', &quot;The target item will appear at random several times throughout the experiment. The target item may appear as an image or as a name.  So be sure to pay attention at all times and focus on the screen, because you never know when the target item will appear.  \n\nA number of filler items that we've selected from our stimulus pool will also be shown randomly to make the task more challenging. These distractors are both pictures and words that were just randomly picked from our collection.  \n\nSometimes two images will appear on the screen at the same time, and sometimes only one image will appear.  Be sure to hit the spacebar only when the target appears.  \n\nThe target might appear anywhere on the screen as well, and it might also appear with other images. So whenever you see a target image or name anywhere on the screen, hit the spacebar.  \n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'The items will be displayed rapidly, so make sure that when you see a target, you hit the spacebar before it disappears.  \n\nAgain, be sure to pay close attention throughout the experiment so that you can respond as quickly and accurately as possible.  \n\nThere will be five separate surveillance tasks of about 4 minutes each.  \n\nEach task will have a different target, and all of the target items will be cartoon creatures. \n\n\nPress the spacebar to continue.')]), OrderedDict([('instructions_text', 'Next, we are going to ask you a number of questions. ')]), OrderedDict([('instructions_text', 'For each of the following statements please indicate to what extent they apply to you.\n\nPlease note that there are no right or wrong answers.')]), OrderedDict([('instructions_text', 'For each of the following statements please indicate to what extent they are characteristic of you.\n\nPlease note that there are no right or wrong answers.')]), OrderedDict([('instructions_text', &quot;Next, you'll be presented with 30 pairs of target and filler creatures from the surveillance tasks, and we'd like you to indicate which one you like better. \n\nYou don't need a reason for liking one rather than the other, just give us your gut feelings.\n\nWe are interested in knowing if the pleasantness or unpleasantness of these stimuli affects the ability to attend and rapidly respond to them, so we need you to indicate which you prefer.  \n\nRemember, you don't need a reason for liking one rather than the other, so just go with your gut. Please respond quickly.\n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'Put a left finger on the E key and a right finger in the I key.\n\nIf you prefer the creature on the left, press E.\n\nIf you prefer the creature on the right, press I.\n\n\nPress the spacebar to continue.')]), OrderedDict([('instructions_text', &quot;Lastly, we'll ask you a small number of questions, and then the study will end.&quot;)]), OrderedDict([('instructions_text', 'The experiment is now complete.\n\nPress the spacebar to finish.')])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="False" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="1" valType="code"/>
+      <Param name="name" updates="None" val="awareness_instructions_loop" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="instructions"/>
+    <LoopTerminator name="awareness_instructions_loop"/>
+    <LoopInitiator loopType="TrialHandler" name="awareness_1_trials_loop">
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('awareness_1_question_text', 'Think back to the very first part of the experiment. Did you notice anything out of the ordinary in the way the words and pictures were presented during the surveillance tasks?')]), OrderedDict([('awareness_1_question_text', 'Did you notice anything systematic about how particular words and images appeared together during the surveillance tasks?')]), OrderedDict([('awareness_1_question_text', 'Did you notice anything about the words and images that appeared with certain cartoon creatures? ')])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="awareness_1.xlsx" valType="str"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="1" valType="code"/>
+      <Param name="name" updates="None" val="awareness_1_trials_loop" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="awareness_1_trial"/>
+    <LoopTerminator name="awareness_1_trials_loop"/>
+    <LoopInitiator loopType="TrialHandler" name="awareness_2_trials_loop">
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('awareness_2_question_text', 'For some participants, during the first task, there was one cartoon creature that always appeared with positive images and words, and one that always appeared with negative images and words. Do you think it happened in your case?\n\n1 = No, I did not notice if that happened in my task\n2 = Yes, that happened in my task\n\nClick the line, then confirm your choice by clicking the grey button below.'), ('awareness_2_response_max', 2)]), OrderedDict([('awareness_2_question_text', 'During the first task, which of the two characters was consistently presented with POSITIVE images and words? \n\n1 = BERGMITE (certainly)\n2 = BERGMITE (probably)\n3 = BERGMITE (guess)\n4 = GOLETT (guess)\n5 = GOLETT (probably)\n6 = GOLETT (certainly)\n\nClick the line, then confirm your choice by clicking the grey button below.'), ('awareness_2_response_max', 6)]), OrderedDict([('awareness_2_question_text', 'During the first task, which of the two characters was consistently presented with NEGATIVE images and words? \n\n1 = BERGMITE (certainly)\n2 = BERGMITE (probably)\n3 = BERGMITE (guess)\n4 = GOLETT (guess)\n5 = GOLETT (probably)\n6 = GOLETT (certainly)\n\nClick the line, then confirm your choice by clicking the grey button below.'), ('awareness_2_response_max', 6)]), OrderedDict([('awareness_2_question_text', 'How familiar were you with the cartoon creatures that appeared in the surveillance tasks?  \n\n1 = Not Familiar at all\n2\n3\n4\n5\n6\n7\n9 = Very Familiar\n\nClick the line, then confirm your choice by clicking the grey button below.'), ('awareness_2_response_max', 9)])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="awareness_2.xlsx" valType="str"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="1" valType="code"/>
+      <Param name="name" updates="None" val="awareness_2_trials_loop" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="awareness_2_trial_2"/>
+    <LoopTerminator name="awareness_2_trials_loop"/>
+    <LoopInitiator loopType="TrialHandler" name="end_message_loop">
+      <Param name="Selected rows" updates="None" val="9:10" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
       <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>

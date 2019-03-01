@@ -253,7 +253,7 @@ generate_block_file_2 <- function(){
 ```{r}
 
 ## Create data for N participants
-n_participants <- 150
+n_participants <- 250
 
 
 # create the trials folder if it doens't already exist

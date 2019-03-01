@@ -1,0 +1,4 @@
+date	time	subject	blockcode	blocknum	trialcode	trialnum	latency	correct	pretrialpause	posttrialpause	response	Face	Face
+022819	17:00:00	1	begin	1	pause	1	1000	0	0	0	0		
+022819	17:10:35	1	begin	1	pause	1	1000	0	0	0	0		
+030119	12:01:15	1	begin	1	pause	1	1000	0	0	0	0		

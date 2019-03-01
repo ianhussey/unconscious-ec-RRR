@@ -99,7 +99,8 @@ data_trimmed <- data_raw %>%
   rename(filler_1_rating = filler_1_rating.response,
          filler_2_rating = filler_2_rating.response,
          surveillance_response_correct = surveillance_response.corr,
-         evaluation_CS1_preferred = evaluation_response.corr) %>%
+         evaluation_CS1_preferred = evaluation_response.corr,
+         awareness_1_response = awareness_1_response.key) %>%
   mutate(simulated_data = ifelse(UseMonkey == "y", TRUE, FALSE),
          unique_id = paste(data_collection_site, participant, sep = "_")) %>%
   select(unique_id, age, gender,
@@ -115,7 +116,8 @@ data_trimmed <- data_raw %>%
          evaluation_response_indicating_CS1_preferred,
          evaluation_CS1_preferred,
          left_stimulus,
-         right_stimulus)
+         right_stimulus,
+         awareness_1_response)
 
          # to be added!!!!!
          # %>%

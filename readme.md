@@ -54,6 +54,7 @@ Stimuli should be pre-rated in a seperate sample from the population you will co
   - One excluding aware participants using Bar-Anan, De-Houwer & Nosek (2010) procedure.
   - Both of the above
 - change meta to hedge's g?
+- scoring of awareness 2 needed, with regard to condition and correctness. are probably responses allowed?
 
 
 

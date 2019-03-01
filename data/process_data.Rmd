@@ -94,13 +94,17 @@ data_raw <- dplyr::bind_rows(data_raw_list)
 
 ```{r}
 
-# colnames(data_trimmed)
+#colnames(data_raw)
+
 data_trimmed <- data_raw %>%
   rename(filler_1_rating = filler_1_rating.response,
          filler_2_rating = filler_2_rating.response,
          surveillance_response_correct = surveillance_response.corr,
          evaluation_CS1_preferred = evaluation_response.corr,
-         awareness_1_response = awareness_1_response.key) %>%
+         awareness_1_question = awareness_1_trials_loop.thisTrialN,
+         awareness_1_response = awareness_1_response.keys,
+         awareness_2_question = awareness_2_trials_loop.thisTrialN,
+         awareness_2_response = awareness_type_2_rating.response) %>%
   mutate(simulated_data = ifelse(UseMonkey == "y", TRUE, FALSE),
          unique_id = paste(data_collection_site, participant, sep = "_")) %>%
   select(unique_id, age, gender,
@@ -117,7 +121,10 @@ data_trimmed <- data_raw %>%
          evaluation_CS1_preferred,
          left_stimulus,
          right_stimulus,
-         awareness_1_response)
+         awareness_1_question,
+         awareness_1_response,
+         awareness_2_question,
+         awareness_2_response)
 
          # to be added!!!!!
          # %>%
@@ -157,13 +164,74 @@ data_evaluation <- data_trimmed %>%
   summarize(sum_score_evaluation_CS1_preferred = sum(evaluation_CS1_preferred)) %>%
   ungroup()
 
+# function to convert the keypresses captured in psychopy to a human readable string
+psychopy_text_to_string <- function(vector_input){
+  
+  # remove shift key responses
+  vector_input <- vector_input %>%
+    unlist() %>%
+    str_replace_all(., "lshift", "") %>%
+    str_replace_all(., "rshift", "")
+
+  # apply participants' backspaces 
+  while ( !is.na(match("backspace", vector_input)) ) {
+    location_backspace      <- match("backspace", vector_input)
+    location_previous       <- location_backspace - 1
+    locations_to_be_deleted <- append(location_backspace, location_previous)
+    vector_input            <- vector_input[-locations_to_be_deleted]
+  }
+  
+  # convert puntuation to characters and collapse string
+  vector_input <- vector_input %>%
+    str_replace_all(., "return",      "")  %>%
+    str_replace_all(., "period",      ".") %>%
+    str_replace_all(., "comma",       ",") %>%
+    str_replace_all(., "space",       " ") %>%
+    str_replace_all(., "question",    "?") %>%
+    str_replace_all(., "doublequote", "'") %>%
+    str_replace_all(., "apostrophe",  "'") %>%
+    paste(., collapse = "")
+  
+  return(vector_input)
+}
+
+data_awareness_1 <- data_trimmed %>%
+  mutate(awareness_1_response = ifelse(awareness_1_response == "", NA, awareness_1_response)) %>%
+  filter(!is.na(awareness_1_response)) %>%
+  mutate(awareness_1_response = str_remove_all(awareness_1_response, "\\["),
+         awareness_1_response = str_remove_all(awareness_1_response, "\\]"),
+         awareness_1_response = str_remove_all(awareness_1_response, "'"),
+         awareness_1_response = str_split(awareness_1_response, pattern = ", ")) %>%
+  rowwise() %>%
+  mutate(awareness_1_response = psychopy_text_to_string(awareness_1_response)) %>%
+  ungroup() %>%
+  select(unique_id, awareness_1_question, awareness_1_response) %>%
+  mutate(awareness_1_question = recode(awareness_1_question, 
+                                       "0" = "awareness_1_out_of_ordinary",
+                                       "1" = "awareness_1_systematic",
+                                       "2" = "awareness_1_words_and_images")) %>%
+  spread(awareness_1_question, awareness_1_response)
+
+data_awareness_2 <- data_trimmed %>%
+  filter(!is.na(awareness_2_response)) %>%
+  select(unique_id, awareness_2_question, awareness_2_response) %>%
+  mutate(awareness_2_question = recode(awareness_2_question, 
+                                       "0" = "awareness_2_regularity",
+                                       "1" = "awareness_2_USpos",
+                                       "2" = "awareness_2_USneg",
+                                       "3" = "familiarity"),
+         awareness_2_response = as.numeric(awareness_2_response)) %>%
+  spread(awareness_2_question, awareness_2_response)
+
 # combine 
 data_combined <- data_demographics %>%
   left_join(data_surveillance, by = "unique_id") %>%
   left_join(data_filler_1,     by = "unique_id") %>%
   left_join(data_filler_2,     by = "unique_id") %>%
-  left_join(data_evaluation,   by = "unique_id") 
-
+  left_join(data_evaluation,   by = "unique_id") %>%
+  left_join(data_awareness_1,  by = "unique_id") %>%
+  left_join(data_awareness_2,  by = "unique_id")
+  
 
 
 # sim data for testing - to be removed!!!

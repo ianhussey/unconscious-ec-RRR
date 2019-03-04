@@ -55,6 +55,10 @@ the_directories <-
   list.dirs(path = "raw", full.names = TRUE, recursive = FALSE) %>%
   paste0(., "/")
 
+fread_with_name_checks <- function(input){
+  fread(input = input, check.names = TRUE, header = TRUE)
+}
+
 # function to get all files with the extension ".csv" in a given folder, and read them into a single data frame
 all_csv_files_to_data_frame <- function(the_path){
   require(tidyverse)
@@ -64,7 +68,7 @@ all_csv_files_to_data_frame <- function(the_path){
   data_output <- 
     list.files(path = the_path, pattern = "\\.csv$") %>%
     paste0(the_directories[i], .) %>%
-    lapply(fread, header = TRUE) %>%
+    lapply(fread_with_name_checks) %>%
     rbind.fill() %>%
     as.tibble()
   

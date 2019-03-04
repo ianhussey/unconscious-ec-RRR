@@ -94,8 +94,6 @@ data_raw <- dplyr::bind_rows(data_raw_list)
 
 ```{r}
 
-#colnames(data_raw)
-
 data_trimmed <- data_raw %>%
   rename(filler_1_rating = filler_1_rating.response,
          filler_2_rating = filler_2_rating.response,
@@ -262,16 +260,34 @@ data_exclusions <- data_combined %>%
   ungroup()
   
 # combine exclusion data
-data_processed <- data_combined %>%
+data_intermediate <- data_combined %>%
   left_join(data_exclusions, by = "data_collection_site") %>%
   mutate(exclude_surveillance = ifelse(perc_accuracy_surveillance_response > mean_perc_accuracy_surveillance_response_by_site +
                                          sd_perc_accuracy_surveillance_response_by_site*3 |
                             perc_accuracy_surveillance_response < mean_perc_accuracy_surveillance_response_by_site - 
                               sd_perc_accuracy_surveillance_response_by_site*3,
                           TRUE, FALSE))
-  
+
+# add columns for hand scoring
+data_awareness_1_for_hand_scoring <- data_awareness_1 %>%
+  mutate(awareness_1_out_of_ordinary_scorer_1 = "",
+         awareness_1_out_of_ordinary_scorer_2 = "",
+         awareness_1_systematic_scorer_1 = "",
+         awareness_1_systematic_scorer_2 = "",
+         awareness_1_words_and_images_scorer_1 = "",
+         awareness_1_words_and_images_scorer_2 = "") %>%
+  select(unique_id, 
+         awareness_1_out_of_ordinary, awareness_1_out_of_ordinary_scorer_1, awareness_1_out_of_ordinary_scorer_2, 
+         awareness_1_systematic, awareness_1_systematic_scorer_1, awareness_1_systematic_scorer_2, 
+         awareness_1_words_and_images, awareness_1_words_and_images_scorer_1, awareness_1_words_and_images_scorer_2) 
+
+
 # write to disk
-write_csv(data_processed, "processed/data_processed.csv")
+## data for hand scoring
+write_csv(data_awareness_1_for_hand_scoring, "intermediate/data_for_hand_scoring.csv")
+
+## combined data
+write_csv(data_intermediate, "intermediate/data_intermediate.csv")
 
 ```
 

@@ -1,0 +1,87 @@
+---
+title: "Unconscious EC RRR"
+subtitle: "Process data 2 - integrate hand-scored results"
+author: "Ian Hussey^[Ghent University. Email: ian.hussey@ugent.be]"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    code_folding: hide
+    highlight: haddock
+    number_sections: no
+    theme: flatly
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE)
+
+# options
+options(knitr.table.format = "html") # necessary configuration of tables
+
+# disable scientific notation
+options(scipen = 999) 
+
+```
+
+```{r}
+
+# dependencies
+check_for_and_install_packages <- function(package) {
+  if (!package %in% installed.packages()) install.packages(package)
+}
+
+check_for_and_install_packages("tidyverse")
+check_for_and_install_packages("plyr")
+check_for_and_install_packages("data.table")
+
+library(tidyverse)
+
+```
+
+# Get data
+
+```{r}
+
+# write to disk
+## data for hand scoring
+data_awareness_1_for_hand_scoring <- read.csv("intermediate/data_for_hand_scoring.csv") %>%
+  select(-awareness_1_out_of_ordinary, -awareness_1_systematic, -awareness_1_words_and_images)
+
+## combined data
+data_intermediate <- read.csv("intermediate/data_intermediate.csv") %>%
+  select(-awareness_1_out_of_ordinary, -awareness_1_systematic, -awareness_1_words_and_images)
+
+data_processed <- left_join(data_intermediate, data_awareness_1_for_hand_scoring, by = "unique_id") %>%
+  # create final awareness responses
+  mutate(exclude_aware_olsen_and_fazio = ifelse((awareness_1_out_of_ordinary_scorer_1 == TRUE & awareness_1_out_of_ordinary_scorer_2 == TRUE) |
+                                          (awareness_1_systematic_scorer_1 == TRUE & awareness_1_systematic_scorer_2 == TRUE),
+                                        TRUE, FALSE),
+         exclude_awareness_baranan_dehouwer_nosek = ifelse(awareness_2_regularity == TRUE, TRUE, FALSE),
+         
+         # NEEDS CHECKING HERE !!!
+         # - WAITING ON RESPONSES FROM TAL
+         # - NEED TO DOUBLE CHECK WHETHER BERGAMITE OR GOLETT WAS CS1
+         exclude_awareness_baranan_dehouwer_nosek_modified = ifelse((condition == "CS1_USpos" & 
+                                                                       awareness_2_regularity == TRUE &
+                                                                       awareness_2_USpos %in% c("BERGMITE (certainly)", 
+                                                                                                "BERGMITE (probably)", 
+                                                                                                "BERGMITE (guess)")) |
+                                                                      (condition == "CS1_USneg" & 
+                                                                         awareness_2_regularity == TRUE &
+                                                                         awareness_2_USpos %in% c("GOLETT (certainly)", 
+                                                                                                  "GOLETT (probably)", 
+                                                                                                  "GOLETT (guess)")), 
+                                                                    TRUE, FALSE)) %>%
+  select(-awareness_1_out_of_ordinary_scorer_1, -awareness_1_out_of_ordinary_scorer_2, 
+         -awareness_1_systematic_scorer_1, -awareness_1_systematic_scorer_2,
+         -awareness_1_words_and_images_scorer_1, -awareness_1_words_and_images_scorer_2,
+         -awareness_2_regularity, -awareness_2_USpos, -awareness_2_USneg)
+
+# write to disk
+write_csv(data_processed, "processed/data_processed.csv")
+
+```

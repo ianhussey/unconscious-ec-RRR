@@ -41,22 +41,14 @@ Stimuli should be pre-rated in a seperate sample from the population you will co
 
 - two participant columns?
 - highest point of filler 2 is still 7 not 5, despite code saying 5?
-- awareness task still needed!
 - processing code has sections to be removed (commented with !!!)
-- adjust how to say we'll construct materials ourselves
-- post experiment questionnaire
-  - some processing to be done by the labs
-- familiarity scale to be processed, but its exploratory.
-- add awareness exclusions to analysis and data processing
+- update "how to" to say we'll construct materials ourselves, and to say some processing to be done by the labs
 - Three sets of analyses will be carried out:
-  - One including all participants
   - One excluding aware participants using the Olson & Fazio procedure
   - One excluding aware participants using Bar-Anan, De-Houwer & Nosek (2010) procedure.
-  - Both of the above
-- change meta to hedge's g?
-- scoring of awareness 2 needed, with regard to condition and correctness. are probably responses allowed?
-
-
+  - Bar-Anan modified
+    - implement these
+    - note in prereg which is the replicaiton, and which are our extensions
 
 
 

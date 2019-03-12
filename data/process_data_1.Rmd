@@ -89,8 +89,8 @@ for(i in seq_along(the_directories)){
 ## flatten list
 data_raw <- dplyr::bind_rows(data_raw_list)
 
-# detach("package:plyr", unload=TRUE)
-# detach("package:data.table", unload=TRUE)
+detach("package:plyr", unload=TRUE)
+detach("package:data.table", unload=TRUE)
 
 ```
 
@@ -98,40 +98,50 @@ data_raw <- dplyr::bind_rows(data_raw_list)
 
 ```{r}
 
-data_trimmed <- data_raw %>%
-  rename(filler_1_rating = filler_1_rating.response,
-         filler_2_rating = filler_2_rating.response,
-         surveillance_response_correct = surveillance_response.corr,
-         evaluation_CS1_preferred = evaluation_response.corr,
-         awareness_1_question = awareness_1_trials_loop.thisTrialN,
-         awareness_1_response = awareness_1_response.keys,
-         awareness_2_question = awareness_2_trials_loop.thisTrialN,
-         awareness_2_response = awareness_type_2_rating.response) %>%
-  mutate(simulated_data = ifelse(UseMonkey == "y", TRUE, FALSE),
-         unique_id = paste(data_collection_site, participant, sep = "_")) %>%
-  select(unique_id, age, gender,
-         data_collection_site,
-         condition,
-         simulated_data,
-         # surveillance task
-         surveillance_response_correct,
-         # filler task
-         filler_1_rating,
-         filler_2_rating,
-         # evaluation task
-         evaluation_response_indicating_CS1_preferred,
-         evaluation_CS1_preferred,
-         left_stimulus,
-         right_stimulus,
-         awareness_1_question,
-         awareness_1_response,
-         awareness_2_question,
-         awareness_2_response)
+colnames(data_raw)
 
-         # to be added!!!!!
-         # %>%
-         #   # filter out simulated data
-         #   filter(simulated_data == FALSE)
+data_trimmed <- data_raw %>%
+  dplyr::rename(filler_1_rating = filler_1_rating.response,
+                filler_2_rating = filler_2_rating.response,
+                surveillance_response_correct = surveillance_response.corr,
+                evaluation_CS1_preferred = evaluation_response.corr,
+                awareness_1_question = awareness_1_trials_loop.thisTrialN,
+                awareness_1_response = awareness_1_response.keys,
+                awareness_2a_question = awareness_2a_trials_loop.thisTrialN,
+                awareness_2a_response = awareness_type_2a_rating.response,
+                awareness_2b_question = awareness_2b_trials_loop.thisTrialN,
+                awareness_2b_response = awareness_type_2b_rating.response,
+                awareness_2c_question = awareness_2c_trials_loop.thisTrialN,
+                awareness_2c_response = awareness_type_2c_rating.response) %>%
+  dplyr::mutate(simulated_data = ifelse(UseMonkey == "y", TRUE, FALSE),
+                unique_id = paste(data_collection_site, participant, sep = "_")) %>%
+  dplyr::select(unique_id, age, gender,
+                data_collection_site,
+                condition,
+                simulated_data,
+                # surveillance task
+                surveillance_response_correct,
+                # filler task
+                filler_1_rating,
+                filler_2_rating,
+                # evaluation task
+                evaluation_response_indicating_CS1_preferred,
+                evaluation_CS1_preferred,
+                left_stimulus,
+                right_stimulus,
+                awareness_1_question,
+                awareness_1_response,
+                awareness_2a_question,
+                awareness_2a_response,
+                awareness_2b_question,
+                awareness_2b_response,
+                awareness_2c_question,
+                awareness_2c_response)
+
+# to be added!!!!!
+# %>%
+#   # filter out simulated data
+#   filter(simulated_data == FALSE)
 
 # process data from each task
 data_demographics <- data_trimmed %>%
@@ -174,7 +184,7 @@ psychopy_text_to_string <- function(vector_input){
     unlist() %>%
     str_replace_all(., "lshift", "") %>%
     str_replace_all(., "rshift", "")
-
+  
   # apply participants' backspaces 
   while ( !is.na(match("backspace", vector_input)) ) {
     location_backspace      <- match("backspace", vector_input)
@@ -214,26 +224,42 @@ data_awareness_1 <- data_trimmed %>%
                                        "2" = "awareness_1_words_and_images")) %>%
   spread(awareness_1_question, awareness_1_response)
 
-data_awareness_2 <- data_trimmed %>%
-  filter(!is.na(awareness_2_response)) %>%
-  select(unique_id, awareness_2_question, awareness_2_response) %>%
-  mutate(awareness_2_question = recode(awareness_2_question, 
-                                       "0" = "awareness_2_regularity",
-                                       "1" = "awareness_2_USpos",
-                                       "2" = "awareness_2_USneg",
-                                       "3" = "familiarity"),
-         awareness_2_response = as.numeric(awareness_2_response)) %>%
-  spread(awareness_2_question, awareness_2_response)
+data_awareness_2a <- data_trimmed %>%
+  filter(!is.na(awareness_2a_response)) %>%
+  select(unique_id, awareness_2a_question, awareness_2a_response) %>%
+  mutate(awareness_2a_question = recode(awareness_2a_question, 
+                                       "0" = "awareness_2_regularity"),
+         awareness_2a_response = as.numeric(awareness_2a_response)) %>%
+  spread(awareness_2a_question, awareness_2a_response)
+
+data_awareness_2b <- data_trimmed %>%
+  filter(!is.na(awareness_2b_response)) %>%
+  select(unique_id, awareness_2b_question, awareness_2b_response) %>%
+  mutate(awareness_2b_question = recode(awareness_2b_question, 
+                                       "0" = "awareness_2_USpos",
+                                       "1" = "awareness_2_USneg"),
+         awareness_2b_response = as.numeric(awareness_2b_response)) %>%
+  spread(awareness_2b_question, awareness_2b_response)
+
+data_awareness_2c <- data_trimmed %>%
+  filter(!is.na(awareness_2c_response)) %>%
+  select(unique_id, awareness_2c_question, awareness_2c_response) %>%
+  mutate(awareness_2c_question = recode(awareness_2c_question, 
+                                       "0" = "familiarity"),
+         awareness_2c_response = as.numeric(awareness_2c_response)) %>%
+  spread(awareness_2c_question, awareness_2c_response)
 
 # combine 
 data_combined <- data_demographics %>%
-  left_join(data_surveillance, by = "unique_id") %>%
-  left_join(data_filler_1,     by = "unique_id") %>%
-  left_join(data_filler_2,     by = "unique_id") %>%
-  left_join(data_evaluation,   by = "unique_id") %>%
-  left_join(data_awareness_1,  by = "unique_id") %>%
-  left_join(data_awareness_2,  by = "unique_id")
-  
+  left_join(data_surveillance,  by = "unique_id") %>%
+  left_join(data_filler_1,      by = "unique_id") %>%
+  left_join(data_filler_2,      by = "unique_id") %>%
+  left_join(data_evaluation,    by = "unique_id") %>%
+  left_join(data_awareness_1,   by = "unique_id") %>%
+  left_join(data_awareness_2a,  by = "unique_id") %>%
+  left_join(data_awareness_2b,  by = "unique_id") %>%
+  left_join(data_awareness_2c,  by = "unique_id")
+
 
 
 # sim data for testing - to be removed!!!
@@ -262,15 +288,15 @@ data_exclusions <- data_combined %>%
   summarize(mean_perc_accuracy_surveillance_response_by_site = round(mean(perc_accuracy_surveillance_response), 2),
             sd_perc_accuracy_surveillance_response_by_site = round(sd(perc_accuracy_surveillance_response), 2)) %>%
   ungroup()
-  
+
 # combine exclusion data
 data_intermediate <- data_combined %>%
   left_join(data_exclusions, by = "data_collection_site") %>%
   mutate(exclude_surveillance = ifelse(perc_accuracy_surveillance_response > mean_perc_accuracy_surveillance_response_by_site +
                                          sd_perc_accuracy_surveillance_response_by_site*3 |
-                            perc_accuracy_surveillance_response < mean_perc_accuracy_surveillance_response_by_site - 
-                              sd_perc_accuracy_surveillance_response_by_site*3,
-                          TRUE, FALSE))
+                                         perc_accuracy_surveillance_response < mean_perc_accuracy_surveillance_response_by_site - 
+                                         sd_perc_accuracy_surveillance_response_by_site*3,
+                                       TRUE, FALSE))
 
 # add columns for hand scoring
 data_awareness_1_for_hand_scoring <- data_awareness_1 %>%
@@ -287,11 +313,11 @@ data_awareness_1_for_hand_scoring <- data_awareness_1 %>%
 
 
 # write to disk
+## combined data without variables to be hand scored
+write_csv(data_intermediate, "intermediate/data_intermediate.csv")
+
 ## data for hand scoring
 write_csv(data_awareness_1_for_hand_scoring, "intermediate/data_for_hand_scoring.csv")
-
-## combined data
-write_csv(data_intermediate, "intermediate/data_intermediate.csv")
 
 ```
 

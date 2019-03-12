@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v3.0.4),
-    on Mon Mar  4 11:51:46 2019
+    on Tue Mar 12 18:40:27 2019
 If you publish work using this script please cite the PsychoPy publications:
     Peirce, JW (2007) PsychoPy - Psychophysics software in Python.
         Journal of Neuroscience Methods, 162(1-2), 8-13.
@@ -136,7 +136,7 @@ surveillance_trialClock = core.Clock()
 surveillance_image = visual.ImageStim(
     win=win, name='surveillance_image',
     image='sin', mask=None,
-    ori=0, pos=(0, 0), size=(1, 0.562),
+    ori=0, pos=(0, 0), size=(1.3, 0.73),
     color=[1,1,1], colorSpace='rgb', opacity=1,
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=-2.0)
@@ -155,7 +155,7 @@ text_instructions = visual.TextStim(win=win, name='text_instructions',
 # Initialize components for Routine "filler_1"
 filler_1Clock = core.Clock()
 
-filler_1_rating = visual.RatingScale(win=win, name='filler_1_rating', lineColor='Black', textColor='Black', scale=None)
+filler_1_rating = visual.RatingScale(win=win, name='filler_1_rating', lineColor='Black', textColor='Black', low=1, high=7, scale="")
 filler_1_text = visual.TextStim(win=win, name='filler_1_text',
     text='default text',
     font='Arial',
@@ -163,13 +163,6 @@ filler_1_text = visual.TextStim(win=win, name='filler_1_text',
     color='black', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
     depth=-2.0);
-awareness_2_trial = visual.TextStim(win=win, name='awareness_2_trial',
-    text='press',
-    font='Arial',
-    pos=(0, -0.5), height=0.1, wrapWidth=None, ori=0, 
-    color='white', colorSpace='rgb', opacity=1, 
-    languageStyle='LTR',
-    depth=-3.0);
 
 # Initialize components for Routine "instructions"
 instructionsClock = core.Clock()
@@ -185,7 +178,7 @@ text_instructions = visual.TextStim(win=win, name='text_instructions',
 # Initialize components for Routine "filler_2"
 filler_2Clock = core.Clock()
 
-filler_2_rating = visual.RatingScale(win=win, name='filler_2_rating', lineColor='Black', textColor='Black', scale=None)
+filler_2_rating = visual.RatingScale(win=win, name='filler_2_rating', lineColor='Black', textColor='Black', low=1, high=5, scale="")
 filler_2_text = visual.TextStim(win=win, name='filler_2_text',
     text='default text',
     font='Arial',
@@ -290,11 +283,35 @@ awareness_type_1_show_response = visual.TextStim(win=win, name='awareness_type_1
     languageStyle='LTR',
     depth=-3.0);
 
-# Initialize components for Routine "awareness_type_2_trial"
-awareness_type_2_trialClock = core.Clock()
+# Initialize components for Routine "awareness_type_2a_trial"
+awareness_type_2a_trialClock = core.Clock()
 
-awareness_type_2_rating = visual.RatingScale(win=win, name='awareness_type_2_rating', lineColor='Black', textColor='Black', scale=None)
-awareness_type_2_text = visual.TextStim(win=win, name='awareness_type_2_text',
+awareness_type_2a_rating = visual.RatingScale(win=win, name='awareness_type_2a_rating', lineColor='Black', textColor='Black', low=1, high=2, scale="")
+awareness_type_2a_text = visual.TextStim(win=win, name='awareness_type_2a_text',
+    text='default text',
+    font='Arial',
+    pos=(0, 0.2), height=0.03, wrapWidth=None, ori=0, 
+    color='black', colorSpace='rgb', opacity=1, 
+    languageStyle='LTR',
+    depth=-2.0);
+
+# Initialize components for Routine "awareness_type_2b_trial"
+awareness_type_2b_trialClock = core.Clock()
+
+awareness_type_2b_rating = visual.RatingScale(win=win, name='awareness_type_2b_rating', lineColor='Black', textColor='Black', low=1, high=6, scale="")
+awareness_type_2b_text = visual.TextStim(win=win, name='awareness_type_2b_text',
+    text='default text',
+    font='Arial',
+    pos=(0, 0.2), height=0.03, wrapWidth=None, ori=0, 
+    color='black', colorSpace='rgb', opacity=1, 
+    languageStyle='LTR',
+    depth=-2.0);
+
+# Initialize components for Routine "awareness_type_2c_trial"
+awareness_type_2c_trialClock = core.Clock()
+
+awareness_type_2c_rating = visual.RatingScale(win=win, name='awareness_type_2c_rating', lineColor='Black', textColor='Black', low=1, high=9, scale="")
+awareness_type_2c_text = visual.TextStim(win=win, name='awareness_type_2c_text',
     text='default text',
     font='Arial',
     pos=(0, 0.2), height=0.03, wrapWidth=None, ori=0, 
@@ -807,7 +824,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
         filler_1_rating.reset()
         filler_1_text.setText(filler_1_items)
         # keep track of which components have finished
-        filler_1Components = [filler_1_rating, filler_1_text, awareness_2_trial]
+        filler_1Components = [filler_1_rating, filler_1_text]
         for thisComponent in filler_1Components:
             if hasattr(thisComponent, 'status'):
                 thisComponent.status = NOT_STARTED
@@ -833,16 +850,6 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
                 filler_1_text.tStart = t
                 filler_1_text.frameNStart = frameN  # exact frame index
                 filler_1_text.setAutoDraw(True)
-            
-            # *awareness_2_trial* updates
-            if t >= 0.0 and awareness_2_trial.status == NOT_STARTED:
-                # keep track of start time/frame for later
-                awareness_2_trial.tStart = t
-                awareness_2_trial.frameNStart = frameN  # exact frame index
-                awareness_2_trial.setAutoDraw(True)
-            frameRemains = 0.0 + 1.0- win.monitorFramePeriod * 0.75  # most of one frame period left
-            if awareness_2_trial.status == STARTED and t >= frameRemains:
-                awareness_2_trial.setAutoDraw(False)
             
             # check for quit (typically the Esc key)
             if endExpNow or event.getKeys(keyList=["escape"]):
@@ -1636,27 +1643,27 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     
     
     # set up handler to look after randomisation of conditions etc
-    awareness_2_trials_loop = data.TrialHandler(nReps=1, method='sequential', 
+    awareness_2a_trials_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('awareness_2.xlsx'),
-        seed=None, name='awareness_2_trials_loop')
-    thisExp.addLoop(awareness_2_trials_loop)  # add the loop to the experiment
-    thisAwareness_2_trials_loop = awareness_2_trials_loop.trialList[0]  # so we can initialise stimuli with some values
-    # abbreviate parameter names if possible (e.g. rgb = thisAwareness_2_trials_loop.rgb)
-    if thisAwareness_2_trials_loop != None:
-        for paramName in thisAwareness_2_trials_loop:
-            exec('{} = thisAwareness_2_trials_loop[paramName]'.format(paramName))
+        trialList=data.importConditions('awareness_2a.xlsx'),
+        seed=None, name='awareness_2a_trials_loop')
+    thisExp.addLoop(awareness_2a_trials_loop)  # add the loop to the experiment
+    thisAwareness_2a_trials_loop = awareness_2a_trials_loop.trialList[0]  # so we can initialise stimuli with some values
+    # abbreviate parameter names if possible (e.g. rgb = thisAwareness_2a_trials_loop.rgb)
+    if thisAwareness_2a_trials_loop != None:
+        for paramName in thisAwareness_2a_trials_loop:
+            exec('{} = thisAwareness_2a_trials_loop[paramName]'.format(paramName))
     
-    for thisAwareness_2_trials_loop in awareness_2_trials_loop:
-        currentLoop = awareness_2_trials_loop
-        # abbreviate parameter names if possible (e.g. rgb = thisAwareness_2_trials_loop.rgb)
-        if thisAwareness_2_trials_loop != None:
-            for paramName in thisAwareness_2_trials_loop:
-                exec('{} = thisAwareness_2_trials_loop[paramName]'.format(paramName))
+    for thisAwareness_2a_trials_loop in awareness_2a_trials_loop:
+        currentLoop = awareness_2a_trials_loop
+        # abbreviate parameter names if possible (e.g. rgb = thisAwareness_2a_trials_loop.rgb)
+        if thisAwareness_2a_trials_loop != None:
+            for paramName in thisAwareness_2a_trials_loop:
+                exec('{} = thisAwareness_2a_trials_loop[paramName]'.format(paramName))
         
-        # ------Prepare to start Routine "awareness_type_2_trial"-------
+        # ------Prepare to start Routine "awareness_type_2a_trial"-------
         t = 0
-        awareness_type_2_trialClock.reset()  # clock
+        awareness_type_2a_trialClock.reset()  # clock
         frameN = -1
         continueRoutine = True
         # update component parameters for each repeat
@@ -1668,35 +1675,35 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
         
         # write this value to disk
         thisExp.addData('condition', condition)
-        awareness_type_2_rating.reset()
-        awareness_type_2_text.setText(awareness_2_question_text)
+        awareness_type_2a_rating.reset()
+        awareness_type_2a_text.setText(awareness_2a_question_text)
         # keep track of which components have finished
-        awareness_type_2_trialComponents = [awareness_type_2_rating, awareness_type_2_text]
-        for thisComponent in awareness_type_2_trialComponents:
+        awareness_type_2a_trialComponents = [awareness_type_2a_rating, awareness_type_2a_text]
+        for thisComponent in awareness_type_2a_trialComponents:
             if hasattr(thisComponent, 'status'):
                 thisComponent.status = NOT_STARTED
         
-        # -------Start Routine "awareness_type_2_trial"-------
+        # -------Start Routine "awareness_type_2a_trial"-------
         while continueRoutine:
             # get current time
-            t = awareness_type_2_trialClock.getTime()
+            t = awareness_type_2a_trialClock.getTime()
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
             
-            # *awareness_type_2_rating* updates
-            if t >= 0.0 and awareness_type_2_rating.status == NOT_STARTED:
+            # *awareness_type_2a_rating* updates
+            if t >= 0.0 and awareness_type_2a_rating.status == NOT_STARTED:
                 # keep track of start time/frame for later
-                awareness_type_2_rating.tStart = t
-                awareness_type_2_rating.frameNStart = frameN  # exact frame index
-                awareness_type_2_rating.setAutoDraw(True)
-            continueRoutine &= awareness_type_2_rating.noResponse  # a response ends the trial
+                awareness_type_2a_rating.tStart = t
+                awareness_type_2a_rating.frameNStart = frameN  # exact frame index
+                awareness_type_2a_rating.setAutoDraw(True)
+            continueRoutine &= awareness_type_2a_rating.noResponse  # a response ends the trial
             
-            # *awareness_type_2_text* updates
-            if t >= 0.0 and awareness_type_2_text.status == NOT_STARTED:
+            # *awareness_type_2a_text* updates
+            if t >= 0.0 and awareness_type_2a_text.status == NOT_STARTED:
                 # keep track of start time/frame for later
-                awareness_type_2_text.tStart = t
-                awareness_type_2_text.frameNStart = frameN  # exact frame index
-                awareness_type_2_text.setAutoDraw(True)
+                awareness_type_2a_text.tStart = t
+                awareness_type_2a_text.frameNStart = frameN  # exact frame index
+                awareness_type_2a_text.setAutoDraw(True)
             
             # check for quit (typically the Esc key)
             if endExpNow or event.getKeys(keyList=["escape"]):
@@ -1706,7 +1713,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
             if not continueRoutine:  # a component has requested a forced-end of Routine
                 break
             continueRoutine = False  # will revert to True if at least one component still running
-            for thisComponent in awareness_type_2_trialComponents:
+            for thisComponent in awareness_type_2a_trialComponents:
                 if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                     continueRoutine = True
                     break  # at least one component has not yet finished
@@ -1715,19 +1722,209 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
             if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
                 win.flip()
         
-        # -------Ending Routine "awareness_type_2_trial"-------
-        for thisComponent in awareness_type_2_trialComponents:
+        # -------Ending Routine "awareness_type_2a_trial"-------
+        for thisComponent in awareness_type_2a_trialComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
         
-        # store data for awareness_2_trials_loop (TrialHandler)
-        awareness_2_trials_loop.addData('awareness_type_2_rating.response', awareness_type_2_rating.getRating())
-        awareness_2_trials_loop.addData('awareness_type_2_rating.rt', awareness_type_2_rating.getRT())
-        # the Routine "awareness_type_2_trial" was not non-slip safe, so reset the non-slip timer
+        # store data for awareness_2a_trials_loop (TrialHandler)
+        awareness_2a_trials_loop.addData('awareness_type_2a_rating.response', awareness_type_2a_rating.getRating())
+        awareness_2a_trials_loop.addData('awareness_type_2a_rating.rt', awareness_type_2a_rating.getRT())
+        # the Routine "awareness_type_2a_trial" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         thisExp.nextEntry()
         
-    # completed 1 repeats of 'awareness_2_trials_loop'
+    # completed 1 repeats of 'awareness_2a_trials_loop'
+    
+    
+    # set up handler to look after randomisation of conditions etc
+    awareness_2b_trials_loop = data.TrialHandler(nReps=1, method='sequential', 
+        extraInfo=expInfo, originPath=-1,
+        trialList=data.importConditions('awareness_2b.xlsx'),
+        seed=None, name='awareness_2b_trials_loop')
+    thisExp.addLoop(awareness_2b_trials_loop)  # add the loop to the experiment
+    thisAwareness_2b_trials_loop = awareness_2b_trials_loop.trialList[0]  # so we can initialise stimuli with some values
+    # abbreviate parameter names if possible (e.g. rgb = thisAwareness_2b_trials_loop.rgb)
+    if thisAwareness_2b_trials_loop != None:
+        for paramName in thisAwareness_2b_trials_loop:
+            exec('{} = thisAwareness_2b_trials_loop[paramName]'.format(paramName))
+    
+    for thisAwareness_2b_trials_loop in awareness_2b_trials_loop:
+        currentLoop = awareness_2b_trials_loop
+        # abbreviate parameter names if possible (e.g. rgb = thisAwareness_2b_trials_loop.rgb)
+        if thisAwareness_2b_trials_loop != None:
+            for paramName in thisAwareness_2b_trials_loop:
+                exec('{} = thisAwareness_2b_trials_loop[paramName]'.format(paramName))
+        
+        # ------Prepare to start Routine "awareness_type_2b_trial"-------
+        t = 0
+        awareness_type_2b_trialClock.reset()  # clock
+        frameN = -1
+        continueRoutine = True
+        # update component parameters for each repeat
+        # simulate responses using ResponseEmulator, for testing
+        if monkey:
+            simulated_responses = [(0.3, '1'), (0.6, 'return')]
+            responder = ResponseEmulator(simulated_responses)
+            responder.start()
+        
+        # write this value to disk
+        thisExp.addData('condition', condition)
+        awareness_type_2b_rating.reset()
+        awareness_type_2b_text.setText(awareness_2b_question_text)
+        # keep track of which components have finished
+        awareness_type_2b_trialComponents = [awareness_type_2b_rating, awareness_type_2b_text]
+        for thisComponent in awareness_type_2b_trialComponents:
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        
+        # -------Start Routine "awareness_type_2b_trial"-------
+        while continueRoutine:
+            # get current time
+            t = awareness_type_2b_trialClock.getTime()
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # *awareness_type_2b_rating* updates
+            if t >= 0.0 and awareness_type_2b_rating.status == NOT_STARTED:
+                # keep track of start time/frame for later
+                awareness_type_2b_rating.tStart = t
+                awareness_type_2b_rating.frameNStart = frameN  # exact frame index
+                awareness_type_2b_rating.setAutoDraw(True)
+            continueRoutine &= awareness_type_2b_rating.noResponse  # a response ends the trial
+            
+            # *awareness_type_2b_text* updates
+            if t >= 0.0 and awareness_type_2b_text.status == NOT_STARTED:
+                # keep track of start time/frame for later
+                awareness_type_2b_text.tStart = t
+                awareness_type_2b_text.frameNStart = frameN  # exact frame index
+                awareness_type_2b_text.setAutoDraw(True)
+            
+            # check for quit (typically the Esc key)
+            if endExpNow or event.getKeys(keyList=["escape"]):
+                core.quit()
+            
+            # check if all components have finished
+            if not continueRoutine:  # a component has requested a forced-end of Routine
+                break
+            continueRoutine = False  # will revert to True if at least one component still running
+            for thisComponent in awareness_type_2b_trialComponents:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # -------Ending Routine "awareness_type_2b_trial"-------
+        for thisComponent in awareness_type_2b_trialComponents:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        
+        # store data for awareness_2b_trials_loop (TrialHandler)
+        awareness_2b_trials_loop.addData('awareness_type_2b_rating.response', awareness_type_2b_rating.getRating())
+        awareness_2b_trials_loop.addData('awareness_type_2b_rating.rt', awareness_type_2b_rating.getRT())
+        # the Routine "awareness_type_2b_trial" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+        thisExp.nextEntry()
+        
+    # completed 1 repeats of 'awareness_2b_trials_loop'
+    
+    
+    # set up handler to look after randomisation of conditions etc
+    awareness_2c_trials_loop = data.TrialHandler(nReps=1, method='sequential', 
+        extraInfo=expInfo, originPath=-1,
+        trialList=data.importConditions('awareness_2c.xlsx'),
+        seed=None, name='awareness_2c_trials_loop')
+    thisExp.addLoop(awareness_2c_trials_loop)  # add the loop to the experiment
+    thisAwareness_2c_trials_loop = awareness_2c_trials_loop.trialList[0]  # so we can initialise stimuli with some values
+    # abbreviate parameter names if possible (e.g. rgb = thisAwareness_2c_trials_loop.rgb)
+    if thisAwareness_2c_trials_loop != None:
+        for paramName in thisAwareness_2c_trials_loop:
+            exec('{} = thisAwareness_2c_trials_loop[paramName]'.format(paramName))
+    
+    for thisAwareness_2c_trials_loop in awareness_2c_trials_loop:
+        currentLoop = awareness_2c_trials_loop
+        # abbreviate parameter names if possible (e.g. rgb = thisAwareness_2c_trials_loop.rgb)
+        if thisAwareness_2c_trials_loop != None:
+            for paramName in thisAwareness_2c_trials_loop:
+                exec('{} = thisAwareness_2c_trials_loop[paramName]'.format(paramName))
+        
+        # ------Prepare to start Routine "awareness_type_2c_trial"-------
+        t = 0
+        awareness_type_2c_trialClock.reset()  # clock
+        frameN = -1
+        continueRoutine = True
+        # update component parameters for each repeat
+        # simulate responses using ResponseEmulator, for testing
+        if monkey:
+            simulated_responses = [(0.3, '1'), (0.6, 'return')]
+            responder = ResponseEmulator(simulated_responses)
+            responder.start()
+        
+        # write this value to disk
+        thisExp.addData('condition', condition)
+        awareness_type_2c_rating.reset()
+        awareness_type_2c_text.setText(awareness_2_question_text)
+        # keep track of which components have finished
+        awareness_type_2c_trialComponents = [awareness_type_2c_rating, awareness_type_2c_text]
+        for thisComponent in awareness_type_2c_trialComponents:
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        
+        # -------Start Routine "awareness_type_2c_trial"-------
+        while continueRoutine:
+            # get current time
+            t = awareness_type_2c_trialClock.getTime()
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # *awareness_type_2c_rating* updates
+            if t >= 0.0 and awareness_type_2c_rating.status == NOT_STARTED:
+                # keep track of start time/frame for later
+                awareness_type_2c_rating.tStart = t
+                awareness_type_2c_rating.frameNStart = frameN  # exact frame index
+                awareness_type_2c_rating.setAutoDraw(True)
+            continueRoutine &= awareness_type_2c_rating.noResponse  # a response ends the trial
+            
+            # *awareness_type_2c_text* updates
+            if t >= 0.0 and awareness_type_2c_text.status == NOT_STARTED:
+                # keep track of start time/frame for later
+                awareness_type_2c_text.tStart = t
+                awareness_type_2c_text.frameNStart = frameN  # exact frame index
+                awareness_type_2c_text.setAutoDraw(True)
+            
+            # check for quit (typically the Esc key)
+            if endExpNow or event.getKeys(keyList=["escape"]):
+                core.quit()
+            
+            # check if all components have finished
+            if not continueRoutine:  # a component has requested a forced-end of Routine
+                break
+            continueRoutine = False  # will revert to True if at least one component still running
+            for thisComponent in awareness_type_2c_trialComponents:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # -------Ending Routine "awareness_type_2c_trial"-------
+        for thisComponent in awareness_type_2c_trialComponents:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        
+        # store data for awareness_2c_trials_loop (TrialHandler)
+        awareness_2c_trials_loop.addData('awareness_type_2c_rating.response', awareness_type_2c_rating.getRating())
+        awareness_2c_trials_loop.addData('awareness_type_2c_rating.rt', awareness_type_2c_rating.getRT())
+        # the Routine "awareness_type_2c_trial" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+        thisExp.nextEntry()
+        
+    # completed 1 repeats of 'awareness_2c_trials_loop'
     
     
     # set up handler to look after randomisation of conditions etc
@@ -1828,6 +2025,8 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # completed 1 repeats of 'end_message_loop'
     
 # completed 1 repeats of 'record_data_collection_site_variable'
+
+
 
 
 

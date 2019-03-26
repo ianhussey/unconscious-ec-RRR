@@ -26,10 +26,8 @@ You have been sent a copy of the measures that:
 3. Enter sequential participant number, age, and gender in the pop up box, and click the button to start. 
    - NB that duplicate participants will likely require both duplicates to be excluded from the analysis, so please ensure that participant code assignment is correct.
 
-## Data processing and analysis
-
-**[add note on the BF optional stopping design here, and how researchers at each site should process and analyse their data using the bundled scripts (to be created) in order to determine when they stop collecting data].**
+NB please collect data for circa 5 participants and then send their csv files to Ian so I can check that all is well before moving to full data collection. 
 
 ## Return files
 
-Once you have done the above, please return both all the `csv` files produced by the task to Ian for (ian.hussey@ugent.be) centralised analysis.
+All data processing and analysis will be done centrally by the organisers. When you have finished data collection (using the predetermined sample size), please zip and send all the csv files in the data folder to Ian (ian.hussey@ugent.be).

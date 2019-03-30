@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v3.0.4),
-    on Tue Mar 26 13:52:12 2019
+    on Tue Mar 26 14:21:01 2019
 If you publish work using this script please cite the PsychoPy publications:
     Peirce, JW (2007) PsychoPy - Psychophysics software in Python.
         Journal of Neuroscience Methods, 162(1-2), 8-13.
@@ -1512,7 +1512,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
             while i < n:
             
             # pressing RETURN ends the trial
-                if theseKeys[i] == 'return':
+                if theseKeys[i] == 'return' and len(inputText) >= 20:
                     continueRoutine = False
                     break
             
@@ -1626,7 +1626,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
         for thisComponent in awareness_type_1_trialComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
-        # let's store the final text string into the results finle...
+        # store the final text string into the results file
         thisExp.addData('inputText', inputText)
         inputText=""
         # check responses

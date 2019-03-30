@@ -11,9 +11,7 @@ Measures, researcher instructions, data processing, analysis, and meta analysis 
   - Bar-Anan modified
     - implemented but need checking based on feedback from Tal.
     - note in prereg which is the replicaiton, and which are our extensions ***
-- Read the manuscript to see what miguel wants reported, whether my code matches this.
-  - multivariate moderator meta analysis needed 
-- check all excel files are locked
-
-
-
+- analysis needs multivariate moderator meta analysis
+- Increase size of questionnaires?
+- data coding processing: remove "awareness_1_words_and_images" and add new method that can have three judges.
+- Change processing to use two different files (and a third for the new q).

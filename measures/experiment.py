@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v3.0.4),
-    on Tue Mar 26 14:21:01 2019
+    on Mon Apr  1 11:15:09 2019
 If you publish work using this script please cite the PsychoPy publications:
     Peirce, JW (2007) PsychoPy - Psychophysics software in Python.
         Journal of Neuroscience Methods, 162(1-2), 8-13.
@@ -337,7 +337,7 @@ routineTimer = core.CountdownTimer()  # to track time remaining of each (non-sli
 # set up handler to look after randomisation of conditions etc
 record_data_collection_site_variable = data.TrialHandler(nReps=1, method='sequential', 
     extraInfo=expInfo, originPath=-1,
-    trialList=data.importConditions('data_collection_site.xlsx'),
+    trialList=data.importConditions('text/data_collection_site.xlsx'),
     seed=None, name='record_data_collection_site_variable')
 thisExp.addLoop(record_data_collection_site_variable)  # add the loop to the experiment
 thisRecord_data_collection_site_variable = record_data_collection_site_variable.trialList[0]  # so we can initialise stimuli with some values
@@ -356,7 +356,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     surveillance_instructions_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('instructions.xlsx', selection='0:4'),
+        trialList=data.importConditions('text/instructions.xlsx', selection='0:4'),
         seed=None, name='surveillance_instructions_loop')
     thisExp.addLoop(surveillance_instructions_loop)  # add the loop to the experiment
     thisSurveillance_instructions_loop = surveillance_instructions_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -454,7 +454,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     surveillance_blocks_loop = data.TrialHandler(nReps=1, method='random', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('instructions_surveillance.xlsx'),
+        trialList=data.importConditions('text/instructions_surveillance.xlsx'),
         seed=None, name='surveillance_blocks_loop')
     thisExp.addLoop(surveillance_blocks_loop)  # add the loop to the experiment
     thisSurveillance_blocks_loop = surveillance_blocks_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -693,7 +693,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     filler_1_instructions_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('instructions.xlsx', selection='4:6'),
+        trialList=data.importConditions('text/instructions.xlsx', selection='4:6'),
         seed=None, name='filler_1_instructions_loop')
     thisExp.addLoop(filler_1_instructions_loop)  # add the loop to the experiment
     thisFiller_1_instructions_loop = filler_1_instructions_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -791,7 +791,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     filler_1_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('filler_1.xlsx'),
+        trialList=data.importConditions('text/filler_1.xlsx'),
         seed=None, name='filler_1_loop')
     thisExp.addLoop(filler_1_loop)  # add the loop to the experiment
     thisFiller_1_loop = filler_1_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -886,7 +886,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     filler_2_instructions_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('instructions.xlsx', selection='6:7'),
+        trialList=data.importConditions('text/instructions.xlsx', selection='6:7'),
         seed=None, name='filler_2_instructions_loop')
     thisExp.addLoop(filler_2_instructions_loop)  # add the loop to the experiment
     thisFiller_2_instructions_loop = filler_2_instructions_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -984,7 +984,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     filler_2_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('filler_2.xlsx'),
+        trialList=data.importConditions('text/filler_2.xlsx'),
         seed=None, name='filler_2_loop')
     thisExp.addLoop(filler_2_loop)  # add the loop to the experiment
     thisFiller_2_loop = filler_2_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -1079,7 +1079,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     evaluation_instructions_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('instructions.xlsx', selection='7:9'),
+        trialList=data.importConditions('text/instructions.xlsx', selection='7:9'),
         seed=None, name='evaluation_instructions_loop')
     thisExp.addLoop(evaluation_instructions_loop)  # add the loop to the experiment
     thisEvaluation_instructions_loop = evaluation_instructions_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -1177,7 +1177,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     evaluation_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('instructions_evaluation.xlsx'),
+        trialList=data.importConditions('text/instructions_evaluation.xlsx'),
         seed=None, name='evaluation_loop')
     thisExp.addLoop(evaluation_loop)  # add the loop to the experiment
     thisEvaluation_loop = evaluation_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -1361,7 +1361,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     awareness_instructions_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('instructions.xlsx', selection='9:10'),
+        trialList=data.importConditions('text/instructions.xlsx', selection='9:10'),
         seed=None, name='awareness_instructions_loop')
     thisExp.addLoop(awareness_instructions_loop)  # add the loop to the experiment
     thisAwareness_instructions_loop = awareness_instructions_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -1459,7 +1459,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     awareness_1_trials_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('awareness_1.xlsx'),
+        trialList=data.importConditions('text/awareness_1.xlsx'),
         seed=None, name='awareness_1_trials_loop')
     thisExp.addLoop(awareness_1_trials_loop)  # add the loop to the experiment
     thisAwareness_1_trials_loop = awareness_1_trials_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -1645,7 +1645,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     awareness_2a_trials_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('awareness_2a.xlsx'),
+        trialList=data.importConditions('text/awareness_2a.xlsx'),
         seed=None, name='awareness_2a_trials_loop')
     thisExp.addLoop(awareness_2a_trials_loop)  # add the loop to the experiment
     thisAwareness_2a_trials_loop = awareness_2a_trials_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -1740,7 +1740,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     awareness_2b_trials_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('awareness_2b.xlsx'),
+        trialList=data.importConditions('text/awareness_2b.xlsx'),
         seed=None, name='awareness_2b_trials_loop')
     thisExp.addLoop(awareness_2b_trials_loop)  # add the loop to the experiment
     thisAwareness_2b_trials_loop = awareness_2b_trials_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -1835,7 +1835,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     awareness_2c_trials_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('awareness_2c.xlsx'),
+        trialList=data.importConditions('text/awareness_2c.xlsx'),
         seed=None, name='awareness_2c_trials_loop')
     thisExp.addLoop(awareness_2c_trials_loop)  # add the loop to the experiment
     thisAwareness_2c_trials_loop = awareness_2c_trials_loop.trialList[0]  # so we can initialise stimuli with some values
@@ -1930,7 +1930,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
     # set up handler to look after randomisation of conditions etc
     end_message_loop = data.TrialHandler(nReps=1, method='sequential', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('instructions.xlsx', selection='10:11'),
+        trialList=data.importConditions('text/instructions.xlsx', selection='10:11'),
         seed=None, name='end_message_loop')
     thisExp.addLoop(end_message_loop)  # add the loop to the experiment
     thisEnd_message_loop = end_message_loop.trialList[0]  # so we can initialise stimuli with some values

@@ -882,8 +882,8 @@
   <Flow>
     <LoopInitiator loopType="TrialHandler" name="record_data_collection_site_variable">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('data_collection_site', 'e.g., Unkelbach')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="data_collection_site.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/data_collection_site.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -893,8 +893,8 @@
     </LoopInitiator>
     <LoopInitiator loopType="TrialHandler" name="surveillance_instructions_loop">
       <Param name="Selected rows" updates="None" val="0:4" valType="str"/>
-      <Param name="conditions" updates="None" val="None" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('instructions_text', 'Welcome to the experiment!\n\nThe study should take about 30 minutes. \nIf you have any questions please contact the experimenter. ')]), OrderedDict([('instructions_text', &quot;Imagine that you are a security guard watching for deviant activity at a business. Your job requires that you pay attention at all times, and respond quickly when something suspicious happens.  \n\nIn our lab we study attention and rapid responding, and in this experiment you'll be asked to play the role of the security guard. \n\nSpecifically, you will be attending to a number of items presented on the computer screen, and you'll be responding as quickly as  possible when a target item appears by pressing the spacebar.  \n\n\nPress the spacebar to continue&quot;)]), OrderedDict([('instructions_text', &quot;The target item will appear at random several times throughout the experiment. The target item may appear as an image or as a name.  So be sure to pay attention at all times and focus on the screen, because you never know when the target item will appear.  \n\nA number of filler items that we've selected from our stimulus pool will also be shown randomly to make the task more challenging. These distractors are both pictures and words that were just randomly picked from our collection.  \n\nSometimes two images will appear on the screen at the same time, and sometimes only one image will appear.  Be sure to hit the spacebar only when the target appears.  \n\nThe target might appear anywhere on the screen as well, and it might also appear with other images. So whenever you see a target image or name anywhere on the screen, hit the spacebar.  \n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'The items will be displayed rapidly, so make sure that when you see a target, you hit the spacebar before it disappears.  \n\nAgain, be sure to pay close attention throughout the experiment so that you can respond as quickly and accurately as possible.  \n\nThere will be five separate surveillance tasks of about 4 minutes each.  \n\nEach task will have a different target, and all of the target items will be cartoon creatures. \n\n\nPress the spacebar to continue.')]), OrderedDict([('instructions_text', 'Next, we are going to ask you a number of questions. ')]), OrderedDict([('instructions_text', 'For each of the following statements please indicate to what extent they apply to you.\n\nPlease note that there are no right or wrong answers.')]), OrderedDict([('instructions_text', 'For each of the following statements please indicate to what extent they are characteristic of you.\n\nPlease note that there are no right or wrong answers.')]), OrderedDict([('instructions_text', &quot;Next, you'll be presented with 30 pairs of target and filler creatures from the surveillance tasks, and we'd like you to indicate which one you like better. \n\nYou don't need a reason for liking one rather than the other, just give us your gut feelings.\n\nWe are interested in knowing if the pleasantness or unpleasantness of these stimuli affects the ability to attend and rapidly respond to them, so we need you to indicate which you prefer.  \n\nRemember, you don't need a reason for liking one rather than the other, so just go with your gut. Please respond quickly.\n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'Put a left finger on the E key and a right finger in the I key.\n\nIf you prefer the creature on the left, press E.\n\nIf you prefer the creature on the right, press I.\n\n\nPress the spacebar to continue.')]), OrderedDict([('instructions_text', &quot;Lastly, we'll ask you a small number of questions, and then the study will end.\n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'The experiment is now complete.\n\nPress the spacebar to finish.')])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/instructions.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -906,8 +906,8 @@
     <LoopTerminator name="surveillance_instructions_loop"/>
     <LoopInitiator loopType="TrialHandler" name="surveillance_blocks_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('instructions_text_top', 'For this task, the target creature is Crandios:'), ('instructions_text_bottom', 'So whenever Crandios (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Crandio or the word CRANDIOS. \n\nPress the spacebar to start the this task'), ('block_id', 'target1'), ('example_image', 'stimuli/t1.jpg')]), OrderedDict([('instructions_text_top', 'For this task, the target creature is Shelmet:'), ('instructions_text_bottom', 'So whenever Shelmet (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Shelmet or the word SHELMET. \n\nPress the spacebar to start the this task'), ('block_id', 'target2'), ('example_image', 'stimuli/t2.jpg')]), OrderedDict([('instructions_text_top', 'For this task, the target creature is Grubbin:'), ('instructions_text_bottom', 'So whenever Grubbin (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Grubbin or the word GRUBBIN. \n\nPress the spacebar to start the this task'), ('block_id', 'target3'), ('example_image', 'stimuli/t3.jpg')]), OrderedDict([('instructions_text_top', 'For this task, the target creature is Magearna:'), ('instructions_text_bottom', 'So whenever Magerana (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of MAGEARNA or the word MAGERANA. \n\nPress the spacebar to start the this task'), ('block_id', 'target4'), ('example_image', 'stimuli/t4.jpg')]), OrderedDict([('instructions_text_top', 'For this task, the target creature is Palpitoad:'), ('instructions_text_bottom', 'So whenever Palpitoad (his name or his picture) appears on the screen, hit the spacebar as quickly as possible. Hit the spacebar whenever you see an image of Palpitoad or the word PALPITOAD. \n\nPress the spacebar to start the this task'), ('block_id', 'target5'), ('example_image', 'stimuli/t5.jpg')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="instructions_surveillance.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/instructions_surveillance.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="random" valType="str"/>
@@ -932,8 +932,8 @@
     <LoopTerminator name="surveillance_blocks_loop"/>
     <LoopInitiator loopType="TrialHandler" name="filler_1_instructions_loop">
       <Param name="Selected rows" updates="None" val="4:6" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('instructions_text', &quot;Imagine that you are a security guard watching for deviant activity at a business. Your job requires that you pay attention at all times, and respond quickly when something suspicious happens.  \n\nIn our lab we study attention and rapid responding, and in this experiment you'll be asked to play the role of the security guard. \n\nSpecifically, you will be attending to a number of items presented on the computer screen, and you'll be responding as quickly as  possible when a target item appears by pressing the spacebar.  \n\n\nPress the spacebar to continue&quot;)]), OrderedDict([('instructions_text', &quot;The target item will appear at random several times throughout the experiment. The target item may appear as an image or as a name.  So be sure to pay attention at all times and focus on the screen, because you never know when the target item will appear.  \n\nA number of filler items that we've selected from our stimulus pool will also be shown randomly to make the task more challenging. These distractors are both pictures and words that were just randomly picked from our collection.  \n\nSometimes two images will appear on the screen at the same time, and sometimes only one image will appear.  Be sure to hit the spacebar only when the target appears.  \n\nThe target might appear anywhere on the screen as well, and it might also appear with other images. So whenever you see a target image or name anywhere on the screen, hit the spacebar.  \n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'The items will be displayed rapidly, so make sure that when you see a target, you hit the spacebar before it disappears.  \n\nAgain, be sure to pay close attention throughout the experiment so that you can respond as quickly and accurately as possible.  \n\nThere will be five separate surveillance tasks of about 4 minutes each.  \n\nEach task will have a different target, and all of the target items will be cartoon creatures. \n\n\nPress the spacebar to continue.')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/instructions.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -946,7 +946,7 @@
     <LoopInitiator loopType="TrialHandler" name="filler_1_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="filler_1.xlsx" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/filler_1.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -958,8 +958,8 @@
     <LoopTerminator name="filler_1_loop"/>
     <LoopInitiator loopType="TrialHandler" name="filler_2_instructions_loop">
       <Param name="Selected rows" updates="None" val="6:7" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('instructions_text', &quot;Imagine that you are a security guard watching for deviant activity at a business. Your job requires that you pay attention at all times, and respond quickly when something suspicious happens.  \n\nIn our lab we study attention and rapid responding, and in this experiment you'll be asked to play the role of the security guard. \n\nSpecifically, you will be attending to a number of items presented on the computer screen, and you'll be responding as quickly as  possible when a target item appears by pressing the spacebar.  \n\n\nPress the spacebar to continue&quot;)]), OrderedDict([('instructions_text', &quot;The target item will appear at random several times throughout the experiment. The target item may appear as an image or as a name.  So be sure to pay attention at all times and focus on the screen, because you never know when the target item will appear.  \n\nA number of filler items that we've selected from our stimulus pool will also be shown randomly to make the task more challenging. These distractors are both pictures and words that were just randomly picked from our collection.  \n\nSometimes two images will appear on the screen at the same time, and sometimes only one image will appear.  Be sure to hit the spacebar only when the target appears.  \n\nThe target might appear anywhere on the screen as well, and it might also appear with other images. So whenever you see a target image or name anywhere on the screen, hit the spacebar.  \n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'The items will be displayed rapidly, so make sure that when you see a target, you hit the spacebar before it disappears.  \n\nAgain, be sure to pay close attention throughout the experiment so that you can respond as quickly and accurately as possible.  \n\nThere will be five separate surveillance tasks of about 4 minutes each.  \n\nEach task will have a different target, and all of the target items will be cartoon creatures. \n\n\nPress the spacebar to continue.')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/instructions.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -972,7 +972,7 @@
     <LoopInitiator loopType="TrialHandler" name="filler_2_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="filler_2.xlsx" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/filler_2.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -985,7 +985,7 @@
     <LoopInitiator loopType="TrialHandler" name="evaluation_instructions_loop">
       <Param name="Selected rows" updates="None" val="7:9" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/instructions.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -997,8 +997,8 @@
     <LoopTerminator name="evaluation_instructions_loop"/>
     <LoopInitiator loopType="TrialHandler" name="evaluation_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('middle_text', 'Please choose which of the two images you prefer:'), ('left_text', 'The image on the left:'), ('right_text', 'The image on the right:')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="instructions_evaluation.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/instructions_evaluation.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -1022,8 +1022,8 @@
     <LoopTerminator name="evaluation_loop"/>
     <LoopInitiator loopType="TrialHandler" name="awareness_instructions_loop">
       <Param name="Selected rows" updates="None" val="9:10" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('instructions_text', &quot;Imagine that you are a security guard watching for deviant activity at a business. Your job requires that you pay attention at all times, and respond quickly when something suspicious happens.  \n\nIn our lab we study attention and rapid responding, and in this experiment you'll be asked to play the role of the security guard. \n\nSpecifically, you will be attending to a number of items presented on the computer screen, and you'll be responding as quickly as  possible when a target item appears by pressing the spacebar.  \n\n\nPress the spacebar to continue&quot;)]), OrderedDict([('instructions_text', &quot;The target item will appear at random several times throughout the experiment. The target item may appear as an image or as a name.  So be sure to pay attention at all times and focus on the screen, because you never know when the target item will appear.  \n\nA number of filler items that we've selected from our stimulus pool will also be shown randomly to make the task more challenging. These distractors are both pictures and words that were just randomly picked from our collection.  \n\nSometimes two images will appear on the screen at the same time, and sometimes only one image will appear.  Be sure to hit the spacebar only when the target appears.  \n\nThe target might appear anywhere on the screen as well, and it might also appear with other images. So whenever you see a target image or name anywhere on the screen, hit the spacebar.  \n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'The items will be displayed rapidly, so make sure that when you see a target, you hit the spacebar before it disappears.  \n\nAgain, be sure to pay close attention throughout the experiment so that you can respond as quickly and accurately as possible.  \n\nThere will be five separate surveillance tasks of about 4 minutes each.  \n\nEach task will have a different target, and all of the target items will be cartoon creatures. \n\n\nPress the spacebar to continue.')]), OrderedDict([('instructions_text', 'Next, we are going to ask you a number of questions. ')]), OrderedDict([('instructions_text', 'For each of the following statements please indicate to what extent they apply to you.\n\nPlease note that there are no right or wrong answers.')]), OrderedDict([('instructions_text', 'For each of the following statements please indicate to what extent they are characteristic of you.\n\nPlease note that there are no right or wrong answers.')]), OrderedDict([('instructions_text', &quot;Next, you'll be presented with 30 pairs of target and filler creatures from the surveillance tasks, and we'd like you to indicate which one you like better. \n\nYou don't need a reason for liking one rather than the other, just give us your gut feelings.\n\nWe are interested in knowing if the pleasantness or unpleasantness of these stimuli affects the ability to attend and rapidly respond to them, so we need you to indicate which you prefer.  \n\nRemember, you don't need a reason for liking one rather than the other, so just go with your gut. Please respond quickly.\n\n\nPress the spacebar to continue.&quot;)]), OrderedDict([('instructions_text', 'Put a left finger on the E key and a right finger in the I key.\n\nIf you prefer the creature on the left, press E.\n\nIf you prefer the creature on the right, press I.\n\n\nPress the spacebar to continue.')]), OrderedDict([('instructions_text', &quot;Lastly, we'll ask you a small number of questions, and then the study will end.&quot;)]), OrderedDict([('instructions_text', 'The experiment is now complete.\n\nPress the spacebar to finish.')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/instructions.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -1035,8 +1035,8 @@
     <LoopTerminator name="awareness_instructions_loop"/>
     <LoopInitiator loopType="TrialHandler" name="awareness_1_trials_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('awareness_1_question_text', 'Think back to the very first part of the experiment. Did you notice anything out of the ordinary in the way the words and pictures were presented during the surveillance tasks?')]), OrderedDict([('awareness_1_question_text', 'Did you notice anything systematic about how particular words and images appeared together during the surveillance tasks?')]), OrderedDict([('awareness_1_question_text', 'Did you notice anything about the words and images that appeared with certain cartoon creatures? ')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="awareness_1.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/awareness_1.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -1048,8 +1048,8 @@
     <LoopTerminator name="awareness_1_trials_loop"/>
     <LoopInitiator loopType="TrialHandler" name="awareness_2a_trials_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('awareness_2a_question_text', 'For some participants, during the first task, there was one cartoon creature that always appeared with positive images and words, and one that always appeared with negative images and words. Do you think it happened in your case?\n\n1 = No, I did not notice if that happened in my task\n2 = Yes, that happened in my task\n\nClick the line, then confirm your choice by clicking the grey button below.')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="awareness_2a.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/awareness_2a.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -1061,8 +1061,8 @@
     <LoopTerminator name="awareness_2a_trials_loop"/>
     <LoopInitiator loopType="TrialHandler" name="awareness_2b_trials_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('awareness_2b_question_text', 'During the first task, which of the two characters was consistently presented with POSITIVE images and words? \n\n1 = BERGMITE (certainly)\n2 = BERGMITE (probably)\n3 = BERGMITE (guess)\n4 = GOLETT (guess)\n5 = GOLETT (probably)\n6 = GOLETT (certainly)\n\nClick the line, then confirm your choice by clicking the grey button below.')]), OrderedDict([('awareness_2b_question_text', 'During the first task, which of the two characters was consistently presented with NEGATIVE images and words? \n\n1 = BERGMITE (certainly)\n2 = BERGMITE (probably)\n3 = BERGMITE (guess)\n4 = GOLETT (guess)\n5 = GOLETT (probably)\n6 = GOLETT (certainly)\n\nClick the line, then confirm your choice by clicking the grey button below.')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="awareness_2b.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/awareness_2b.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -1074,8 +1074,8 @@
     <LoopTerminator name="awareness_2b_trials_loop"/>
     <LoopInitiator loopType="TrialHandler" name="awareness_2c_trials_loop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('awareness_2_question_text', 'How familiar were you with the cartoon creatures that appeared in the surveillance tasks?  \n\n1 = Not Familiar at all\n2\n3\n4\n5\n6\n7\n9 = Very Familiar\n\nClick the line, then confirm your choice by clicking the grey button below.')])]" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="awareness_2c.xlsx" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/awareness_2c.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>
@@ -1088,7 +1088,7 @@
     <LoopInitiator loopType="TrialHandler" name="end_message_loop">
       <Param name="Selected rows" updates="None" val="10:11" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
-      <Param name="conditionsFile" updates="None" val="instructions.xlsx" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="text/instructions.xlsx" valType="str"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="False" valType="bool"/>
       <Param name="loopType" updates="None" val="sequential" valType="str"/>

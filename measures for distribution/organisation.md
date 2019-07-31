@@ -2,11 +2,13 @@
 
 ## Phase 1
 
-Phase 1 folder is to be sent to the researchers first. This contains only the excel files needed to translate the tasks. If a site is prerating the stimuli for familiarity and neutralness Tal will also send these materials separatesly. Sites should return the files for checking by Ian and Tal (excel files and stimuli lists for image creation, respectively). 
+### Ian to:
 
-- Teams will be sent materials for pretesting and the excel files to translate. NB this translation should include the changing of stimuli names based on the preregistered method. 
-- They should return the translated excel files for us to check, along with the list of which stimuli they'll use. 
-- We check the excel files (Ian) and stimuli files (Tal) for compliance to the agreed screen presentation format. 
+1. Copy all files in the master measures "text" folder into the appropriate site's Phase 1 measures folder. 
+2. Delete data_collection_site.xlsx
+3. Copy phase 1 `instructions.pdf` from phase 1 measures folder into the appropriate site's folder.
+4. zip this folder
+5. Send to the site for translating and prerating.
 
 ## Phase 2
 
@@ -20,7 +22,8 @@ Phase 1 folder is to be sent to the researchers first. This contains only the ex
    - trials_generator.Rmd
    - experiment.psyexp
    - readme.md
-6. Return a complete phase 2 measures folder to each site, which is to be used for data collection.
+6. Run experiment.py and check that the translation's screen layouts make sense. If not, make changes or liaise with the site about changes if needed.
+7. Return a complete phase 2 measures folder to each site, which is to be used for data collection.
 
 ### Tal to:
 

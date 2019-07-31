@@ -4,6 +4,7 @@ Measures, researcher instructions, data processing, analysis, and meta analysis 
 
 ## To do
 
+- Code for stimuli pretesting doesn't run: NAs prevent the BFttests running correctly
 - square github with osf
 - update analysis general strategy re miguel's comments
 - update processing to integrate the two types of scoring

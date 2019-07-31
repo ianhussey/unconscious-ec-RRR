@@ -1,0 +1,73 @@
+﻿***************************************************************************************
+***************************************************************************************
+			Demo for prolific
+***************************************************************************************
+**************************************************************************************
+***************************************************************************************
+<dropdown sex>
+/ caption = "Please indicate your gender"
+/ options = ("female", "male", " other")
+/ position = (10%, 25%)
+</dropdown>
+
+<textbox age>
+/ caption = "Please indicate your age"
+/ mask = positiveinteger
+/ range = (7, 110)
+/ position = (10%, 35%)
+</textbox>
+
+<textbox ProlificCode>
+/ caption = " Please enter your prolific ID here 
+(if you do not have it please retrieve it now. Otherwise you cannot be paid.)"
+/ position = (10%,10%)
+/ textboxsize = (20, 10)
+/ position = (10%, 45%)
+/ multiline = true
+</textbox>
+
+<surveypage demographics>
+/ caption = "Please answer the following demographic questions"
+/ fontstyle = ("Verdana", -16, true, false, false, false, 5, 0)
+/ questions = [1=sex; 2=age; 3=ProlificCode] 
+</surveypage>
+
+<survey demographics>
+/ pages = [1=demographics]
+/ responsefontstyle = ("Verdana", -12, false, false, false, false, 5, 0)
+/ itemfontstyle = ("Verdana", -13, false, false, false, false, 5, 0)
+/ itemspacing = 2%
+/ showpagenumbers = false
+</survey>
+
+<defaults>
+/ canvassize = (1024px, 768px)
+/ windowsize = (1024px, 768px)
+/ screencolor = white
+/ txcolor = black
+/ fontstyle = ("Arial", 3%)
+/ inputdevice = mouse
+</defaults>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

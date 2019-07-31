@@ -1,0 +1,916 @@
+﻿***************************************************************************************
+***************************************************************************************
+											SCRIPT OVERVIEW (rating valence pretest of USs)
+***************************************************************************************
+***************************************************************************************
+Script Info
+
+Author: Tal Moran (tal.MoranYorovich@ugent.be)
+last updated: 11-10-2018
+***************************************************************************************
+***************************************************************************************
+
+*************************General Variables****************************
+**********************************************************************
+
+<defaults>
+/ canvassize = (1024px, 768px)
+/ screencolor = white
+/ txcolor = black
+/ fontstyle = ("Arial", 16%)
+/ inputdevice = mouse
+</defaults>
+
+
+**************  Stimuli ***************
+<image Amaura>
+/ items = ("Amaura.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Axew>
+/ items = ("Axew.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Beheeyem>
+/ items = ("Beheeyem.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Bergmite>
+/ items = ("Bergmite.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Carbink>
+/ items = ("Carbink.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Chespin>
+/ items = ("Chespin.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Cosmog>
+/items = ("Cosmog.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Cottonee>
+/items = ("Cottonee.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Cranidos>
+/items = ("Cranidos.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Deino>
+/items = ("Deino.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Drampa>
+/items = ("Drampa.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Drilbur>
+/items = ("Drilbur.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Duosion>
+/items = ("Duosion.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Eelektrik>
+/items = ("Eelektrik.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Espurr>
+/items = ("Espurr.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Fomantis>
+/items = ("Fomantis.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Foongus>
+/items = ("Foongus.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Frillish>
+/items = ("Frillish.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Froakie>
+/items = ("Froakie.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Gastrodon>
+/items = ("Gastrodon.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Golett>
+/items = ("Golett.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image Goodra>
+/items = ("Goodra.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Goomy>
+/items = ("Goomy.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Gourgeist>
+/items = ("Gourgeist.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Grubbin>
+/items = ("Grubbin.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Inkay>
+/items = ("Inkay.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Jangmo>
+/items = ("Jangmo.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Kricketot>
+/items = ("Kricketot.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Larvesta>
+/items = ("Larvesta.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Lillipup>
+/items = ("Lillipup.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Magearna>
+/items = ("magearna.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Manaphy>
+/items = ("Manaphy.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Meowstic>
+/items = ("Meowstic.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Mienshao>
+/items = ("Mienshao.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Minccino>
+/items = ("minccino.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Oshawott>
+/items = ("Oshawott.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Palpitoad>
+/items = ("Palpitoad.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Petilil>
+/items = ("Petilil.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Phantump>
+/items = ("Phantump.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Poipole>
+/items = ("Poipole.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Ribombee>
+/items = ("Ribombee.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Rowlet>
+/items = ("Rowlet.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Scatterbug>
+/items = ("Scatterbug.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Scraggy>
+/items = ("Scraggy.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Shellos>
+/items = ("Shellos.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Shelmet>
+/items = ("Shelmet.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Sliggoojpg>
+/items = ("Sliggoojpg.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Snivy>
+/items = ("Snivy.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Spritzee>
+/items = ("Spritzee.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Stunfisk>
+/items = ("Stunfisk.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Swadloon>
+/items = ("Swadloon.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Togedemaru>
+/items = ("Togedemaru.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Tympole>
+/items = ("Tympole.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Uxie>
+/items = ("Uxie.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Venipede>
+/items = ("Venipede.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Victini>
+/items = ("Victini.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Virizion>
+/items = ("Virizion.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Wimpod>
+/items = ("Wimpod.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Yamask>
+/items = ("Yamask.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+
+<image  Zorua>
+/items = ("Zorua.jpg")
+/position = (35%, 5%)
+/size= (20%, 20%)
+</image>
+**************** text ************************
+
+<text further>
+/numitems =1
+/items= ("Press the spacebar to continue.")
+/ txcolor = black
+/ txbgcolor = (0, 0, 0)
+/ position = (50%, 95%)
+/ fontstyle = ("Arial", 3%)
+</text>
+
+****************  Pre-Ratings ******************
+************************************************
+
+<radiobuttons Liking>
+/ fontstyle = ("Arial", 2.5%, true)
+/ txcolor = black
+/ subcaptionfontstyle = ("Arial", 2.5%, false)
+/ caption ="Please rate how positive or negative this creature is using the scale below:
+
+"
+/ subcaption = "Negative                                          Neutral                                          Positive"
+/options = ("-4     ", "-3     ", "-2     ", "-1     ", "0     ", "1     ", "2     ", "3     ", "4     ")
+/ required = true
+/orientation = horizontal
+/ position = (10%, 45%)
+</radiobuttons>
+
+<radiobuttons familiar>
+/ fontstyle = ("Arial", 2.5%, true)
+/ txcolor = black
+/ subcaptionfontstyle = ("Arial", 2.5%, false)
+/ caption ="Please rate how familiar are you with this creature is using the scale below:
+
+"
+/ subcaption = "Not Familiar at all                                                                        Very Familiar"
+/options = ("0     ", "1     ", "2     ", "3     ", "4     ", "5     ", "6     ", "7     ", "8     ")
+/ required = true
+/orientation = horizontal
+/ position = (10%, 70%)
+</radiobuttons>
+
+<surveypage Amaura>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Amaura]
+</surveypage>
+
+<surveypage Axew>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Axew]
+</surveypage>
+
+<surveypage Beheeyem>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Beheeyem]
+</surveypage>
+
+<surveypage Bergmite>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Bergmite]
+</surveypage>
+
+<surveypage Carbink>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Carbink]
+</surveypage>
+
+<surveypage Chespin>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Chespin]
+</surveypage>
+
+<surveypage Cosmog>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Cosmog]
+</surveypage>
+
+<surveypage Cottonee>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Cottonee]
+</surveypage>
+
+<surveypage Cranidos>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Cranidos]
+</surveypage>
+
+<surveypage Deino>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Deino]
+</surveypage>
+
+<surveypage Drampa>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Drampa]
+</surveypage>
+
+<surveypage Drilbur>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Drilbur]
+</surveypage>
+
+<surveypage Duosion>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Duosion]
+</surveypage>
+
+<surveypage Eelektrik>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Eelektrik]
+</surveypage>
+
+<surveypage Espurr>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Espurr]
+</surveypage>
+
+<surveypage Fomantis>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Fomantis]
+</surveypage>
+
+<surveypage Foongus>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Foongus]
+</surveypage>
+
+<surveypage Frillish>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Frillish]
+</surveypage>
+
+<surveypage Froakie>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Froakie]
+</surveypage>
+
+<surveypage Gastrodon>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Gastrodon]
+</surveypage>
+
+<surveypage Golett>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Golett]
+</surveypage>
+
+<surveypage Goodra>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Goodra]
+</surveypage>
+
+<surveypage Goomy>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Goomy]
+</surveypage>
+
+<surveypage Gourgeist>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Gourgeist]
+</surveypage>
+
+<surveypage Grubbin>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Grubbin]
+</surveypage>
+
+<surveypage Inkay>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Inkay]
+</surveypage>
+
+<surveypage Jangmo>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Jangmo]
+</surveypage>
+
+<surveypage Kricketot>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Kricketot]
+</surveypage>
+
+<surveypage Larvesta>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Larvesta]
+</surveypage>
+
+<surveypage Lillipup>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Lillipup]
+</surveypage>
+
+<surveypage Magearna>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Magearna]
+</surveypage>
+
+<surveypage Manaphy>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Manaphy]
+</surveypage>
+
+<surveypage Meowstic>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Meowstic]
+</surveypage>
+
+<surveypage Mienshao>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Mienshao]
+</surveypage>
+
+<surveypage Minccino>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Minccino]
+</surveypage>
+
+<surveypage Oshawott>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Oshawott]
+</surveypage>
+
+<surveypage Palpitoad>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Palpitoad]
+</surveypage>
+
+<surveypage Petilil>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Petilil]
+</surveypage>
+
+<surveypage Phantump>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Phantump]
+</surveypage>
+
+<surveypage Poipole>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Poipole]
+</surveypage>
+
+<surveypage Ribombee>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Ribombee]
+</surveypage>
+
+<surveypage Rowlet>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Rowlet]
+</surveypage>
+
+<surveypage Scatterbug>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Scatterbug]
+</surveypage>
+
+<surveypage Scraggy>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Scraggy]
+</surveypage>
+
+<surveypage Shellos>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Shellos]
+</surveypage>
+
+<surveypage Shelmet>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Shelmet]
+</surveypage>
+
+<surveypage Sliggoojpg>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Sliggoojpg]
+</surveypage>
+
+<surveypage Snivy>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Snivy]
+</surveypage>
+
+<surveypage Spritzee>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Spritzee]
+</surveypage>
+
+<surveypage Stunfisk>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Stunfisk]
+</surveypage>
+
+<surveypage Swadloon>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Swadloon]
+</surveypage>
+
+<surveypage Togedemaru>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Togedemaru]
+</surveypage>
+
+<surveypage Tympole>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Tympole]
+</surveypage>
+
+<surveypage Uxie>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Uxie]
+</surveypage>
+
+<surveypage Venipede>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Venipede]
+</surveypage>
+
+<surveypage Victini>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Victini]
+</surveypage>
+
+<surveypage Virizion>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Virizion]
+</surveypage>
+
+<surveypage Wimpod>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Wimpod]
+</surveypage>
+
+<surveypage Yamask>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Yamask]
+</surveypage>
+
+<surveypage Zorua>
+/ nextbuttonposition = (90%, 90%)
+/ showbackbutton = false
+/ showpagenumbers = false
+/ questions = [1=liking, familiar, Zorua]
+</surveypage>
+
+<survey PreTest>
+/ pages = [1-60 = noreplacenorepeat(Amaura, Axew, Beheeyem, Bergmite, Carbink, Chespin, Cosmog, Cottonee, Cranidos, Deino, 
+                                    Drampa, Drilbur, Duosion, Eelektrik, Espurr, Fomantis, Foongus, Frillish, Froakie, Gastrodon, 
+                                    Golett, Goodra, Goomy, Gourgeist, Grubbin, Inkay, Jangmo, Kricketot, Larvesta, Lillipup, 
+                                    Magearna, Manaphy Meowstic, Mienshao, Minccino, Oshawott, Palpitoad, Petilil, Phantump, Poipole,
+                                    Ribombee, Rowlet, Scatterbug, Scraggy, Shellos, Shelmet, Sliggoojpg, Snivy, Spritzee, Stunfisk,
+                                    Swadloon, Togedemaru, Tympole, Uxie, Venipede, Victini, Virizion, Wimpod, Yamask, Zorua)]
+/ txcolor = Black
+/ fontstyle = ("Arial", 3%, true)
+/ showpagenumbers = false
+/ showquestionnumbers = false
+/ showprogressbar = true
+</survey>
+
+******************************************************
+
+<block begin>
+/ screencolor = (255, 255, 255)
+/ preinstructions = (info)
+/ trials = [1 = pause]
+</block>
+
+<trial pause>
+/trialcode = "pause"
+/stimulustimes = [ 1= erasebig]
+/trialduration = 1000
+</trial>
+
+<picture erasebig>
+/ erase = false 
+/ items = ("erasebig.jpg")
+</picture>
+
+
+**********  Instructions  *************
+
+<instruct>  
+/ fontstyle = ("Arial", 3%)
+/ inputdevice = keyboard
+/ nextkey = (" ")
+/ nextlabel = "Druk op de spatiebalk om verder te gaan"
+/ prevlabel = "Druk t om terug te gaan"
+/ prevkey = ("t")
+</instruct>
+
+
+<page info>
+^^ Welcome to the experiment! Thank you for taking part. 
+
+^^In this task, we are going to present you pictures of different creatures. 
+
+^^Please indicate how positive or negative you consider the creature to be, and how familiar are you with it.  
+</page>
+
+
+<data>
+/ columns = [date time subject blockcode blocknum trialcode trialnum latency correct pretrialpause posttrialpause response stimulus stimulus stimulus stimulus stimulus stimulus stimulus stimulus stimulus stimulus stimulus stimulus stimulus stimulus stimulus stimulus]
+/ labels = true
+/ header = true
+/ format = fixed
+</data>
+
+***********************************************************************
+Test Monkey
+***********************************************************************
+<monkey>
+/ latencydistribution = normal(500, 100)
+/ percentcorrect = 60
+</monkey>
+

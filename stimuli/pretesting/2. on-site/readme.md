@@ -1,0 +1,1 @@
+These are the generic files to be sent to sites. A copy of these files can also be found in the "measures/phase 1 - translation and stimuli selection/Generic - To be sent to sites for translation and pretesting" folder.

@@ -1,0 +1,223 @@
+---
+title: "Analysis"
+author: "Tal Moran"
+output:
+  html_document:
+    code_folding: hide
+    highlight: haddock
+    theme: flatly
+    toc: yes
+    toc_float: yes
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(message = FALSE,
+                      warning = FALSE)
+```
+
+```{r}
+
+# dependencies
+library(lsr)
+library(BayesFactor)
+library(dplyr)
+library(effsize)
+
+#read the evaluation file 
+eval <- read.csv("../data/raw/pretest.csv")
+#read the demo file
+demo <-read.csv("../data/raw/demographics.csv")
+#merge
+all <- full_join(eval, demo, by = c("subject"))
+all1  <- filter(all, subject >1)
+
+
+#demo
+mean(all1$age_response, na.rm=T) #22.95
+sd(all1$age_response, na.rm=T) #3.25
+table(all1$sex_response) # 76 female
+
+
+creatures = select(all1, contains("response"))
+#sparte liking and exciting ratings
+like = select(creatures, contains("liking"))
+fami = select(creatures, contains("familiar"))
+#liking
+write.csv(like,file=paste("../data/processed/", "like.csv", sep=""))
+write.csv(fami,file=paste("../data/processed/", "fami.csv", sep=""))
+
+
+# CHANGE BY IAN: BFttest won't run with NAs, so I commented out the below and added an na.omit below.
+
+# #I deleted the last line in these files beacuse it was NA. nOW I read it again
+# like <- read.csv("../data/processed/like.csv")
+# #read the demo file
+# fami <-read.csv("../data/processed/fami.csv")
+like <- na.omit(like)
+fami <- na.omit(fami)
+
+
+
+#OUTPUT OF MEANS stds liking
+like_out  = c()
+for (i in 1:dim(like)[2]){
+  like_out$name[i] = strsplit(paste(colnames(like)[i]), "_")[[1]]
+  like_out$mean_liking[i] = mean(like[,i], na.rm=T)
+  like_out$sd_liking[i] = sd(like[,i], na.rm=T)
+  like_out$like_d.es[i] = cohensD(like[,i], mu=0 )
+  like_out$n[i] = sum(!is.na(like[,i]))
+  
+}
+like_out  = as.data.frame(like_out)
+
+#familiar
+
+fami_out  = c()
+for (i in 1:dim(fami)[2]){
+  fami_out$name[i] = strsplit(paste(colnames(fami)[i]), "_")[[1]]
+  fami_out$mean_fami[i] = mean(fami[,i], na.rm=T)
+  fami_out$sd_fami[i] = sd(fami[,i], na.rm=T)
+  fami_out$fmi_d.es[i] = cohensD(like[,i], mu=0)  
+  fami_out$n[i] = sum(!is.na(fami[,i]))
+  
+}
+fami_out  = as.data.frame(fami_out)
+
+all_creatures = cbind(like_out,fami_out)
+write.csv(all_creatures,file=paste("../data/processed/", "all_creatures.csv", sep=""))
+
+#test potential stimuli
+#Magearna
+t.test(like$Magearna_Liking_response, mu=0)
+cohensD(like$Magearna_Liking_response, mu=0)
+ttestBF(x =like$Magearna_Liking_response, mu = 0)
+#t(154) = -0.14, p = 0.883, d =-0.01, BF10 = 0.09, BF01 = 11.11
+t.test(fami$Magearna_familiar_response, mu=4)
+cohensD(fami$Magearna_familiar_response, mu=4)
+ttestBF(x =fami$Magearna_familiar_response, mu = 4)
+#t(154) = -13.79, p < 0.001, d =-1.10, BF10 > 1000
+
+#Shelmet
+t.test(like$Shelmet_Liking_response, mu=0)
+cohensD(like$Shelmet_Liking_response, mu=0)
+ttestBF(x =like$Shelmet_Liking_response, mu = 0)
+#t(154) = -0.32, p = 0.745, d =-0.02, BF10 = 0.094, BF01 =10.63
+t.test(fami$Shelmet_familiar_response, mu=4)
+cohensD(fami$Shelmet_familiar_response, mu=4)
+ttestBF(x =fami$Shelmet_familiar_response, mu = 4)
+#t(154) = -9.84, p < 0.001, d =-0.79, BF10 > 1000
+
+
+#Scraggy
+t.test(like$Scraggy_Liking_response, mu=0)
+cohensD(like$Scraggy_Liking_response, mu=0)
+ttestBF(x =like$Scraggy_Liking_response, mu = 0)
+#t(154) = -0.41, p = 0.678, d =-0.03, BF10 = 0.097, BF01 =10.30
+t.test(fami$Scraggy_familiar_response, mu=4)
+cohensD(fami$Scraggy_familiar_response, mu=4)
+ttestBF(x =fami$Scraggy_familiar_response, mu = 4)
+#t(154) = -6.28, p < 0.001, d =-0.50, BF10 > 1000
+
+#Palpitoad
+t.test(like$Palpitoad_Liking_response, mu=0)
+cohensD(like$Palpitoad_Liking_response, mu=0)
+ttestBF(x =like$Palpitoad_Liking_response, mu = 0)
+#t(154) = 1.04, p = 0.295, d =0.08, BF10 = 0.153, BF01 =6.53
+t.test(fami$Palpitoad_familiar_response, mu=4)
+cohensD(fami$Palpitoad_familiar_response, mu=4)
+ttestBF(x =fami$Palpitoad_familiar_response, mu = 4)
+#t(154) = -11.15, p < 0.001, d =-0.89, BF10 > 1000
+
+#Bergmite
+t.test(like$Bergmite_Liking_response, mu=0)
+cohensD(like$Bergmite_Liking_response, mu=0)
+ttestBF(x =like$Bergmite_Liking_response, mu = 0)
+#t(154) = 1.13, p = 0.258, d =0.09, BF10 = 0.168, BF01 = 5.95
+t.test(fami$Bergmite_familiar_response, mu=4)
+cohensD(fami$Bergmite_familiar_response, mu=4)
+ttestBF(x =fami$Bergmite_familiar_response, mu = 4)
+#t(154) = -13.25, p < 0.001, d =-0.66, BF10 > 1000
+
+#Golett
+t.test(like$Golett_Liking_response, mu=0)
+cohensD(like$Golett_Liking_response, mu=0)
+ttestBF(x =like$Golett_Liking_response, mu = 0)
+#t(154) = 1.45, p = 0.146, d =0.11, BF10 = 0.253, BF01 = 3.95
+t.test(fami$Golett_familiar_response, mu=4)
+cohensD(fami$Golett_familiar_response, mu=4)
+ttestBF(x =fami$Golett_familiar_response, mu = 4)
+#t(154) = -12.01, p < 0.001, d =-0.96, BF10 > 1000
+
+#Grubbin
+t.test(like$Grubbin_Liking_response, mu=0)
+cohensD(like$Grubbin_Liking_response, mu=0)
+ttestBF(x =like$Grubbin_Liking_response, mu = 0)
+#t(154) = -1.64, p = 0.102, d =-0.13, BF10 = 0.333, BF01 = 3.00
+t.test(fami$Grubbin_familiar_response, mu=4)
+cohensD(fami$Grubbin_familiar_response, mu=4)
+ttestBF(x =fami$Grubbin_familiar_response, mu = 4)
+#t(154) = -12.21, p < 0.001, d =-0.98, BF10 > 1000
+
+
+#Cranidos
+t.test(like$Cranidos_Liking_response, mu=0)
+cohensD(like$Cranidos_Liking_response, mu=0)
+ttestBF(x =like$Cranidos_Liking_response, mu = 0)
+#t(155) = 1.82, p = 0.069, d =0.14, BF10 = 0.455, BF01 = 2.19
+t.test(fami$Cranidos_familiar_response, mu=4)
+cohensD(fami$Cranidos_familiar_response, mu=4)
+ttestBF(x =fami$Cranidos_familiar_response, mu = 4)
+#t(154) = -5.96, p < 0.001, d =-0.47, BF10 > 1000
+
+#Swadloon
+t.test(like$Swadloon_Liking_response, mu=0)
+cohensD(like$Swadloon_Liking_response, mu=0)
+ttestBF(x =like$Swadloon_Liking_response, mu = 0)
+#t(154) = 1.92, p = 0.056, d =0.15, BF10 = 0.538, BF01 = 1.85
+t.test(fami$Swadloon_familiar_response, mu=4)
+cohensD(fami$Swadloon_familiar_response, mu=4)
+ttestBF(x =fami$Swadloon_familiar_response, mu = 4)
+#t(154) = -10.28, p < 0.001, d =-0.82, BF10 > 1000
+
+
+#test diffrence between CSs, starting from the lowers in valence.
+#Magearna vs. Shelmet
+t.test(like$Magearna_Liking_response,like$Shelmet_Liking_response, paired=T)#p= .901
+ttestBF(x =like$Magearna_Liking_response, y = like$Shelmet_Liking_response, paired=T)
+#BF10 = 0.09, BF01= 11.11
+t.test(fami$Magearna_familiar_response,fami$Shelmet_familiar_response, paired=T)#p= .005
+ttestBF(x =fami$Magearna_familiar_response, y = fami$Shelmet_familiar_response, paired=T)
+#BF10 = 4.09, BF01= 0.24
+#not good
+
+#Shelmet vs. Scraggy
+t.test(like$Scraggy_Liking_response,like$Shelmet_Liking_response, paired=T)#p= .909
+ttestBF(x =like$Scraggy_Liking_response, y = like$Shelmet_Liking_response, paired=T)
+#BF10 = 0.08, BF01= 12.5
+t.test(fami$Scraggy_familiar_response,fami$Shelmet_familiar_response, paired=T)#p= .002
+ttestBF(x =fami$Scraggy_familiar_response, y = fami$Shelmet_familiar_response, paired=T)
+#BF10 = 9.37, BF01= 0.10
+#not good
+
+
+#Shelmet vs. Palpitoad
+t.test(like$Palpitoad_Liking_response,like$Shelmet_Liking_response, paired=T)#p= .213
+ttestBF(like$Palpitoad_Liking_response,like$Shelmet_Liking_response, paired=T)
+#BF10 = 0.191, BF01 = 5.23
+t.test(fami$Palpitoad_familiar_response,fami$Shelmet_familiar_response, paired=T)#p= .083
+ttestBF(fami$Palpitoad_familiar_response,fami$Shelmet_familiar_response, paired=T)
+#BF10 = 0.403, BF01 = 2.48
+#not good
+
+#Bergmite vs. Palpitoad
+t.test(like$Palpitoad_Liking_response,like$Bergmite_Liking_response, paired=T)#
+cohen.d(like$Palpitoad_Liking_response,like$Bergmite_Liking_response, paired=T, na.rm=T)
+ttestBF(like$Palpitoad_Liking_response,like$Bergmite_Liking_response, paired=T)
+#t(154) = 0.09, p= .920, d = 0.008, BF10 = 0.089, BF01 = 11.23
+
+t.test(fami$Palpitoad_familiar_response,fami$Bergmite_familiar_response, paired=T)
+cohen.d(fami$Palpitoad_familiar_response,fami$Bergmite_familiar_response, paired=T, na.rm=T)#
+ttestBF(fami$Palpitoad_familiar_response,fami$Bergmite_familiar_response, paired=T)
+#t(154) = 0.860, p= .391, d = 0.069, BF10 = 0.128, BF01 = 7.81
+
+```

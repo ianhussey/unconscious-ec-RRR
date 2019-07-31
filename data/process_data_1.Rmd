@@ -98,8 +98,6 @@ detach("package:data.table", unload=TRUE)
 
 ```{r}
 
-colnames(data_raw)
-
 data_trimmed <- data_raw %>%
   dplyr::rename(filler_1_rating = filler_1_rating.response,
                 filler_2_rating = filler_2_rating.response,
@@ -136,12 +134,9 @@ data_trimmed <- data_raw %>%
                 awareness_2b_question,
                 awareness_2b_response,
                 awareness_2c_question,
-                awareness_2c_response)
-
-# to be added!!!!!
-# %>%
-#   # filter out simulated data
-#   filter(simulated_data == FALSE)
+                awareness_2c_response)%>%
+  # filter out simulated data
+  filter(simulated_data == FALSE)
 
 # process data from each task
 data_demographics <- data_trimmed %>%
@@ -195,13 +190,17 @@ psychopy_text_to_string <- function(vector_input){
   
   # convert puntuation to characters and collapse string
   vector_input <- vector_input %>%
-    str_replace_all(., "return",      "")  %>%
-    str_replace_all(., "period",      ".") %>%
-    str_replace_all(., "comma",       ",") %>%
-    str_replace_all(., "space",       " ") %>%
-    str_replace_all(., "question",    "?") %>%
-    str_replace_all(., "doublequote", "'") %>%
-    str_replace_all(., "apostrophe",  "'") %>%
+    str_replace_all(., "return",       "")  %>%
+    str_replace_all(., "period",       ".") %>%
+    str_replace_all(., "comma",        ",") %>%
+    str_replace_all(., "space",        " ") %>%
+    str_replace_all(., "question",     "?") %>%
+    str_replace_all(., "doublequote",  "'") %>%
+    str_replace_all(., "apostrophe",   "'") %>%
+    str_replace_all(., "semicolon",    ";") %>%
+    str_replace_all(., "num_decimal",  ".") %>%
+    str_replace_all(., "num_subtract", "-") %>%
+    str_replace_all(., "capslock",     "") %>%
     paste(., collapse = "")
   
   return(vector_input)
@@ -259,27 +258,6 @@ data_combined <- data_demographics %>%
   left_join(data_awareness_2a,  by = "unique_id") %>%
   left_join(data_awareness_2b,  by = "unique_id") %>%
   left_join(data_awareness_2c,  by = "unique_id")
-
-
-
-# sim data for testing - to be removed!!!
-# data_combined <- read.csv("processed/data_combined_simulated.csv")
-# data_combined <- data_combined %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined) %>%
-#   rbind(data_combined)
-
-
 
 # exclusions
 ## From protocol: "Performance in the surveillance task: we will exclude participants with more than three standard deviations beyond the mean error number in the surveillance task (error = responding to non-target trials, or not responding to target trials)."

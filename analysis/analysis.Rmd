@@ -13,6 +13,17 @@ output:
     toc_float: yes
 ---
 
+Notes on meta analysed effect size:
+
+Credibility intervals refer to the interval of effect sizes likely to be observed in a future study on the basis of the width of estimation of the true effect size combined with variation in this true effect size (e.g., due to heterogeneity). 
+
+Notes on heterogeneity metrics:
+
+- Q and its p value: A measure of weighted squared deviations. Depends on number of studies.
+- tau^2: Population between-studies variance, ie estimated amount of total true heterogeneity in the effect. Is on the same scale as the meta analysed effect size (e.g., Hedges' g).
+- I^2: Percentage of variation in the observed effects that is due to true heterogeneity (as quantified by tau^2) as opposed to sampling variation. Metric is therefore a description of data in sample, not an underlying quality associated with the true effect. Can be thought of as analogous to the reliability of a scale, which also represents the percentage of true variance as portion of total variance. Range 0-100, lower values preferable. E.g., 0 = no variability in observed effects to be explained as a systematic influence (e.g., some due to some moderator) as its all just sampling variation. Does not depend on the effect size scale or the number of studies.
+- H^2: Total variability / sampling variability, i.e., (true variability / sampling variability)/sampling variability. Lower values preferable, i.e., refer to less true variation to be explained as systematic (e.g., due to some moderator).
+
 ```{r setup, include=FALSE}
 
 knitr::opts_chunk$set(echo = TRUE, 
@@ -31,33 +42,27 @@ options(scipen = 999)
 
 ```{r}
 
-
 check_for_and_install_packages <- function(package) {
   if (!package %in% installed.packages()) install.packages(package)
 }
 
 check_for_and_install_packages("tidyverse")
-check_for_and_install_packages("effsize")
-check_for_and_install_packages("BayesFactor")
-check_for_and_install_packages("bootES")
+check_for_and_install_packages("broom")
 check_for_and_install_packages("metafor")
 check_for_and_install_packages("knitr")
 check_for_and_install_packages("kableExtra")
-check_for_and_install_packages("brmstools")
+check_for_and_install_packages("rsample")
+check_for_and_install_packages("purrr")
 check_for_and_install_packages("devtools")
-check_for_and_install_packages("broom")
-if (!"brmstools" %in% installed.packages()) devtools::install_github("mvuorre/brmstools")
 if (!"patchwork" %in% installed.packages()) devtools::install_github("thomasp85/patchwork")
 
 library(tidyverse)
 library(broom)
-library(effsize)
-library(bootES)
-library(BayesFactor)
 library(metafor)
 library(knitr)
 library(kableExtra)
-library(brmstools)
+library(rsample)
+library(purrr)
 library(patchwork)
 
 ```
@@ -71,7 +76,7 @@ data_processed <- read.csv("../data/processed/data_processed.csv")
 
 ```
 
-# Functions
+# Functions & analytic workflow
 
 ```{r}
 
@@ -82,7 +87,7 @@ round_df <- function(df, digits) {
   (df)
 }
 
-# apa format p value
+# apa format p value -----
 apa_p_value <- function(p){
   p_formatted <- ifelse(p >= 0.001, paste("=", round(p, 3)),
                         ifelse(p < 0.001, "< .001", NA))
@@ -90,81 +95,52 @@ apa_p_value <- function(p){
   p_formatted
 }
 
-# function to perform between groups t test, along with summary stats, Hedges' g, and Bayes Factor using default prior (r = .707) -----
-analysis_workflow <- function(data) {
+# helper function to apply to each resample to calculate hedges g -----
+preferences_effect_size <- function(split){
   
-  # summary stats
-  summary_means <- data %>%
-    group_by(condition) %>%
-    dplyr::summarize(mean = mean(DV)) %>%
-    spread(condition, mean) %>%
-    rename(mean_CS1_USpos = CS1_USpos,
-           mean_CS1_USneg = CS1_USneg) %>%
-    round_df(3)
+  summary_preferences <- analysis(split) %>%
+    group_by(data_collection_site) %>%
+    dplyr::summarize(preference_mean = mean(DV),
+                     preference_sd = sd(DV),
+                     preference_n = n(),
+                     preference_cohens_dz = preference_mean/preference_sd,
+                     # Hedges' g bias correction formula suggested by Miguel:
+                     preference_hedges_g = preference_cohens_dz*(1 - (3/(4*(preference_n-1)-1)))) %>%
+    ungroup()
   
-  summary_sds <- data %>%
-    group_by(condition) %>%
-    dplyr::summarize(sd = sd(DV)) %>%
-    spread(condition, sd) %>%
-    rename(sd_CS1_USpos = CS1_USpos,
-           sd_CS1_USneg = CS1_USneg) %>%
-    round_df(3)
+  return(summary_preferences)
   
-  # t test
-  results_t_test <- t.test(formula = DV ~ IV,
-                           alternative = "two.sided",
-                           paired = FALSE,
-                           data = data) %>%
-    tidy() %>%
-    mutate(t = round(statistic, 2),
-           df = round(parameter, 2),
-           p = apa_p_value(p.value)) %>%
-    select(t, df, p)
-  
-  # effect size
-  results_hedges_g_temp <- data %>%
-    bootES(.,
-           R           = 2000,
-           data.col    = "DV",
-           group.col   = "IV",
-           contrast    = c(A = "CS1_USneg", B = "CS1_USpos"),
-           effect.type = "hedges.g",
-           ci.type     = "bca",
-           ci.conf     = 0.95)
-  
-  results_hedges_g <- data.frame(hedges_g        = round(results_hedges_g_temp$t0,        3),
-                                 hedges_g_se     = round(sd(results_hedges_g_temp$t),     3),
-                                 hedges_g_ci_lwr = round(results_hedges_g_temp$bounds[1], 3),
-                                 hedges_g_ci_upr = round(results_hedges_g_temp$bounds[2], 3))
-  
-  # bayes factor t test
-  results_bf_t_test_temp <- ttestBF(formula = DV ~ IV,
-                                    data = data)
-  
-  results_bf_t_test <- data.frame(BF10 = round(exp(results_bf_t_test_temp@bayesFactor$bf), 2)) %>%
-    mutate(BF10 = ifelse(BF10 > 10000, ">10000", BF10))
-  
-  results <- cbind(summary_means,
-                   summary_sds,
-                   results_t_test,
-                   results_hedges_g,
-                   results_bf_t_test)
-  
-  return(results)
 }
-
 
 # meta analysis and forest plot workflow -----
 meta_analysis_workflow <- function(data, 
-                                   effect_size_label, 
-                                   reference_line, 
+                                   effect_size_label = "Hedges' g", 
+                                   nboots = 2000,
+                                   reference_line = 0, 
                                    plot = TRUE) {
+  
+  # calculate effect sizes for meta
+  data_effect_sizes <- data %>%
+    # create resamples
+    group_by(data_collection_site) %>%
+    bootstraps(times = nboots) %>%
+    # apply to each bootstrap
+    mutate(es_boots = map(splits, preferences_effect_size)) %>%
+    # unnest
+    unnest(es_boots) %>%
+    # summarize across resamples
+    group_by(data_collection_site) %>%
+    summarize(hedges_g        = quantile(preference_hedges_g, 0.500),
+              hedges_g_se     = sd(preference_hedges_g),  # nb SEM is SD of the mean 
+              hedges_g_ci_lwr = quantile(preference_hedges_g, 0.025),
+              hedges_g_ci_upr = quantile(preference_hedges_g, 0.975)) %>%
+    ungroup()
   
   # fit random effects model 
   fitted_model <- 
-    rma(yi = yi, 
-        sei = sei,
-        data = data,
+    rma(yi   = hedges_g, 
+        sei  = hedges_g_se,
+        data = data_effect_sizes,
         slab = data_collection_site)
   
   p_value <- apa_p_value(fitted_model$pval)
@@ -185,8 +161,7 @@ meta_analysis_workflow <- function(data,
                                   "cr.ub" = "95% CR upper"))
   
   meta_analysis_results <- rbind(meta_analysis_results,
-                                 data.frame(metric = "p",
-                                            estimate = p_value))
+                                 data.frame(metric = "p", estimate = p_value))
   
   # summarize results
   meta_analysis_results_text <- 
@@ -201,179 +176,248 @@ meta_analysis_workflow <- function(data,
   
   heterogeneity_test_results_text <- 
     paste0("Q(df = ",    fitted_model$k - 1, ") = ", round(fitted_model$QE, 2), 
-           ", p = ",     ifelse(fitted_model$pval < 0.001, "< .001", as.character(round(fitted_model$pval, 3))),
+           ", p ",       apa_p_value(fitted_model$QEp),
            ", tau^2 = ", round(fitted_model$tau2, 2), 
            ", I^2 = ",   round(fitted_model$I2, 2),
            ", H^2 = ",   round(fitted_model$H2, 2))
   
   if (plot == TRUE) {
-    forest_plot <- metafor::forest(fitted_model,
-                                   xlab = effect_size_label,
-                                   addcred = TRUE,
-                                   refline = reference_line)
+    
+    cr_lwr <- meta_analysis_results %>%
+      filter(metric == "95% CR lower") %>%
+      pull(estimate)
+    
+    cr_upr <- meta_analysis_results %>%
+      filter(metric == "95% CR upper") %>%
+      pull(estimate)
+    
+    combined_plotting_data <- data_effect_sizes %>%
+      select(data_collection_site, hedges_g, hedges_g_se, hedges_g_ci_lwr, hedges_g_ci_upr) %>%
+      rbind(data.frame(data_collection_site = "Meta analysis",
+                       hedges_g             = meta_analysis_results$estimate[1],
+                       hedges_g_se          = meta_analysis_results$estimate[2],
+                       hedges_g_ci_lwr      = meta_analysis_results$estimate[3],
+                       hedges_g_ci_upr      = meta_analysis_results$estimate[4])) %>%
+      mutate(hedges_g        = as.numeric(hedges_g),
+             hedges_g_se     = as.numeric(hedges_g_se),
+             hedges_g_ci_lwr = as.numeric(hedges_g_ci_lwr),
+             hedges_g_ci_upr = as.numeric(hedges_g_ci_upr)) %>%
+      round_df(2) %>%
+      mutate(Site      = fct_rev(data_collection_site),
+             # set point size to proportionate range from 2-6
+             size             = 6 - (hedges_g_se - min(hedges_g_se)) / (max(hedges_g_se) - min(hedges_g_se)) * 4,
+             hedges_g_cr_lwr  = ifelse(as.character(data_collection_site) == "Meta analysis", cr_lwr, NA),
+             hedges_g_cr_upr  = ifelse(as.character(data_collection_site) == "Meta analysis", cr_upr, NA),
+             results_string   = paste0(format(round(hedges_g, 2), nsmall = 2), " [",
+                                       format(round(hedges_g_ci_lwr, 2), nsmall = 2), ", ",
+                                       format(round(hedges_g_ci_upr, 2), nsmall = 2), "]"))
+
+    p1 <- 
+      ggplot(combined_plotting_data, aes(Site, hedges_g)) +
+      geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.5) +
+      geom_linerange(aes(ymin = hedges_g_ci_lwr, ymax = hedges_g_ci_upr)) +
+      geom_point(shape = "square", size = combined_plotting_data$size) +
+      coord_flip() +
+      labs(x = "", y = "Hedges' g") +
+      theme(strip.placement = "outside", 
+            axis.line.x = element_line(size = 0.5), 
+            axis.ticks.y = element_blank(), 
+            panel.background = element_rect(fill = "transparent", color = NA))
+
+    p2 <- 
+      ggplot(combined_plotting_data, aes(Site, 1)) +
+      geom_text(aes_string(label = "results_string"),
+                hjust = "inward", 
+                size = 3) +
+      coord_flip() +
+      theme_void() + 
+      theme(panel.grid = element_blank(), panel.border = element_blank())
+    
+    # combine plots
+    plot <- p1 + p2 + plot_layout(nrow = 1, widths = c(3, 1))
+    
   } else {
-    forest_plot <- NULL
+    
+    plot <- NULL
+    
   }
   
+  # # alt forest plot using the metafor library
+  # if (plot == TRUE) {
+  #   forest_plot <- metafor::forest(fitted_model,
+  #                                  xlab = effect_size_label,
+  #                                  addcred = TRUE,
+  #                                  refline = reference_line)
+  # } else {
+  #   forest_plot <- NULL
+  # }
   
-  return(list(fitted_model = fitted_model, 
-              meta_analysis_results = meta_analysis_results,
-              meta_analysis_results_text = meta_analysis_results_text,
+  return(list(data_effect_sizes               = data_effect_sizes,
+              fitted_model                    = fitted_model, 
+              meta_analysis_results           = meta_analysis_results,
+              meta_analysis_results_text      = meta_analysis_results_text,
               heterogeneity_test_results_text = heterogeneity_test_results_text,
-              forest_plot = forest_plot))
+              plot                            = plot))
+  
 }
 
 ```
 
-# Exclusion strategy 1: Olson & Fazio (2002)
+# Meta analyses
 
-## Analyses by site
-
-additional exclusions needed!!!
+## Exclusion strategy 1: Olson & Fazio (2002)
 
 ```{r}
 
-# do exclusions
-data_for_analysis <- data_processed %>%
-  filter(exclude_surveillance == FALSE & simulated_data == FALSE) %>%
-  mutate(DV = sum_score_evaluation_CS1_preferred,
-         IV = condition)
+data_1 <- data_processed %>%
+  filter(exclude_surveillance == FALSE &
+           simulated_data == FALSE &
+           exclude_aware_olsen_and_fazio == FALSE) %>%
+  mutate(DV = sum_score_evaluation_CS1_preferred)
 
-# apply analyses to each site
-results_by_site <- data_for_analysis %>%
-  group_by(data_collection_site) %>%
-  do(analysis_workflow(data = .)) %>%
-  ungroup()
+# distribution plots
+## all sites
+ggplot(data_1, aes(DV)) +
+  geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
+  geom_density() +
+  theme_classic() +
+  xlab("Preference")
 
-# print
-results_by_site %>%
-  kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+## split by site
+ggplot(data_1, aes(DV, color = data_collection_site)) +
+  geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
+  geom_density(alpha = 0.2) +
+  theme_classic() +
+  scale_color_viridis_d() +
+  labs(color = "Site") + 
+  xlab("Preference") 
+
+# meta analysis
+results_1 <- meta_analysis_workflow(data_1)
+
+# forest plot
+results_1$plot
 
 ```
 
-## Meta analysis
+- Meta anaysis results: `r results_1$meta_analysis_results_text`
+- Heterogeneity tests: `r results_1$heterogeneity_test_results_text`
 
-Notes on meta analysed effect size:
-
-Credibility intervals refer to the interval of effect sizes likely to be observed in a future study on the basis of the width of estimation of the true effect size combined with variation in this true effect size (e.g., due to heterogeneity). 
-
-Notes on heterogeneity metrics:
-
-- Q and its p value: A measure of weighted squared deviations. Depends on number of studies.
-- tau^2: Population between-studies variance, ie estimated amount of total true heterogeneity in the effect. Is on the same scale as the meta analysed effect size (e.g., Hedges' g).
-- I^2: Percentage of variation in the observed effects that is due to true heterogeneity (as quantified by tau^2) as opposed to sampling variation. Metric is therefore a description of data in sample, not an underlying quality associated with the true effect. Can be thought of as analogous to the reliability of a scale, which also represents the percentage of true variance as portion of total variance. Range 0-100, lower values preferable. E.g., 0 = no variability in observed effects to be explained as a systematic influence (e.g., some due to some moderator) as its all just sampling variation. Does not depend on the effect size scale or the number of studies.
-- H^2: Total variability / sampling variability, i.e., (true variability / sampling variability)/sampling variability. Lower values preferable, i.e., refer to less true variation to be explained as systematic (e.g., due to some moderator).
+## Exclusion strategy 2: Bar-Anan, De-Houwer & Nosek (2010)
 
 ```{r}
 
-data_for_meta <- results_by_site %>%
-  mutate(yi = hedges_g, 
-         sei = hedges_g_se) %>%
-  select(data_collection_site, yi, sei)
+data_2 <- data_processed %>%
+  filter(exclude_surveillance == FALSE &
+         simulated_data == FALSE &
+         exclude_awareness_baranan_dehouwer_nosek == FALSE) %>%
+  mutate(DV = sum_score_evaluation_CS1_preferred)
+  
+# distribution plots
+## all sites
+ggplot(data_2, aes(DV)) +
+  geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
+  geom_density() +
+  theme_classic() +
+  xlab("Preference")
 
-# meta analyse results
-meta_results <- meta_analysis_workflow(data              = data_for_meta,
-                                       effect_size_label = "Hedges' g",
-                                       reference_line    = 0,
-                                       plot = TRUE)
+## split by site
+ggplot(data_2, aes(DV, color = data_collection_site)) +
+  geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
+  geom_density(alpha = 0.2) +
+  theme_classic() +
+  scale_color_viridis_d() +
+  labs(color = "Site") + 
+  xlab("Preference") 
+
+# meta analysis
+results_2 <- meta_analysis_workflow(data_2)
+
+# forest plot
+results_2$plot
 
 ```
 
-- Meta anaysis results: `r meta_results$meta_analysis_results_text`
-- Heterogeneity tests: `r meta_results$heterogeneity_test_results_text`
+- Meta anaysis results: `r results_2$meta_analysis_results_text`
+- Heterogeneity tests: `r results_2$heterogeneity_test_results_text`
 
-# Exclusion strategy 2: Bar-Anan, De-Houwer & Nosek (2010)
-
-## Analyses by site
-
-additional exclusions needed!!!
+## Exclusion strategy 3: Hybrid strategy
 
 ```{r}
 
-# do exclusions
-data_for_analysis <- data_processed %>%
-  filter(exclude_surveillance == FALSE & simulated_data == FALSE) %>%
-  mutate(DV = sum_score_evaluation_CS1_preferred,
-         IV = condition)
+data_3 <- data_processed %>%
+  filter(exclude_surveillance == FALSE & 
+           simulated_data == FALSE &
+           exclude_awareness_baranan_dehouwer_nosek_modified == FALSE) %>%
+  mutate(DV = sum_score_evaluation_CS1_preferred)
 
-# apply analyses to each site
-results_by_site <- data_for_analysis %>%
-  group_by(data_collection_site) %>%
-  do(analysis_workflow(data = .)) %>%
-  ungroup()
+# distribution plots
+## all sites
+ggplot(data_3, aes(DV)) +
+  geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
+  geom_density() +
+  theme_classic() +
+  xlab("Preference")
 
-# print
-results_by_site %>%
-  kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+## split by site
+ggplot(data_3, aes(DV, color = data_collection_site)) +
+  geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
+  geom_density(alpha = 0.2) +
+  theme_classic() +
+  scale_color_viridis_d() +
+  labs(color = "Site") + 
+  xlab("Preference") 
+
+# meta analysis
+results_3 <- meta_analysis_workflow(data_3)
+
+# forest plot
+results_3$plot
 
 ```
 
-## Meta analysis
+- Meta anaysis results: `r results_3$meta_analysis_results_text`
+- Heterogeneity tests: `r results_3$heterogeneity_test_results_text`
+
+## Exclusion strategy 4: XXX strategy
 
 ```{r}
 
-data_for_meta <- results_by_site %>%
-  mutate(yi = hedges_g, 
-         sei = hedges_g_se) %>%
-  select(data_collection_site, yi, sei)
+data_4 <- data_processed %>%
+  filter(exclude_surveillance == FALSE & 
+           simulated_data == FALSE &
+           exclude_awareness_baranan_dehouwer_nosek_modified == FALSE) %>%
+  mutate(DV = sum_score_evaluation_CS1_preferred)
 
-# meta analyse results
-meta_results <- meta_analysis_workflow(data              = data_for_meta,
-                                       effect_size_label = "Hedges' g",
-                                       reference_line    = 0,
-                                       plot = TRUE)
+# distribution plots
+## all sites
+ggplot(data_4, aes(DV)) +
+  geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
+  geom_density() +
+  theme_classic() +
+  xlab("Preference")
 
-```
+## split by site
+ggplot(data_4, aes(DV, color = data_collection_site)) +
+  geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
+  geom_density(alpha = 0.2) +
+  theme_classic() +
+  scale_color_viridis_d() +
+  labs(color = "Site") + 
+  xlab("Preference") 
 
-- Meta anaysis results: `r meta_results$meta_analysis_results_text`
-- Heterogeneity tests: `r meta_results$heterogeneity_test_results_text`
+# meta analysis
+results_4 <- meta_analysis_workflow(data_4)
 
-# Exclusion strategy 3: Hybrid strategy
-
-## Analyses by site
-
-additional exclusions needed!!!
-
-```{r}
-
-# do exclusions
-data_for_analysis <- data_processed %>%
-  filter(exclude_surveillance == FALSE & simulated_data == FALSE) %>%
-  mutate(DV = sum_score_evaluation_CS1_preferred,
-         IV = condition)
-
-# apply analyses to each site
-results_by_site <- data_for_analysis %>%
-  group_by(data_collection_site) %>%
-  do(analysis_workflow(data = .)) %>%
-  ungroup()
-
-# print
-results_by_site %>%
-  kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+# forest plot
+results_4$plot
 
 ```
 
-## Meta analysis
+- Meta anaysis results: `r results_4$meta_analysis_results_text`
+- Heterogeneity tests: `r results_4$heterogeneity_test_results_text`
 
-```{r}
+## Moderator meta?
 
-data_for_meta <- results_by_site %>%
-  mutate(yi = hedges_g, 
-         sei = hedges_g_se) %>%
-  select(data_collection_site, yi, sei)
 
-# meta analyse results
-meta_results <- meta_analysis_workflow(data              = data_for_meta,
-                                       effect_size_label = "Hedges' g",
-                                       reference_line    = 0,
-                                       plot = TRUE)
-
-```
-
-- Meta anaysis results: `r meta_results$meta_analysis_results_text`
-- Heterogeneity tests: `r meta_results$heterogeneity_test_results_text`
 

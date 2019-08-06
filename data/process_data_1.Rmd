@@ -52,7 +52,8 @@ library(data.table)
 
 # list all folders in a given folder. ie all data collection sites' separate data folders
 the_directories <- 
-  list.dirs(path = "raw", full.names = TRUE, recursive = FALSE) %>%
+  #list.dirs(path = "raw - pilot", full.names = TRUE, recursive = FALSE) %>%
+  list.dirs(path = "raw - pilot", full.names = TRUE, recursive = FALSE) %>%
   paste0(., "/")
 
 fread_with_name_checks <- function(input){
@@ -96,6 +97,8 @@ detach("package:data.table", unload=TRUE)
 
 # Process data
 
+tidy names and levels
+
 ```{r}
 
 data_trimmed <- data_raw %>%
@@ -134,7 +137,7 @@ data_trimmed <- data_raw %>%
                 awareness_2b_question,
                 awareness_2b_response,
                 awareness_2c_question,
-                awareness_2c_response)%>%
+                awareness_2c_response) %>%
   # filter out simulated data
   filter(simulated_data == FALSE)
 
@@ -170,6 +173,12 @@ data_evaluation <- data_trimmed %>%
   group_by(unique_id) %>%
   summarize(sum_score_evaluation_CS1_preferred = sum(evaluation_CS1_preferred)) %>%
   ungroup()
+
+```
+
+make strings human readable
+
+```{r}
 
 # function to convert the keypresses captured in psychopy to a human readable string
 psychopy_text_to_string <- function(vector_input){
@@ -223,22 +232,32 @@ data_awareness_1 <- data_trimmed %>%
                                        "2" = "awareness_1_words_and_images")) %>%
   spread(awareness_1_question, awareness_1_response)
 
+```
+
+recode other awareness variables and create exclusion variables
+
+```{r}
+
 data_awareness_2a <- data_trimmed %>%
   filter(!is.na(awareness_2a_response)) %>%
   select(unique_id, awareness_2a_question, awareness_2a_response) %>%
   mutate(awareness_2a_question = recode(awareness_2a_question, 
                                        "0" = "awareness_2_regularity"),
          awareness_2a_response = as.numeric(awareness_2a_response)) %>%
-  spread(awareness_2a_question, awareness_2a_response)
+  mutate(awareness_2a_response = recode(awareness_2a_response, 
+                                         "1" = FALSE,
+                                         "2" = TRUE)) %>%
+  select(-awareness_2a_question)
 
 data_awareness_2b <- data_trimmed %>%
   filter(!is.na(awareness_2b_response)) %>%
   select(unique_id, awareness_2b_question, awareness_2b_response) %>%
   mutate(awareness_2b_question = recode(awareness_2b_question, 
-                                       "0" = "awareness_2_USpos",
-                                       "1" = "awareness_2_USneg"),
+                                       "0" = "awareness_2_stim_paired_with_positive",
+                                       "1" = "awareness_2_stim_paired_with_negative"),
          awareness_2b_response = as.numeric(awareness_2b_response)) %>%
   spread(awareness_2b_question, awareness_2b_response)
+# needs condition var to know if correct
 
 data_awareness_2c <- data_trimmed %>%
   filter(!is.na(awareness_2c_response)) %>%
@@ -260,42 +279,56 @@ data_combined <- data_demographics %>%
   left_join(data_awareness_2c,  by = "unique_id")
 
 # exclusions
-## From protocol: "Performance in the surveillance task: we will exclude participants with more than three standard deviations beyond the mean error number in the surveillance task (error = responding to non-target trials, or not responding to target trials)."
-data_exclusions <- data_combined %>%
+## accuracy in the surveillance task
+## "Performance in the surveillance task: we will exclude participants with more than three standard deviations beyond the mean error number in the surveillance task (error = responding to non-target trials, or not responding to target trials)."
+data_exclusions_temp_1 <- data_combined %>%
   group_by(data_collection_site) %>%
   summarize(mean_perc_accuracy_surveillance_response_by_site = round(mean(perc_accuracy_surveillance_response), 2),
             sd_perc_accuracy_surveillance_response_by_site = round(sd(perc_accuracy_surveillance_response), 2)) %>%
   ungroup()
 
-# combine exclusion data
-data_intermediate <- data_combined %>%
-  left_join(data_exclusions, by = "data_collection_site") %>%
-  mutate(exclude_surveillance = ifelse(perc_accuracy_surveillance_response > mean_perc_accuracy_surveillance_response_by_site +
-                                         sd_perc_accuracy_surveillance_response_by_site*3 |
-                                         perc_accuracy_surveillance_response < mean_perc_accuracy_surveillance_response_by_site - 
-                                         sd_perc_accuracy_surveillance_response_by_site*3,
-                                       TRUE, FALSE))
+data_exclusions_temp_2 <- data_combined %>%
+  left_join(data_exclusions_temp_1, by = "data_collection_site") %>%
+  mutate(exclude_surveillance = ifelse(perc_accuracy_surveillance_response <
+                                         (mean_perc_accuracy_surveillance_response_by_site - 
+                                            sd_perc_accuracy_surveillance_response_by_site*3), TRUE, FALSE))
+
+# awareness of the stimulus pairings
+data_intermediate <- data_exclusions_temp_2 %>%
+  # Confirmatory 1: applied later after hand scoring of responses
+  # Exporatory 1: applied later after hand scoring of responses
+  # Exploratory 2: bar anan, de houwer and nosek criteria
+  # "The second (exploratory) score will be computed based on Bar-Anan et al.’s (2010) criteria. Here participants will be excluded if they chose the “yes” answer on question 1 of the Bar-Anan et al. measure, and retained if they chose “no”."
+  mutate(exclude_awareness_baranan_dehouwer_nosek = awareness_2a_response) %>%
+  # Exploratory 3: bar anan, de houwer and nosek criteria
+  # "The third (exploratory) score will be computed based on a modification to Bar-Anan et al.’s (2010) criteria in order to verify that responding is not driven by guessing. Participants will be excluded if they chose the “yes” answer on question 1 and correctly identify the valence with which each of the two CSs appeared during the task (providing either a probably or certainly response on questions 2-3). All other participants will be retained." 
+  mutate(exclude_awareness_baranan_dehouwer_nosek_modified = ifelse((exclude_awareness_baranan_dehouwer_nosek == TRUE & 
+                                                                       condition == "CS1_USpos" & 
+                                                                       awareness_2_stim_paired_with_positive %in% c(1, 2) & 
+                                                                       awareness_2_stim_paired_with_negative %in% c(5, 6)) |
+                                                                      (exclude_awareness_baranan_dehouwer_nosek == TRUE &
+                                                                         condition == "CS1_USneg" & 
+                                                                         awareness_2_stim_paired_with_positive %in% c(5, 6) & 
+                                                                         awareness_2_stim_paired_with_negative %in% c(1, 2)), 
+                                                                    TRUE, FALSE))
 
 # add columns for hand scoring
-data_awareness_1_for_hand_scoring <- data_awareness_1 %>%
-  mutate(awareness_1_out_of_ordinary_scorer_1 = "",
-         awareness_1_out_of_ordinary_scorer_2 = "",
-         awareness_1_systematic_scorer_1 = "",
-         awareness_1_systematic_scorer_2 = "",
-         awareness_1_words_and_images_scorer_1 = "",
-         awareness_1_words_and_images_scorer_2 = "") %>%
+data_awareness_for_hand_scoring <- data_intermediate %>%
   select(unique_id, 
-         awareness_1_out_of_ordinary, awareness_1_out_of_ordinary_scorer_1, awareness_1_out_of_ordinary_scorer_2, 
-         awareness_1_systematic, awareness_1_systematic_scorer_1, awareness_1_systematic_scorer_2, 
-         awareness_1_words_and_images, awareness_1_words_and_images_scorer_1, awareness_1_words_and_images_scorer_2) 
-
+         condition, 
+         awareness_1_out_of_ordinary, 
+         awareness_1_systematic) %>%
+  mutate(fazio_and_olsen_criteria_scorer_1 = "",
+         fazio_and_olsen_modified_criteria_scorer_1 = "",
+         fazio_and_olsen_criteria_scorer_2 = "",
+         fazio_and_olsen_modified_criteria_scorer_2 = "")
 
 # write to disk
 ## combined data without variables to be hand scored
 write_csv(data_intermediate, "intermediate/data_intermediate.csv")
 
 ## data for hand scoring
-write_csv(data_awareness_1_for_hand_scoring, "intermediate/data_for_hand_scoring.csv")
+write_csv(data_awareness_for_hand_scoring, "intermediate/data_awareness_for_hand_scoring.csv")
 
 ```
 

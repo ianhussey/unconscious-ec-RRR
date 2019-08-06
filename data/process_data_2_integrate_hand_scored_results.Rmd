@@ -42,44 +42,72 @@ library(tidyverse)
 
 ```
 
-# Get data
+Get data
 
 ```{r}
 
 # write to disk
 ## data for hand scoring
-data_awareness_1_for_hand_scoring <- read.csv("intermediate/data_for_hand_scoring.csv") %>%
-  select(-awareness_1_out_of_ordinary, -awareness_1_systematic, -awareness_1_words_and_images)
+data_awareness_1_for_hand_scoring <- read.csv("intermediate/data_awareness_for_hand_scoring.csv") %>%
+  select(unique_id, 
+         fazio_and_olsen_criteria_scorer_1, 
+         fazio_and_olsen_modified_criteria_scorer_1,
+         fazio_and_olsen_criteria_scorer_2,
+         fazio_and_olsen_modified_criteria_scorer_2)
 
 ## combined data
-data_intermediate <- read.csv("intermediate/data_intermediate.csv") %>%
-  select(-awareness_1_out_of_ordinary, -awareness_1_systematic, -awareness_1_words_and_images)
+data_intermediate <- read.csv("intermediate/data_intermediate.csv") 
+
+```
+
+convert hand scored variables into exclusion variables, then reorder the columns and write to disk.
+
+NB details of the how the open ended responses were hand scored is available elsewhere.
+
+```{r}
 
 data_processed <- left_join(data_intermediate, data_awareness_1_for_hand_scoring, by = "unique_id") %>%
   # create final awareness responses
-  mutate(exclude_aware_olsen_and_fazio = ifelse((awareness_1_out_of_ordinary_scorer_1 == TRUE & awareness_1_out_of_ordinary_scorer_2 == TRUE) |
-                                          (awareness_1_systematic_scorer_1 == TRUE & awareness_1_systematic_scorer_2 == TRUE),
-                                        TRUE, FALSE),
-         exclude_awareness_baranan_dehouwer_nosek = ifelse(awareness_2_regularity == TRUE, TRUE, FALSE),
-         
-         # NEEDS CHECKING HERE !!!
-         # - WAITING ON RESPONSES FROM TAL
-         # - NEED TO DOUBLE CHECK WHETHER BERGAMITE OR GOLETT WAS CS1
-         exclude_awareness_baranan_dehouwer_nosek_modified = ifelse((condition == "CS1_USpos" & 
-                                                                       awareness_2_regularity == TRUE &
-                                                                       awareness_2_USpos %in% c("BERGMITE (certainly)", 
-                                                                                                "BERGMITE (probably)", 
-                                                                                                "BERGMITE (guess)")) |
-                                                                      (condition == "CS1_USneg" & 
-                                                                         awareness_2_regularity == TRUE &
-                                                                         awareness_2_USpos %in% c("GOLETT (certainly)", 
-                                                                                                  "GOLETT (probably)", 
-                                                                                                  "GOLETT (guess)")), 
-                                                                    TRUE, FALSE)) %>%
-  select(-awareness_1_out_of_ordinary_scorer_1, -awareness_1_out_of_ordinary_scorer_2, 
-         -awareness_1_systematic_scorer_1, -awareness_1_systematic_scorer_2,
-         -awareness_1_words_and_images_scorer_1, -awareness_1_words_and_images_scorer_2,
-         -awareness_2_regularity, -awareness_2_USpos, -awareness_2_USneg)
+  ## confirmatory 1: olsen and fazio criteria
+  ## "As recommended by the original authors, participants will be excluded if both raters agree that participants identified the valence of the USs that were paired with each of the CSs, in at least one of the two questions. If participants identify that one of the CSs was paired with a US of a particular valence, or report that CSs and USs were paired during the task (even if they do not mention the specific way in which they were paired), then they will be retained and coded as being ‘contingency unaware’. Likewise, in cases of rater disagreement, participants will also be retained and coded as ‘contingency unaware’ as per the original authors criteria.  "
+  mutate(exclude_aware_olsen_and_fazio = ifelse(fazio_and_olsen_criteria_scorer_1 == TRUE & 
+                                                  fazio_and_olsen_criteria_scorer_2 == TRUE, TRUE, FALSE),
+         # exploratory 1: modified olsen and fazio
+         ## "The first (exploratory) score will use a more conservative coding of the original authors’ questions. Participants will be coded as ‘aware’ if they express full or partial memory. Specifically, assignment to the ‘aware’ group will occur when both judges agree that the participant identified the valence of the USs that were paired with each of the CSs, or identified that one of the CSs was paired with a US of a particular valence, or reports that CSs and USs were paired during the task (even if they do not mention the specific way in which they were paired), in at least one of the two questions. Assignment to the ‘unaware’ group will occur when both judges indicate that the participant did not report that CSs were systematically paired with USs, or that a CS was paired with a US of a specific valance, in at least one of the two questions. In cases of rater disagreement, a third judge will be recruited and asked to provide their own judgement according to the above criteria. The majority judgement will be adopted. Participants in the ‘aware’ group will be excluded from subsequent analysis."
+         exclude_aware_olsen_and_fazio_modified = ifelse(fazio_and_olsen_modified_criteria_scorer_1 == TRUE & 
+                                                           fazio_and_olsen_modified_criteria_scorer_2 == TRUE, TRUE, FALSE)) %>%
+  select(unique_id, 
+         # demographics 
+         age, gender, 
+         # random effect
+         data_collection_site, 
+         # exclusions
+         simulated_data, 
+         exclude_surveillance,
+         exclude_aware_olsen_and_fazio, 
+         exclude_aware_olsen_and_fazio_modified, 
+         exclude_awareness_baranan_dehouwer_nosek, 
+         exclude_awareness_baranan_dehouwer_nosek_modified,
+         # DV
+         sum_score_evaluation_CS1_preferred, 
+         # other variables
+         condition,
+         perc_accuracy_surveillance_response, 
+         sum_score_filler_1, 
+         sum_score_filler_2, 
+         awareness_1_out_of_ordinary, 
+         awareness_1_systematic, 
+         awareness_1_words_and_images, 
+         awareness_2a_response, 
+         awareness_2_stim_paired_with_negative, 
+         awareness_2_stim_paired_with_positive, 
+         familiarity, 
+         mean_perc_accuracy_surveillance_response_by_site, 
+         sd_perc_accuracy_surveillance_response_by_site, 
+         fazio_and_olsen_criteria_scorer_1, 
+         fazio_and_olsen_modified_criteria_scorer_1, 
+         fazio_and_olsen_criteria_scorer_2, 
+         fazio_and_olsen_modified_criteria_scorer_2)
 
 # write to disk
 write_csv(data_processed, "processed/data_processed.csv")

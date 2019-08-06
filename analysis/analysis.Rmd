@@ -181,76 +181,77 @@ meta_analysis_workflow <- function(data,
            ", I^2 = ",   round(fitted_model$I2, 2),
            ", H^2 = ",   round(fitted_model$H2, 2))
   
-  if (plot == TRUE) {
-    
-    cr_lwr <- meta_analysis_results %>%
-      filter(metric == "95% CR lower") %>%
-      pull(estimate)
-    
-    cr_upr <- meta_analysis_results %>%
-      filter(metric == "95% CR upper") %>%
-      pull(estimate)
-    
-    combined_plotting_data <- data_effect_sizes %>%
-      select(data_collection_site, hedges_g, hedges_g_se, hedges_g_ci_lwr, hedges_g_ci_upr) %>%
-      rbind(data.frame(data_collection_site = "Meta analysis",
-                       hedges_g             = meta_analysis_results$estimate[1],
-                       hedges_g_se          = meta_analysis_results$estimate[2],
-                       hedges_g_ci_lwr      = meta_analysis_results$estimate[3],
-                       hedges_g_ci_upr      = meta_analysis_results$estimate[4])) %>%
-      mutate(hedges_g        = as.numeric(hedges_g),
-             hedges_g_se     = as.numeric(hedges_g_se),
-             hedges_g_ci_lwr = as.numeric(hedges_g_ci_lwr),
-             hedges_g_ci_upr = as.numeric(hedges_g_ci_upr)) %>%
-      round_df(2) %>%
-      mutate(Site      = fct_rev(data_collection_site),
-             # set point size to proportionate range from 2-6
-             size             = 6 - (hedges_g_se - min(hedges_g_se)) / (max(hedges_g_se) - min(hedges_g_se)) * 4,
-             hedges_g_cr_lwr  = ifelse(as.character(data_collection_site) == "Meta analysis", cr_lwr, NA),
-             hedges_g_cr_upr  = ifelse(as.character(data_collection_site) == "Meta analysis", cr_upr, NA),
-             results_string   = paste0(format(round(hedges_g, 2), nsmall = 2), " [",
-                                       format(round(hedges_g_ci_lwr, 2), nsmall = 2), ", ",
-                                       format(round(hedges_g_ci_upr, 2), nsmall = 2), "]"))
-
-    p1 <- 
-      ggplot(combined_plotting_data, aes(Site, hedges_g)) +
-      geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.5) +
-      geom_linerange(aes(ymin = hedges_g_ci_lwr, ymax = hedges_g_ci_upr)) +
-      geom_point(shape = "square", size = combined_plotting_data$size) +
-      coord_flip() +
-      labs(x = "", y = "Hedges' g") +
-      theme(strip.placement = "outside", 
-            axis.line.x = element_line(size = 0.5), 
-            axis.ticks.y = element_blank(), 
-            panel.background = element_rect(fill = "transparent", color = NA))
-
-    p2 <- 
-      ggplot(combined_plotting_data, aes(Site, 1)) +
-      geom_text(aes_string(label = "results_string"),
-                hjust = "inward", 
-                size = 3) +
-      coord_flip() +
-      theme_void() + 
-      theme(panel.grid = element_blank(), panel.border = element_blank())
-    
-    # combine plots
-    plot <- p1 + p2 + plot_layout(nrow = 1, widths = c(3, 1))
-    
-  } else {
-    
-    plot <- NULL
-    
-  }
-  
-  # # alt forest plot using the metafor library
+  # # custom ggplot forest plots - plots actual CI values rather than recalculating symmetrical ones from the effect size SEs
   # if (plot == TRUE) {
-  #   forest_plot <- metafor::forest(fitted_model,
-  #                                  xlab = effect_size_label,
-  #                                  addcred = TRUE,
-  #                                  refline = reference_line)
+  #   
+  #   cr_lwr <- meta_analysis_results %>%
+  #     filter(metric == "95% CR lower") %>%
+  #     pull(estimate)
+  #   
+  #   cr_upr <- meta_analysis_results %>%
+  #     filter(metric == "95% CR upper") %>%
+  #     pull(estimate)
+  #   
+  #   combined_plotting_data <- data_effect_sizes %>%
+  #     select(data_collection_site, hedges_g, hedges_g_se, hedges_g_ci_lwr, hedges_g_ci_upr) %>%
+  #     rbind(data.frame(data_collection_site = "Meta analysis",
+  #                      hedges_g             = meta_analysis_results$estimate[1],
+  #                      hedges_g_se          = meta_analysis_results$estimate[2],
+  #                      hedges_g_ci_lwr      = meta_analysis_results$estimate[3],
+  #                      hedges_g_ci_upr      = meta_analysis_results$estimate[4])) %>%
+  #     mutate(hedges_g        = as.numeric(hedges_g),
+  #            hedges_g_se     = as.numeric(hedges_g_se),
+  #            hedges_g_ci_lwr = as.numeric(hedges_g_ci_lwr),
+  #            hedges_g_ci_upr = as.numeric(hedges_g_ci_upr)) %>%
+  #     round_df(2) %>%
+  #     mutate(Site      = fct_rev(data_collection_site),
+  #            # set point size to proportionate range from 1-5
+  #            size             = 5 - (hedges_g_se - min(hedges_g_se)) / (max(hedges_g_se) - min(hedges_g_se)) * 4,
+  #            hedges_g_cr_lwr  = ifelse(as.character(data_collection_site) == "Meta analysis", cr_lwr, NA),
+  #            hedges_g_cr_upr  = ifelse(as.character(data_collection_site) == "Meta analysis", cr_upr, NA),
+  #            results_string   = paste0(format(round(hedges_g, 2), nsmall = 2), " [",
+  #                                      format(round(hedges_g_ci_lwr, 2), nsmall = 2), ", ",
+  #                                      format(round(hedges_g_ci_upr, 2), nsmall = 2), "]"))
+  # 
+  #   p1 <- 
+  #     ggplot(combined_plotting_data, aes(Site, hedges_g)) +
+  #     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.5) +
+  #     geom_linerange(aes(ymin = hedges_g_ci_lwr, ymax = hedges_g_ci_upr)) +
+  #     geom_point(shape = "square", size = 4) +  # combined_plotting_data$size
+  #     coord_flip() +
+  #     labs(x = "", y = "Hedges' g") +
+  #     theme(strip.placement = "outside", 
+  #           axis.line.x = element_line(size = 0.5), 
+  #           axis.ticks.y = element_blank(), 
+  #           panel.background = element_rect(fill = "transparent", color = NA))
+  # 
+  #   p2 <- 
+  #     ggplot(combined_plotting_data, aes(Site, 1)) +
+  #     geom_text(aes_string(label = "results_string"),
+  #               hjust = "inward", 
+  #               size = 3) +
+  #     coord_flip() +
+  #     theme_void() + 
+  #     theme(panel.grid = element_blank(), panel.border = element_blank())
+  #   
+  #   # combine plots
+  #   plot <- p1 + p2 + plot_layout(nrow = 1, widths = c(3, 1))
+  #   
   # } else {
-  #   forest_plot <- NULL
+  #   
+  #   plot <- NULL
+  #   
   # }
+  
+  # alt forest plot using the metafor library
+  if (plot == TRUE) {
+    forest_plot <- metafor::forest(fitted_model,
+                                   xlab = effect_size_label,
+                                   addcred = TRUE,
+                                   refline = reference_line)
+  } else {
+    forest_plot <- NULL
+  }
   
   return(list(data_effect_sizes               = data_effect_sizes,
               fitted_model                    = fitted_model, 
@@ -265,14 +266,16 @@ meta_analysis_workflow <- function(data,
 
 # Meta analyses
 
-## Exclusion strategy 1: Olson & Fazio (2002)
+## Confirmatory analysis: Olson & Fazio (2002) exclusion criteria
+
+"As recommended by the original authors, participants will be excluded if both raters agree that participants identified the valence of the USs that were paired with each of the CSs, in at least one of the two questions. If participants identify that one of the CSs was paired with a US of a particular valence, or report that CSs and USs were paired during the task (even if they do not mention the specific way in which they were paired), then they will be retained and coded as being ‘contingency unaware’. Likewise, in cases of rater disagreement, participants will also be retained and coded as ‘contingency unaware’ as per the original authors criteria."
 
 ```{r}
 
 data_1 <- data_processed %>%
-  filter(exclude_surveillance == FALSE &
-           simulated_data == FALSE &
-           exclude_aware_olsen_and_fazio == FALSE) %>%
+  filter(simulated_data == FALSE &  # exclude simulated data used for script development
+           exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
+           exclude_aware_olsen_and_fazio == FALSE) %>%  # exclude using the olsen and fazio criteria
   mutate(DV = sum_score_evaluation_CS1_preferred)
 
 # distribution plots
@@ -295,22 +298,24 @@ ggplot(data_1, aes(DV, color = data_collection_site)) +
 # meta analysis
 results_1 <- meta_analysis_workflow(data_1)
 
-# forest plot
-results_1$plot
+# # forest plot (if using custom ggplot option)
+# results_1$plot
 
 ```
 
 - Meta anaysis results: `r results_1$meta_analysis_results_text`
 - Heterogeneity tests: `r results_1$heterogeneity_test_results_text`
 
-## Exclusion strategy 2: Bar-Anan, De-Houwer & Nosek (2010)
+## Exploratory analysis 1: Modification of Olsen and Fazio's exclusion criteria
+
+"The first (exploratory) score will use a more conservative coding of the original authors’ questions. Participants will be coded as ‘aware’ if they express full or partial memory. Specifically, assignment to the ‘aware’ group will occur when both judges agree that the participant identified the valence of the USs that were paired with each of the CSs, or identified that one of the CSs was paired with a US of a particular valence, or reports that CSs and USs were paired during the task (even if they do not mention the specific way in which they were paired), in at least one of the two questions. Assignment to the ‘unaware’ group will occur when both judges indicate that the participant did not report that CSs were systematically paired with USs, or that a CS was paired with a US of a specific valance, in at least one of the two questions. In cases of rater disagreement, a third judge will be recruited and asked to provide their own judgement according to the above criteria. The majority judgement will be adopted. Participants in the ‘aware’ group will be excluded from subsequent analysis."
 
 ```{r}
 
 data_2 <- data_processed %>%
-  filter(exclude_surveillance == FALSE &
-         simulated_data == FALSE &
-         exclude_awareness_baranan_dehouwer_nosek == FALSE) %>%
+  filter(simulated_data == FALSE &  # exclude simulated data used for script development
+           exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
+           exclude_aware_olsen_and_fazio_modified == FALSE) %>%  # exclude using a modification of the olsen and fazio criteria
   mutate(DV = sum_score_evaluation_CS1_preferred)
   
 # distribution plots
@@ -333,24 +338,26 @@ ggplot(data_2, aes(DV, color = data_collection_site)) +
 # meta analysis
 results_2 <- meta_analysis_workflow(data_2)
 
-# forest plot
-results_2$plot
+# # forest plot (if using custom ggplot option)
+# results_2$plot
 
 ```
 
 - Meta anaysis results: `r results_2$meta_analysis_results_text`
 - Heterogeneity tests: `r results_2$heterogeneity_test_results_text`
 
-## Exclusion strategy 3: Hybrid strategy
+## Exploratory analysis 2: Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria
+
+"The second (exploratory) score will be computed based on Bar-Anan et al.’s (2010) criteria. Here participants will be excluded if they chose the “yes” answer on question 1 of the Bar-Anan et al. measure, and retained if they chose “no”."
 
 ```{r}
 
 data_3 <- data_processed %>%
-  filter(exclude_surveillance == FALSE & 
-           simulated_data == FALSE &
-           exclude_awareness_baranan_dehouwer_nosek_modified == FALSE) %>%
+  filter(simulated_data == FALSE &  # exclude simulated data used for script development
+           exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
+           exclude_awareness_baranan_dehouwer_nosek == FALSE) %>%  # exclude using the bar-anan, de houwer, and nosek criteria
   mutate(DV = sum_score_evaluation_CS1_preferred)
-
+  
 # distribution plots
 ## all sites
 ggplot(data_3, aes(DV)) +
@@ -371,22 +378,24 @@ ggplot(data_3, aes(DV, color = data_collection_site)) +
 # meta analysis
 results_3 <- meta_analysis_workflow(data_3)
 
-# forest plot
-results_3$plot
+# # forest plot (if using custom ggplot option)
+# results_3$plot
 
 ```
 
 - Meta anaysis results: `r results_3$meta_analysis_results_text`
 - Heterogeneity tests: `r results_3$heterogeneity_test_results_text`
 
-## Exclusion strategy 4: XXX strategy
+## Exploratory analysis 3: Modification of Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria
+
+"The third (exploratory) score will be computed based on a modification to Bar-Anan et al.’s (2010) criteria in order to verify that responding is not driven by guessing. Participants will be excluded if they chose the “yes” answer on question 1 and correctly identify the valence with which each of the two CSs appeared during the task (providing either a probably or certainly response on questions 2-3). All other participants will be retained."
 
 ```{r}
 
 data_4 <- data_processed %>%
-  filter(exclude_surveillance == FALSE & 
-           simulated_data == FALSE &
-           exclude_awareness_baranan_dehouwer_nosek_modified == FALSE) %>%
+  filter(simulated_data == FALSE &  # exclude simulated data used for script development
+           exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
+           exclude_awareness_baranan_dehouwer_nosek_modified == FALSE) %>%  # exclude using our modification of the bar-anan, de houwer, and nosek criteria
   mutate(DV = sum_score_evaluation_CS1_preferred)
 
 # distribution plots
@@ -409,15 +418,17 @@ ggplot(data_4, aes(DV, color = data_collection_site)) +
 # meta analysis
 results_4 <- meta_analysis_workflow(data_4)
 
-# forest plot
-results_4$plot
+# # forest plot (if using custom ggplot option)
+# results_4$plot
 
 ```
 
 - Meta anaysis results: `r results_4$meta_analysis_results_text`
 - Heterogeneity tests: `r results_4$heterogeneity_test_results_text`
 
-## Moderator meta?
+## Moderator meta analyses
+
+Refit each of the above using the analysis-specific exclusion criterion (e.g., olsen and fazio) as a moderator instead.
 
 
 

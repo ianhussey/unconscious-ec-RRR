@@ -31,4 +31,4 @@ NB please collect data for circa 5 participants and then send their csv files to
 
 ## Return files
 
-All data processing and analysis will be done centrally by the organisers. When you have finished data collection using the predetermined sample size, please zip and send all the csv files in the data folder to Ian (ian.hussey@ugent.be).
+All data processing and analysis will be done centrally by the organisers. When you have finished data collection using the predetermined sample size, please zip and send all the csv files in the data folder to all of Ian (ian.hussey@ugent.be), Sean (sean.hughes@ugent.be) and Tal (tal.moranyorovich@ugent.be@ugent.be).

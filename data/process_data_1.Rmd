@@ -149,7 +149,7 @@ data_demographics <- data_trimmed %>%
 data_surveillance <- data_trimmed %>%
   filter(!is.na(surveillance_response_correct)) %>%
   group_by(unique_id) %>%
-  summarize(perc_accuracy_surveillance_response = round(mean(surveillance_response_correct)*100, 1)) %>%
+  summarize(surveillance_response_total_correct_responses = sum(surveillance_response_correct)) %>%
   ungroup()
 
 data_filler_1 <- data_trimmed %>%
@@ -283,15 +283,15 @@ data_combined <- data_demographics %>%
 ## "Performance in the surveillance task: we will exclude participants with more than three standard deviations beyond the mean error number in the surveillance task (error = responding to non-target trials, or not responding to target trials)."
 data_exclusions_temp_1 <- data_combined %>%
   group_by(data_collection_site) %>%
-  summarize(mean_perc_accuracy_surveillance_response_by_site = round(mean(perc_accuracy_surveillance_response), 2),
-            sd_perc_accuracy_surveillance_response_by_site = round(sd(perc_accuracy_surveillance_response), 2)) %>%
+  summarize(mean_surveillance_response_total_correct_responses_by_site = round(mean(surveillance_response_total_correct_responses), 2),
+            sd_surveillance_response_total_correct_responses_by_site = round(sd(surveillance_response_total_correct_responses), 2)) %>%
   ungroup()
 
 data_exclusions_temp_2 <- data_combined %>%
   left_join(data_exclusions_temp_1, by = "data_collection_site") %>%
-  mutate(exclude_surveillance = ifelse(perc_accuracy_surveillance_response <
-                                         (mean_perc_accuracy_surveillance_response_by_site - 
-                                            sd_perc_accuracy_surveillance_response_by_site*3), TRUE, FALSE))
+  mutate(exclude_surveillance = ifelse(surveillance_response_total_correct_responses <
+                                         (mean_surveillance_response_total_correct_responses_by_site - 
+                                            sd_surveillance_response_total_correct_responses_by_site*3), TRUE, FALSE))
 
 # awareness of the stimulus pairings
 data_intermediate <- data_exclusions_temp_2 %>%

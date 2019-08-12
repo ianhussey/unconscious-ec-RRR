@@ -40,58 +40,243 @@ library(tidyverse)
 
 ```
 
-# Generate surveillance task trial sequences
+# Functions to generate surveillance task trial sequences
 
 ```{r}
 
 # build vector of filler and target trials, randomise order
-generate_block <- function(target_name, n_filler_trials_per_block = 52, n_target_trials_per_block = 10) {
+generate_blocks_surveillance <- function(target_name, n_filler_trials_per_block = 52, n_target_trials_per_block = 10) {
   
-  trials_filler <- paste0(rep("stimuli/filler", n_filler_trials_per_block), 
-                          seq(from = 1, to = n_filler_trials_per_block, by = 1), ".jpg")
-  trials_target <- paste0(rep(paste0("stimuli/", target_name), n_target_trials_per_block), 
-                          seq(from = 1, to = n_target_trials_per_block, by = 1), ".jpg")
+  trials_filler <- paste0(rep("stimuli/filler", n_filler_trials_per_block*5), 
+                          seq(from = 1, to = n_filler_trials_per_block*5, by = 1), ".jpg")
+  
+  trials_target <- c(paste0(rep("stimuli/target1_", n_target_trials_per_block), 
+                            seq(from = 1, to = n_target_trials_per_block, by = 1), ".jpg"),
+                     paste0(rep("stimuli/target2_", n_target_trials_per_block), 
+                            seq(from = 1, to = n_target_trials_per_block, by = 1), ".jpg"),
+                     paste0(rep("stimuli/target3_", n_target_trials_per_block), 
+                            seq(from = 1, to = n_target_trials_per_block, by = 1), ".jpg"),
+                     paste0(rep("stimuli/target4_", n_target_trials_per_block), 
+                            seq(from = 1, to = n_target_trials_per_block, by = 1), ".jpg"),
+                     paste0(rep("stimuli/target5_", n_target_trials_per_block), 
+                            seq(from = 1, to = n_target_trials_per_block, by = 1), ".jpg"))
+  
   trials_combined <- append(trials_filler, trials_target) %>% sample()
   
   # insert CS-US trials into specific locations in a master vector
-  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS1_US, 1), "stimuli/blank.jpg")
-  trials_CS1_US_shuffled <- trials_CS1_US[trials_CS1_US != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 9)
+  ## block 1 ----
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 9)
   
-  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS2_US, 1), "stimuli/blank.jpg")
-  trials_CS2_US_shuffled <- trials_CS2_US[trials_CS2_US != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 19)
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 19)
   
-  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS1_US, 1), "stimuli/blank.jpg")
-  trials_CS1_US_shuffled <- trials_CS1_US[trials_CS1_US != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 29)
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 29)
   
-  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS2_US, 1), "stimuli/blank.jpg")
-  trials_CS2_US_shuffled <- trials_CS2_US[trials_CS2_US != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 39)
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 39)
   
-  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS1_US, 1), "stimuli/blank.jpg")
-  trials_CS1_US_shuffled <- trials_CS1_US[trials_CS1_US != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 49)
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 49)
   
-  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS2_US, 1), "stimuli/blank.jpg")
-  trials_CS2_US_shuffled <- trials_CS2_US[trials_CS2_US != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 59)
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 59)
   
-  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS1_US, 1), "stimuli/blank.jpg")
-  trials_CS1_US_shuffled <- trials_CS1_US[trials_CS1_US != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 69)
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 69)
   
-  popped_trial <- c("stimuli/blank.jpg", sample(trials_CS2_US, 1), "stimuli/blank.jpg")
-  trials_CS2_US_shuffled <- trials_CS2_US[trials_CS2_US != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 79)
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 79)
+  
+  ## block 2 ----
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 89)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 99)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 109)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 119)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 129)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 139)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 149)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 159)
+  
+  ## block 3 ----
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 169)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 179)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 189)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 199)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 209)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 219)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 229)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 239)
+  
+  ## block 4
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 249)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 259)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 269)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 279)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 289)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 299)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 309)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 319)
+  
+  ## block 5 ----
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 329)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 339)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 349)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 359)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 369)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 379)
+  
+  popped_trial             <- sample(trials_CS1_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS1_US            <- trials_CS1_US[trials_CS1_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 389)
+  
+  popped_trial             <- sample(trials_CS2_US, 1)
+  popped_trial_with_blanks <- c("stimuli/blank.jpg", popped_trial, "stimuli/blank.jpg")
+  trials_CS2_US            <- trials_CS2_US[trials_CS2_US != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial_with_blanks, after = 399)
+  
+  # trials_CS1_US and trials_CS2_US should both now have 0 elements left
   
   return(trials_combined)
 }
 
-generate_block_file <- function(target_name){
+generate_block_files_surveillance <- function(target_name){
 
-  data.frame(stimulus = generate_block(target_name = target_name)) %>%
+  all_blocks <- data.frame(stimulus = generate_blocks_surveillance(target_name = target_name)) %>%
     rownames_to_column(var = "trial_number") %>%
     mutate(participant = i,
            trial_number = as.numeric(as.character(trial_number))) %>% 
@@ -101,19 +286,67 @@ generate_block_file <- function(target_name){
                                       ifelse(grepl("target", stimulus), "target",
                                              ifelse(grepl("cs", stimulus), "CSUS", NA)))),
            target_trial = ifelse(grepl("target", trial_type), TRUE, FALSE),
-           surveillance_correct_response = ifelse(target_trial == TRUE, "space", "None")) %>%
-    write_csv(., paste0("trials/surveillance_trials_participant_", i, "_condition_", condition, "_", target_name, ".csv"))
+           surveillance_correct_response = ifelse(target_trial == TRUE, "space", "None")) 
+  
+  # trials that remain to be assigned to blocks
+  remaining_trials <- all_blocks
+  
+  # block_1
+  remaining_trials %>% 
+    slice(1:86) %>%
+    write_csv(., paste0("trials/surveillance_trials_participant_", i, "_condition_", condition, "_target1_.csv"))
+              
+  # remove these trials from the pool
+  remaining_trials <- remaining_trials %>% slice(-1:-86)
+  
+  # block_2
+  remaining_trials %>% 
+    slice(1:86) %>%
+    mutate(trial_number = trial_number - 86*1) %>%
+    write_csv(., paste0("trials/surveillance_trials_participant_", i, "_condition_", condition, "_target2_.csv"))
+              
+  # remove these trials from the pool
+  remaining_trials <- remaining_trials %>% slice(-1:-86)
+  
+  # block_3
+  remaining_trials %>% 
+    slice(1:86) %>%
+    mutate(trial_number = trial_number - 86*2) %>%
+    write_csv(., paste0("trials/surveillance_trials_participant_", i, "_condition_", condition, "_target3_.csv"))
+              
+  # remove these trials from the pool
+  remaining_trials <- remaining_trials %>% slice(-1:-86)
+  
+  # block_4
+  remaining_trials %>% 
+    slice(1:86) %>%
+    mutate(trial_number = trial_number - 86*3) %>%
+    write_csv(., paste0("trials/surveillance_trials_participant_", i, "_condition_", condition, "_target4_.csv"))
+              
+  # remove these trials from the pool
+  remaining_trials <- remaining_trials %>% slice(-1:-86)
+  
+  # block_5
+  remaining_trials %>% 
+    slice(1:86) %>%
+    mutate(trial_number = trial_number - 86*4) %>%
+    write_csv(., paste0("trials/surveillance_trials_participant_", i, "_condition_", condition, "_target5_.csv"))
+              
+  # remove these trials from the pool
+  remaining_trials <- remaining_trials %>% slice(-1:-86)
+  
+  # remaining_trials should now have 0 rows left
+  
 }
-
 
 ```
 
-# Generate evaluation task trial sequences
+# Functions to generate evaluation task trial sequences
 
 ```{r}
 
 # build vector of filler and target trials, randomise order
-generate_block_2 <- function(n_filler_trials_per_block = 20, n_cs_trials_per_block = 10) {
+generate_blocks_evaluative <- function(n_filler_trials_per_block = 20, n_cs_trials_per_block = 10) {
   
   trials_combined <- 
     paste0(rep("stimuli/evaluation_stimuli_filler_", n_filler_trials_per_block), 
@@ -124,54 +357,54 @@ generate_block_2 <- function(n_filler_trials_per_block = 20, n_cs_trials_per_blo
     paste0(rep("stimuli/evaluation_stimuli_CS_", n_cs_trials_per_block), 
            seq(from = 1, to = n_cs_trials_per_block, by = 1), ".jpg")
   
-  # insert CS trials into specific locations in a master vector
-  popped_trial <- sample(trials_cs, 1)
-  trials_cs <- trials_cs[trials_cs != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 2)
+   # insert CS trials into specific locations in a master vector
+  popped_trial             <- sample(trials_cs, 1)
+  trials_cs                <- trials_cs[trials_cs != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial, after = 2)
   
-  popped_trial <- sample(trials_cs, 1)
-  trials_cs <- trials_cs[trials_cs != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 5)
+  popped_trial             <- sample(trials_cs, 1)
+  trials_cs                <- trials_cs[trials_cs != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial, after = 5)
   
-  popped_trial <- sample(trials_cs, 1)
-  trials_cs <- trials_cs[trials_cs != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 8)
+  popped_trial             <- sample(trials_cs, 1)
+  trials_cs                <- trials_cs[trials_cs != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial, after = 8)
   
-  popped_trial <- sample(trials_cs, 1)
-  trials_cs <- trials_cs[trials_cs != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 11)
+  popped_trial             <- sample(trials_cs, 1)
+  trials_cs                <- trials_cs[trials_cs != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial, after = 11)
   
-  popped_trial <- sample(trials_cs, 1)
-  trials_cs <- trials_cs[trials_cs != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 14)
+  popped_trial             <- sample(trials_cs, 1)
+  trials_cs                <- trials_cs[trials_cs != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial, after = 14)
   
-  popped_trial <- sample(trials_cs, 1)
-  trials_cs <- trials_cs[trials_cs != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 17)
+  popped_trial             <- sample(trials_cs, 1)
+  trials_cs                <- trials_cs[trials_cs != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial, after = 17)
   
-  popped_trial <- sample(trials_cs, 1)
-  trials_cs <- trials_cs[trials_cs != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 20)
+  popped_trial             <- sample(trials_cs, 1)
+  trials_cs                <- trials_cs[trials_cs != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial, after = 20)
   
-  popped_trial <- sample(trials_cs, 1)
-  trials_cs <- trials_cs[trials_cs != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 23)
+  popped_trial             <- sample(trials_cs, 1)
+  trials_cs                <- trials_cs[trials_cs != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial, after = 23)
   
-  popped_trial <- sample(trials_cs, 1)
-  trials_cs <- trials_cs[trials_cs != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 26)
+  popped_trial             <- sample(trials_cs, 1)
+  trials_cs                <- trials_cs[trials_cs != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial, after = 26)
   
-  popped_trial <- sample(trials_cs, 1)
-  trials_cs <- trials_cs[trials_cs != popped_trial]
-  trials_combined <- append(trials_combined, popped_trial, after = 29)
+  popped_trial             <- sample(trials_cs, 1)
+  trials_cs                <- trials_cs[trials_cs != popped_trial]
+  trials_combined          <- append(trials_combined, popped_trial, after = 29)
   
   return(trials_combined)
 }
 
 
-generate_block_file_2 <- function(){
+generate_block_files_evaluative <- function(){
 
-  data.frame(evaluation_stimulus = generate_block_2()) %>%
+  data.frame(evaluation_stimulus = generate_blocks_evaluative()) %>%
     rownames_to_column(var = "trial_number") %>%
     mutate(participant = i,
            trial_number = as.numeric(as.character(trial_number))) %>% 
@@ -252,7 +485,7 @@ generate_block_file_2 <- function(){
 
 ```{r}
 
-## Create data for N participants
+# create data for N participants
 n_participants <- 250
 
 
@@ -260,49 +493,65 @@ n_participants <- 250
 dir.create(file.path("trials/"))
 
 
-### Surveillance task
+# surveillance task
 
-## Condition 1: CS1_USpos
+## condition 1: CS1_USpos
 
 condition <- "CS1_USpos"
 
-# build vectors of CS US pairings
+### build vectors of CS US pairings
 trials_CS1_US <- paste0(rep("stimuli/cs1_pos", 20), seq(from = 1, to = 20, by = 1), ".jpg")
 trials_CS2_US <- paste0(rep("stimuli/cs2_neg", 20), seq(from = 1, to = 20, by = 1), ".jpg")
 
 for(i in 1:n_participants) {
-  generate_block_file("target1_")
-  generate_block_file("target2_")
-  generate_block_file("target3_")
-  generate_block_file("target4_")
-  generate_block_file("target5_")
+  generate_block_files_surveillance()
 }
 
 
-## Condition 2: CS1_USneg
+## condition 2: CS1_USneg
 
 condition <- "CS1_USneg"
 
-# build vectors of CS US pairings
+### build vectors of CS US pairings
 trials_CS1_US <- paste0(rep("stimuli/cs1_neg", 20), seq(from = 1, to = 20, by = 1), ".jpg")
 trials_CS2_US <- paste0(rep("stimuli/cs2_pos", 20), seq(from = 1, to = 20, by = 1), ".jpg")
 
 for(i in 1:n_participants) {
-  generate_block_file("target1_")
-  generate_block_file("target2_")
-  generate_block_file("target3_")
-  generate_block_file("target4_")
-  generate_block_file("target5_")
+  generate_block_files_surveillance()
 }
 
 
-### Evaluation task
+### evaluation task
+
 for(i in 1:n_participants) {
-  generate_block_file_2()
+  generate_block_files_evaluative()
 }
 
 ```
 
+# Validation
+
+Check if there are no repetitions of the US-CS examplars for any participant, within or between blocks in the surveillance task.
+
+Test returns TRUE if passed. 
+
+```{r echo=TRUE}
+
+# list all files in the trials folder
+paste0("trials/", list.files(path = "trials/", pattern = "*.csv")) %>%
+  # read into a single data frame
+  map_df(~read_csv(.)) %>%
+  # filter the CS-US pairing target trials in the surveillance task
+  filter(trial_type == "CSUS") %>%
+  # for each participant (i.e., set of files), find the number of unique CS-US stimuli files it points to
+  # if this equals 80 for all participants then there are no duplicated or missing stimuli.
+  group_by(participant) %>%
+  distinct(stimulus) %>%
+  count() %>%
+  ungroup() %>%
+  distinct(n) == 80
+
+```
 
 
 

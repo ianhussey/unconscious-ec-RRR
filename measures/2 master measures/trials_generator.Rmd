@@ -48,7 +48,7 @@ library(tidyverse)
 generate_blocks_surveillance <- function(target_name, n_filler_trials_per_block = 52, n_target_trials_per_block = 10) {
   
   trials_filler <- paste0(rep("stimuli/filler", n_filler_trials_per_block*5), 
-                          seq(from = 1, to = n_filler_trials_per_block*5, by = 1), ".jpg")
+                          rep(seq(from = 1, to = n_filler_trials_per_block, by = 1), 5), ".jpg")
   
   trials_target <- c(paste0(rep("stimuli/target1_", n_target_trials_per_block), 
                             seq(from = 1, to = n_target_trials_per_block, by = 1), ".jpg"),

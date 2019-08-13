@@ -16,19 +16,25 @@ You can contact Ian (ian.hussey@ugent.be) if you have issues specifically with t
 
 You have been sent a copy of the measures that:
 
-1. Uses your localised stimuli and instructions files
-2. Contains a unique set of randomised trials files (that is, randomisation of the trials is done ahead of time rather than for each participant at runtime)
-3. Contains customised data collection site file, which encodes information about the data collection site into the data files
+1. Uses your localised stimuli and instructions files.
+2. Contains a unique set of randomised trials files (that is, randomisation of the trials is done ahead of time rather than for each participant at runtime).
+3. Contains customised data collection site file, which encodes information about the data collection site into the data files.
 
 ## Data collection
 
 1. For each experimental session, inside PsychoPy, click File>Open>experiment.py. 
-2. Click the green button to run the study.
-3. Enter sequential participant number, age, and gender in the pop up box, and click the button to start.
-   - NB that duplicate participants will likely require both duplicates to be excluded from the analysis, so please ensure that participant code assignment is correct.
 
-NB please collect data for circa 5 participants and then send their csv files to Ian so I can check that all is well before you move on to full data collection. 
+2. Click the green button to run the study.
+
+3. Enter sequential participant number, age, and gender in the pop up box, and click the button to start.
+
+   - For gender: enter one of the following options: m/f/o (lower case, o –is for others).
+   - Participants should be numbered from 1 to 150 (or less):
+
+   - Note that duplicate participants will likely require both duplicates to be excluded from the analysis, so please ensure that participant code assignment is correct, and avoid using the same id for different sessions (even in cases of incomplete sessions).
+
+NB please collect data for circa 5 participants and then send their csv files to Ian, Tal and Sean so they can check that all is well before you move on to full data collection. 
 
 ## Return files
 
-All data processing and analysis will be done centrally by the organisers. When you have finished data collection using the predetermined sample size, please zip and send all the csv files in the data folder to all of Ian (ian.hussey@ugent.be), Sean (sean.hughes@ugent.be) and Tal (tal.moranyorovich@ugent.be@ugent.be).
+All data processing and analysis will be done centrally by the organisers. When you have finished data collection using the predetermined sample size, please zip and send all the csv files in the data folder to all of Ian (ian.hussey@ugent.be), Sean (sean.hughes@ugent.be) and Tal (tmo286@gmail.com).

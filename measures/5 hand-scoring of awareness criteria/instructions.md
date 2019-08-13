@@ -1,45 +1,98 @@
 # Instructions for scoring the open-ended responses
 
-## Development notes from Ian to Tal
+### Creation of coding excel files for the different sites
 
-- Im not sure how to get the sites to score the multiple criteria invovled in confirmatory analysis 1 and exporatory analysis 1's exclusion criteria (e.g., multiple criteria and multiple stimuli, as well as references to agreement between the raters). Who will calculate and integrate each step, etc. This needs documenting. We could capture each subclause (ie the X or Y or Z criteria) for replicability and then process them into a global variable (this would be more replicable), or get them to score the compound critiera themselves. 
-- Each site will also need to know which pokemon were used as the CS1 and CS2 in each condition at their site to know if the correct stimuli were used. How to ensure the raters know this correctly? the condition variable is now printed to the csv files at least.
-- In either case, there is some admin work to be done in making site specific excel files from the master file that the processing scripts produce, ensuring there are two separate files to be given to the two different reviewers so that they are blinded to one anothers responses, sending them to the sites, then integrating results into a single file for futher processing using the second R script. Tal, will you look after this?
+Tal to:
 
-## Awareness questions
+1. Create a specific excel file for each lab from the master file that the processing scripts produce.
 
-Two awareness criteria must be scored from participants' open ended responses across two questions:
+2. Create two copies for each site (one for coder 1 and one for coder 2).
+
+3. Send each lab the two copies + a reminder of which Pokémon were used as the CS1 and CS2 in this site. 
+
+On each site:
+
+One of the team members will be responsible for managing the coding process within the lab (i.e., will be the coding administrator).
+
+ 
+
+### Awareness questions
+
+Two awareness criteria must be scored from participants' open-ended responses across two questions:
 
 1. "Think back to the very first part of the experiment. Did you notice anything out of the ordinary in the way the words and pictures were presented during the surveillance tasks?"
+
 2. "Did you notice anything systematic about how particular words and images appeared together during the surveillance tasks?"
 
-The attached .csv file contains each participant's responses to the two relevant questions. We therefore ask you to have two researchers at your site hand-score responses to these questions using the following criteria. The two researchers should be blinded to one anothers responses - have them fill in two separate copies of the file and then integrate these responses into one file to return to us. 
+The attached .csv file contains each participant's responses to the two relevant questions. We, therefore, ask you to have two researchers at your site hand-score responses to these questions using the following criteria.
 
-## Exclusion criteria
+The two researchers should be blinded to one another responses - have them fill in two separate copies of the file and then integrate these responses into one file to return to us (see further instructions for the integration process below). 
 
-Taken from manuscript.
+The excel file contains information regarding which of the CSs (CS1 or CS2) was CSpos and which was CSneg for each specific participant. 
 
-### Confirmatory analysis 1
 
-"As recommended by the original authors, participants will be excluded if both raters agree that participants identified the valence of the USs that were paired with each of the CSs, in at least one of the two questions. If participants identify that one of the CSs was paired with a US of a particular valence, or report that CSs and US were paired during the task (even if they do not mention the specific way in which they were paired), then they will be retained and coded as being ‘contingency unaware’. Likewise, in cases of rater disagreement, participants will also be retained and coded as ‘contingency unaware’ as per the original authors criteria."
 
-### Exploratory analysis 1
+### Exclusion criteria:
 
-The first (exploratory) score will use a more conservative coding of the original authors’ questions. Participants will be coded as ‘aware’ if they express full or partial memory. Specifically, assignment to the ‘aware’ group will occur when both judges agree that the participant identified the valence of the USs that were paired with each of the CSs, or identified that one of the CSs was paired with a US of a particular valence, or reports that CSs and USs were paired during the task (even if they do not mention the specific way in which they were paired), in at least one of the two questions. Assignment to the ‘unaware’ group will occur when both judges indicate that the participant did not report that CSs were systematically paired with USs, or that a CS was paired with a US of a specific valance, in at least one of the two questions. In cases of rater disagreement, a third judge will be recruited and asked to provide their own judgement according to the above criteria. The majority judgement will be adopted. Participants in the ‘aware’ group will be excluded from subsequent analysis.
+To avoid confusion, please first code the answers based on the first criteria, and only then move to code the answers based on the second criteria. 
 
-### Exploratory analysis 2
+##### fazio_and_olsen_criteria
 
- The second (exploratory) score will be computed based on Bar-Anan et al.’s (2010) criteria. Here participants will be excluded if they chose the “yes” answer on question 1 of the Bar-Anan et al. measure, and retained if they chose “no”. 
+Please code participants as ‘aware’ (i.e. ‘TRUE’) if in response to at least one of the questions: 
 
-### Exploratory analysis 3
+\-    Their answer indicates that CSpos (either its name or a description of its appearance) appeared during the task together with words/images of positive valence AND CSneg (its name or a description of its appearance) appeared during the task together with words/images of negative valence.
 
-Participants will be excluded if they chose the “yes” answer on question 1 and correctly identify the valence with which each of the two CSs appeared during the task (providing either a *probably* or *certainly* response on questions 2-3). 
+Please code participant as ‘unaware’ (“FALSE”) if the above criterion is not met. Specifically:
 
-## Scoring procedure
+\-    Their answer indicates that CSpos (its name or a description of its appearance) appeared during the task with words/images of positive valence OR CSneg (its name or a description of its appearance) appeared during the task with words/images of negative valence. 
 
-1.  Ascertain which pokemon was paired with positive stimuli (CS-pos) and which was paired with negative stimuli (CS-neg) at your site and for this participant (depending on condition).
-2. Inspect their written responses across both questions. If the participant identifies that the CS-pos stimulus was paired (e.g., paired, associated, occured alongside with, etc) positive stimuli AND the CS-neg stimulus was paired with negative stimuli, score this participant as TRUE. If they only report one CS stimulus pairing, or report both but fail to note with which valenced stimuli each was specifically paired, or do not report either CS being paired with a valenced stimulus, score them as FALSE. 
-3. XXX NEEDS FLESHING OUT - TAL CAN YOU ADD THIS? 
+Critically, participants should be marked as ‘unaware’ (“FALSE”) even if only one of the above judgements is reported (e.g., that CSpos was paired with positive USs OR CSneg was paired with negative USs). If both judgements are made then they should be assigned to the ‘aware’ (“TRUE”) group. 
+
+Participants can also be assigned to the ‘unaware’ (“FALSE”) group if one of the following occurs:
+
+\-    Their answer indicates that the CSs and USs were paired during the task but they do not mention the specific way in which those stimuli were paired (i.e., no details of which CS appeared with positive USs and which CS appeared with negative USs). 
+
+\-    Their answer does not contain mention any systematic pairing of CSs and USs. 
+
+##### fazio_and_olsen_modified_criteria
+
+Please code the participant as ‘aware’ (“TRUE”) if in response to at least one of the questions:
+
+\-              Their answer indicates that CSpos (its name or a description of its appearance) appeared during the task with words/images of positive valence AND CSneg (its name or a description of its appearance) appeared during the task with words/images of negative valence.
+
+OR
+
+\-              Their answer indicates that CSpos (its name or a description of its appearance) appeared during the task with words/images of positive valence OR CSneg (its name or a description of its appearance) appeared during the task with words/images of negative valence. If both judgements are made by the participant then they should be assigned to the ‘fully aware’ group.
+
+Participants can also be assigned to the ‘aware’ (“TRUE”) group if one of the following occurs:
+
+\-              Their answer indicates that CSs and USs were paired during the task but they do not mention the specific way in which the CSs and USs were paired (i.e., no details on which CS appeared with positive USs and which CSs appeared with negative USs). 
+
+Please code the participant as ‘unaware’ (“FALSE”) if in response to both questions: 
+
+\-              Their answer does not contain any mention of a systematic pairing between CSs and USs.
+
+ 
+
+### Integration (for the coding administrator):
+
+1. Please integrate the two coders responses into one file.
+
+2. For the first exclusion criteria (fazio_and_olsen_criteria) it doesn't matter if the two coders gave the same response (TRUE or FALSE).
+
+3. However, for the second exclusion criteria (fazio_and_olsen_modified_criteria), in cases of rater disagreement between the two judges, a third judge need to be recruited and asked to provide their judgement according to the above criteria (only for the cases in which there was a disagreement). In these cases, the majority judgement will be adopted (i.e, please change the corresponding cell in the excel file; to reflect the new agreement). 
+
+4. Please send the integrated file to Tal (tmo286@gmail.com), Sean (sean.hughes@ugent.be) and Ian (ian.hussey@ugent.be).
+
+ 
+
+### Creation of integrated excel file:
+
+Tal to:
+
+1. Verify the different files are valid (all cells are filled, agreement achieved for the fazio_and_olsen_modified_criteria).
+
+2. Integrate the different files into one "data_awareness_for_hand_scoring.csv" file.
 
 
 

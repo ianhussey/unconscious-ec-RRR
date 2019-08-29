@@ -89,7 +89,7 @@ data_processed <- left_join(data_intermediate, data_awareness_1_for_hand_scoring
          exclude_awareness_baranan_dehouwer_nosek, 
          exclude_awareness_baranan_dehouwer_nosek_modified,
          # DV
-         sum_score_evaluation_CS1_preferred, 
+         sum_score_evaluation_CSpos_preferred, 
          # other variables
          condition,
          perc_accuracy_surveillance_response, 

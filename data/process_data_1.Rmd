@@ -167,11 +167,14 @@ data_filler_2 <- data_trimmed %>%
 data_evaluation <- data_trimmed %>%
   filter(!is.na(evaluation_CS1_preferred) & 
            evaluation_response_indicating_CS1_preferred != "None") %>%
-  # original study codes preference for CS1 as +1 and preference for CS2 as -1, so we do the same here. 
+  # original study codes preference for CSpos as +1 and preference for CSneg as -1, so we do the same here. 
   mutate(evaluation_CS1_preferred = ifelse(evaluation_CS1_preferred == 1, 1, 
                                            ifelse(evaluation_CS1_preferred == 0, -1, NA))) %>%
+  # convert CS1/2 to CSpos/neg
+  mutate(evaluation_CSpos_preferred = ifelse(condition == "CS1_USpos", evaluation_CS1_preferred,
+                                             ifelse(condition == "CS1_USneg", evaluation_CS1_preferred*-1, NA))) %>%
   group_by(unique_id) %>%
-  summarize(sum_score_evaluation_CS1_preferred = sum(evaluation_CS1_preferred)) %>%
+  summarize(sum_score_evaluation_CSpos_preferred = sum(evaluation_CSpos_preferred)) %>%
   ungroup()
 
 ```

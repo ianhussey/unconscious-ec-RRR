@@ -425,7 +425,7 @@ data_1 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_aware_olsen_and_fazio == FALSE) %>%  # exclude using the olsen and fazio criteria
-  mutate(DV = sum_score_evaluation_CS1_preferred)
+  mutate(DV = sum_score_evaluation_CSpos_preferred)
 
 # distribution plots
 ## all sites
@@ -467,7 +467,7 @@ data_2 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_aware_olsen_and_fazio_modified == FALSE) %>%  # exclude using a modification of the olsen and fazio criteria
-  mutate(DV = sum_score_evaluation_CS1_preferred)
+  mutate(DV = sum_score_evaluation_CSpos_preferred)
   
 # distribution plots
 ## all sites
@@ -507,7 +507,7 @@ data_3 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_awareness_baranan_dehouwer_nosek == FALSE) %>%  # exclude using the bar-anan, de houwer, and nosek criteria
-  mutate(DV = sum_score_evaluation_CS1_preferred)
+  mutate(DV = sum_score_evaluation_CSpos_preferred)
   
 # distribution plots
 ## all sites
@@ -547,7 +547,7 @@ data_4 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_awareness_baranan_dehouwer_nosek_modified == FALSE) %>%  # exclude using our modification of the bar-anan, de houwer, and nosek criteria
-  mutate(DV = sum_score_evaluation_CS1_preferred)
+  mutate(DV = sum_score_evaluation_CSpos_preferred)
 
 # distribution plots
 ## all sites
@@ -588,7 +588,7 @@ Refit each of the above using the analysis-specific exclusion criterion (e.g., o
 data_5 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE) %>% # exclude if accuracy on surveillance task is >3SD worse than group
-  mutate(DV = sum_score_evaluation_CS1_preferred,
+  mutate(DV = sum_score_evaluation_CSpos_preferred,
          awareness = exclude_aware_olsen_and_fazio)
 
 # distribution plots
@@ -629,7 +629,7 @@ Refit each of the above using the analysis-specific exclusion criterion (e.g., o
 data_6 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE) %>% # exclude if accuracy on surveillance task is >3SD worse than group
-  mutate(DV = sum_score_evaluation_CS1_preferred,
+  mutate(DV = sum_score_evaluation_CSpos_preferred,
          awareness = exclude_aware_olsen_and_fazio_modified)
 
 # distribution plots
@@ -670,7 +670,7 @@ Refit each of the above using the analysis-specific exclusion criterion (e.g., o
 data_7 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE) %>% # exclude if accuracy on surveillance task is >3SD worse than group
-  mutate(DV = sum_score_evaluation_CS1_preferred,
+  mutate(DV = sum_score_evaluation_CSpos_preferred,
          awareness = exclude_awareness_baranan_dehouwer_nosek)
 
 # distribution plots
@@ -711,7 +711,7 @@ Refit each of the above using the analysis-specific exclusion criterion (e.g., o
 data_8 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE) %>% # exclude if accuracy on surveillance task is >3SD worse than group
-  mutate(DV = sum_score_evaluation_CS1_preferred,
+  mutate(DV = sum_score_evaluation_CSpos_preferred,
          awareness = exclude_awareness_baranan_dehouwer_nosek_modified)
 
 # distribution plots

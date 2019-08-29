@@ -280,7 +280,7 @@ moderator_preferences_effect_size <- function(split){
   
 }
 
-# moderator meta analysis and forest plot workflow -----
+# multivariate moderator meta analysis and forest plot workflow -----
 moderator_meta_analysis_workflow <- function(data, 
                                              effect_size_label = "Hedges' g", 
                                              nboots = 2000,
@@ -306,28 +306,40 @@ moderator_meta_analysis_workflow <- function(data,
   
   # fit random effects model 
   fitted_model <- 
-    rma(yi   = hedges_g, 
-        sei  = hedges_g_se,
-        mods = ~ awareness,
-        data = data_effect_sizes,
-        slab = data_collection_site)
+    rma.mv(yi   = hedges_g, 
+           V   = hedges_g_se^2,
+           mods = ~ awareness,
+           random =  ~1 | data_collection_site,
+           data = data_effect_sizes,
+           slab = data_collection_site)
     
   # model predictions
-  meta_analysis_results <-
+  temp <-
     data.frame(awareness = c(levels(as.factor(data$awareness))),
                k = c(fitted_model$k),
                hedges_g = c(fitted_model$beta),
                hedges_g_se = c(fitted_model$se),
                hedges_g_ci_lwr = c(fitted_model$ci.lb),
                hedges_g_ci_upr = c(fitted_model$ci.ub),
-               p = c(fitted_model$pval))
+               p = c(fitted_model$pval)) %>%
+    rownames_to_column() 
+  
+  intercept_hedges_g <- temp$hedges_g[1] 
+  intercept_hedges_g_ci_lwr <- temp$hedges_g_ci_lwr[1] 
+  intercept_hedges_g_ci_upr <- temp$hedges_g_ci_upr[1] 
+  
+  meta_analysis_results <- temp %>%
+    mutate(hedges_g = ifelse(rowname == "1", hedges_g, 
+                             intercept_hedges_g + hedges_g),
+           hedges_g_ci_lwr = hedges_g - hedges_g_se*1.96,
+           hedges_g_ci_upr = hedges_g + hedges_g_se*1.96)
   
   meta_analysis_heterogeneity_and_moderator_results <-
     data.frame(QE = fitted_model$QE,
                QEp = fitted_model$QEp,
                tau2 = fitted_model$tau2,
-               I2 = fitted_model$I2,
-               H2 = fitted_model$H2,
+               #I2 = ifelse(!is.null(fitted_model$I2), fitted_model$I2, NA),  # not produced for multivariate meta analyses
+               #H2 = ifelse(!is.null(fitted_model$H2), fitted_model$H2, NA),  # not produced for multivariate meta analyses
                QM = fitted_model$QM,
                QMp = fitted_model$QMp)
   
@@ -449,8 +461,6 @@ results_1 <- meta_analysis_workflow(data_1)
 
 # # forest plot (if using custom ggplot option)
 # results_1$plot
-
-results_1$meta_analysis_results
 
 ```
 
@@ -577,11 +587,11 @@ results_4 <- meta_analysis_workflow(data_4)
 - Meta anaysis results: `r results_4$meta_analysis_results_text`
 - Heterogeneity tests: `r results_4$heterogeneity_test_results_text`
 
-# Moderator meta analyses
+# Multivariate moderator meta analyses
 
-## Analysis 5 (Exploratory): Olson & Fazio (2002) exclusion criteria as a moderator
+## Moderation of EC effect by individuals' awareness
 
-Refit each of the above using the analysis-specific exclusion criterion (e.g., olsen and fazio) as a moderator instead.
+### Analysis 5 (Exploratory): Olson & Fazio (2002) exclusion criteria as a moderator
 
 ```{r}
 
@@ -618,11 +628,9 @@ results_5$plot
 
 ```
 
-- Moderator meta anaysis results: `r results_5$moderator_test_results_text` 
+- Heterogeneity test: `r results_5$moderator_test_results_text` 
 
-## Analysis 6 (Exploratory): Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
-
-Refit each of the above using the analysis-specific exclusion criterion (e.g., olsen and fazio) as a moderator instead.
+### Analysis 6 (Exploratory): Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
 
 ```{r}
 
@@ -659,11 +667,9 @@ results_6$plot
 
 ```
 
-- Moderator meta anaysis results: `r results_6$moderator_test_results_text` 
+- Heterogeneity test: `r results_6$moderator_test_results_text` 
 
-## Analysis 7 (Exploratory): Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
-
-Refit each of the above using the analysis-specific exclusion criterion (e.g., olsen and fazio) as a moderator instead.
+### Analysis 7 (Exploratory): Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
 
 ```{r}
 
@@ -700,11 +706,9 @@ results_7$plot
 
 ```
 
-- Moderator meta anaysis results: `r results_7$moderator_test_results_text` 
+- Heterogeneity test: `r results_7$moderator_test_results_text` 
 
-## Analysis 8 (Exploratory): Modification of Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
-
-Refit each of the above using the analysis-specific exclusion criterion (e.g., olsen and fazio) as a moderator instead.
+### Analysis 8 (Exploratory): Modification of Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
 
 ```{r}
 
@@ -741,5 +745,48 @@ results_8$plot
 
 ```
 
-- Moderator meta anaysis results: `r results_8$moderator_test_results_text` 
+- Heterogeneity test: `r results_8$moderator_test_results_text` 
+
+## Moderation of the unaware EC effect by the awareness exclusion criterion employed
+
+Assess for differences in the magnitude of the EC effect between the different exclusion methods.
+
+```{r}
+
+data_9 <- 
+  bind_rows(mutate(data_1, awareness = "O&F"),
+            mutate(data_2, awareness = "O&F modified"),
+            mutate(data_3, awareness = "BA,DeH,&N"),
+            mutate(data_4, awareness = "BA,DeH,&N modified")) %>%
+  mutate(awareness = fct_relevel(awareness, "O&F", "O&F modified", "BA,DeH,&N", "BA,DeH,&N modified"))
+
+# distribution plots
+## all sites
+ggplot(data_9, aes(DV)) +
+  geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
+  geom_density() +
+  theme_classic() +
+  xlab("Preference") +
+  facet_wrap(~awareness)
+
+## split by site
+ggplot(data_9, aes(DV, color = data_collection_site)) +
+  geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
+  geom_density(alpha = 0.2) +
+  theme_classic() +
+  scale_color_viridis_d() +
+  labs(color = "Site") + 
+  xlab("Preference") +
+  facet_wrap(~awareness)
+
+# meta analysis
+results_9 <- moderator_meta_analysis_workflow(data_9)
+
+# forest plot (if using custom ggplot option)
+results_9$plot
+
+```
+
+- Heterogeneity test: `r results_9$moderator_test_results_text` 
+
 

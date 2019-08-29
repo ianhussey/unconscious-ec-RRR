@@ -749,7 +749,7 @@ results_8$plot
 
 ## Moderation of the unaware EC effect by the awareness exclusion criterion employed
 
-Assess for differences in the magnitude of the EC effect between the different exclusion methods.
+### Analysis 9 (Exploratory): Assess differences between the 4 exclusion methods
 
 ```{r}
 

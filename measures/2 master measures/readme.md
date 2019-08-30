@@ -29,11 +29,15 @@ You have been sent a copy of the measures that:
 3. Enter sequential participant number, age, and gender in the pop up box, and click the button to start.
 
    - For gender: enter one of the following options: m/f/o (lower case, o –is for others).
-   - Participants should be numbered from 1 to 150 (or less):
-
+   - Participants should be numbered from 1 to 150 (or less).
+   - Notice - to test the study, please use participant-number lower than 250 (if you will use a number higher than 250 - the experiment will not work).
    - Note that duplicate participants will likely require both duplicates to be excluded from the analysis, so please ensure that participant code assignment is correct, and avoid using the same id for different sessions (even in cases of incomplete sessions).
 
+NB before you start to collect data, please test that the study works on your computers. To verify that the proportions of the stimuli look good, please send to Tal (tmo286@gmail.com) a screenshot of one of the CS-US trials  (those are always on the 11, 21, 31, 41, 51, 61, 71, and 81 trials in each block).
+
 NB please collect data for circa 5 participants and then send their csv files to Ian, Tal and Sean so they can check that all is well before you move on to full data collection. 
+
+
 
 ## Return files
 

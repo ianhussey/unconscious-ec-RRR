@@ -15,6 +15,10 @@ output:
 
 Notes on meta analysed effect size:
 
+Bias correction for Hedges' g taken from Morris & DeShon (2002), Equation 23.
+
+Bootstrapping via case removal and percentile method with 2000 bootstraps. 
+
 Credibility intervals refer to the interval of effect sizes likely to be observed in a future study on the basis of the width of estimation of the true effect size combined with variation in this true effect size (e.g., due to heterogeneity). 
 
 Notes on heterogeneity metrics:

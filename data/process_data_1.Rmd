@@ -294,6 +294,9 @@ data_exclusions_temp_2 <- data_combined %>%
   left_join(data_exclusions_temp_1, by = "data_collection_site") %>%
   mutate(exclude_surveillance = ifelse(surveillance_response_total_correct_responses <
                                          (mean_surveillance_response_total_correct_responses_by_site - 
+                                            sd_surveillance_response_total_correct_responses_by_site*3) |
+                                         surveillance_response_total_correct_responses >
+                                         (mean_surveillance_response_total_correct_responses_by_site + 
                                             sd_surveillance_response_total_correct_responses_by_site*3), TRUE, FALSE))
 
 # awareness of the stimulus pairings

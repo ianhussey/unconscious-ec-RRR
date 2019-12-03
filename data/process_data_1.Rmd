@@ -52,8 +52,7 @@ library(data.table)
 
 # list all folders in a given folder. ie all data collection sites' separate data folders
 the_directories <- 
-  #list.dirs(path = "raw - pilot", full.names = TRUE, recursive = FALSE) %>%
-  list.dirs(path = "raw - pilot", full.names = TRUE, recursive = FALSE) %>%
+  list.dirs(path = "raw", full.names = TRUE, recursive = FALSE) %>%
   paste0(., "/")
 
 fread_with_name_checks <- function(input){
@@ -90,8 +89,8 @@ for(i in seq_along(the_directories)){
 ## flatten list
 data_raw <- dplyr::bind_rows(data_raw_list)
 
-detach("package:plyr", unload=TRUE)
-detach("package:data.table", unload=TRUE)
+detach("package:plyr", unload = TRUE)
+detach("package:data.table", unload = TRUE)
 
 ```
 
@@ -213,6 +212,17 @@ psychopy_text_to_string <- function(vector_input){
     str_replace_all(., "num_decimal",  ".") %>%
     str_replace_all(., "num_subtract", "-") %>%
     str_replace_all(., "capslock",     "") %>%
+    str_replace_all(., "numlock",      "") %>%
+    str_replace_all(., "num_0",        "0") %>%
+    str_replace_all(., "num_1",        "1") %>%
+    str_replace_all(., "num_2",        "2") %>%
+    str_replace_all(., "num_3",        "3") %>%
+    str_replace_all(., "num_4",        "4") %>%
+    str_replace_all(., "num_5",        "5") %>%
+    str_replace_all(., "num_6",        "6") %>%
+    str_replace_all(., "num_7",        "7") %>%
+    str_replace_all(., "num_8",        "8") %>%
+    str_replace_all(., "num_9",        "9") %>%
     paste(., collapse = "")
   
   return(vector_input)

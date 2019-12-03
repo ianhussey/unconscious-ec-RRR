@@ -37,8 +37,10 @@ check_for_and_install_packages <- function(package) {
 check_for_and_install_packages("tidyverse")
 check_for_and_install_packages("plyr")
 check_for_and_install_packages("data.table")
+check_for_and_install_packages("xlsx")
 
 library(tidyverse)
+library(xlsx)
 
 ```
 
@@ -345,6 +347,6 @@ data_awareness_for_hand_scoring <- data_intermediate %>%
 write_csv(data_intermediate, "intermediate/data_intermediate.csv")
 
 ## data for hand scoring
-write_csv(data_awareness_for_hand_scoring, "intermediate/data_awareness_for_hand_scoring.csv")
+write.xlsx(data_awareness_for_hand_scoring, "intermediate/data_awareness_for_hand_scoring.xlsx")
 
 ```

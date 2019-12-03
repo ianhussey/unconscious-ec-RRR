@@ -35,10 +35,10 @@ check_for_and_install_packages <- function(package) {
 }
 
 check_for_and_install_packages("tidyverse")
-check_for_and_install_packages("plyr")
-check_for_and_install_packages("data.table")
+check_for_and_install_packages("xlsx")
 
 library(tidyverse)
+library(xlsx)
 
 ```
 
@@ -48,7 +48,8 @@ Get data
 
 # write to disk
 ## data for hand scoring
-data_awareness_1_for_hand_scoring <- read.csv("intermediate/data_awareness_for_hand_scoring.csv") %>%
+
+data_awareness_1_for_hand_scoring <- read.xlsx("intermediate/data_awareness_for_hand_scoring.xlsx", sheetIndex = 1) %>%
   select(unique_id, 
          fazio_and_olsen_criteria_scorer_1, 
          fazio_and_olsen_modified_criteria_scorer_1,

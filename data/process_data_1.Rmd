@@ -73,7 +73,7 @@ all_csv_files_to_data_frame <- function(the_path){
     paste0(the_directories[i], .) %>%
     lapply(fread_with_name_checks) %>%
     rbind.fill() %>%
-    as.tibble()
+    as_tibble()
 
   return(data_output)
 }
@@ -226,6 +226,10 @@ psychopy_text_to_string <- function(vector_input){
     str_replace_all(., "num_7",        "7") %>%
     str_replace_all(., "num_8",        "8") %>%
     str_replace_all(., "num_9",        "9") %>%
+    str_replace_all(., "Ã¤",           "ä") %>%
+    str_replace_all(., "Ã¶",           "ö") %>%
+    str_replace_all(., "ÃŸ",           "ß") %>%
+    str_replace_all(., "Ã¼",           "ü") %>%
     paste(., collapse = "")
 
   return(vector_input)

@@ -431,7 +431,7 @@ moderator_meta_analysis_workflow <- function(data,
 
 # Meta analyses
 
-## Analysis 1 (Confirmatory): Olson & Fazio (2002) exclusion criteria
+## Analysis 1 (Confirmatory): Olson & Fazio (2001) exclusion criteria
 
 "As recommended by the original authors, participants will be excluded if both raters agree that participants identified the valence of the USs that were paired with each of the CSs, in at least one of the two questions. If participants identify that one of the CSs was paired with a US of a particular valence, or report that CSs and USs were paired during the task (even if they do not mention the specific way in which they were paired), then they will be retained and coded as being ‘contingency unaware’. Likewise, in cases of rater disagreement, participants will also be retained and coded as ‘contingency unaware’ as per the original authors criteria."
 
@@ -595,7 +595,7 @@ results_4 <- meta_analysis_workflow(data_4)
 
 ## Moderation of EC effect by individuals' awareness
 
-### Analysis 5 (Exploratory): Olson & Fazio (2002) exclusion criteria as a moderator
+### Analysis 5 (Exploratory): Olson & Fazio (2001) exclusion criteria as a moderator
 
 ```{r}
 
@@ -634,7 +634,7 @@ results_5$plot
 
 - Heterogeneity test: `r results_5$moderator_test_results_text` 
 
-### Analysis 6 (Exploratory): Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
+### Analysis 6 (Exploratory): Olson & Fazio (2001)'s modified exclusion criteria as a moderator
 
 ```{r}
 

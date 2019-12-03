@@ -15,15 +15,15 @@ output:
 
 ```{r setup, include=FALSE}
 
-knitr::opts_chunk$set(echo = TRUE, 
-                      message = FALSE, 
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
                       warning = FALSE)
 
 # options
 options(knitr.table.format = "html") # necessary configuration of tables
 
 # disable scientific notation
-options(scipen = 999) 
+options(scipen = 999)
 
 ```
 
@@ -51,7 +51,8 @@ library(plyr)
 library(data.table)
 
 # list all folders in a given folder. ie all data collection sites' separate data folders
-the_directories <- 
+the_directories <-
+  #list.dirs(path = "raw - pilot", full.names = TRUE, recursive = FALSE) %>%
   list.dirs(path = "raw", full.names = TRUE, recursive = FALSE) %>%
   paste0(., "/")
 
@@ -64,14 +65,14 @@ all_csv_files_to_data_frame <- function(the_path){
   require(tidyverse)
   require(plyr)
   require(data.table)
-  
-  data_output <- 
+
+  data_output <-
     list.files(path = the_path, pattern = "\\.csv$") %>%
     paste0(the_directories[i], .) %>%
     lapply(fread_with_name_checks) %>%
     rbind.fill() %>%
     as.tibble()
-  
+
   return(data_output)
 }
 
@@ -164,10 +165,10 @@ data_filler_2 <- data_trimmed %>%
   ungroup()
 
 data_evaluation <- data_trimmed %>%
-  filter(!is.na(evaluation_CS1_preferred) & 
+  filter(!is.na(evaluation_CS1_preferred) &
            evaluation_response_indicating_CS1_preferred != "None") %>%
-  # original study codes preference for CSpos as +1 and preference for CSneg as -1, so we do the same here. 
-  mutate(evaluation_CS1_preferred = ifelse(evaluation_CS1_preferred == 1, 1, 
+  # original study codes preference for CSpos as +1 and preference for CSneg as -1, so we do the same here.
+  mutate(evaluation_CS1_preferred = ifelse(evaluation_CS1_preferred == 1, 1,
                                            ifelse(evaluation_CS1_preferred == 0, -1, NA))) %>%
   # convert CS1/2 to CSpos/neg
   mutate(evaluation_CSpos_preferred = ifelse(condition == "CS1_USpos", evaluation_CS1_preferred,
@@ -184,21 +185,21 @@ make strings human readable
 
 # function to convert the keypresses captured in psychopy to a human readable string
 psychopy_text_to_string <- function(vector_input){
-  
+
   # remove shift key responses
   vector_input <- vector_input %>%
     unlist() %>%
     str_replace_all(., "lshift", "") %>%
     str_replace_all(., "rshift", "")
-  
-  # apply participants' backspaces 
+
+  # apply participants' backspaces
   while ( !is.na(match("backspace", vector_input)) ) {
     location_backspace      <- match("backspace", vector_input)
     location_previous       <- location_backspace - 1
     locations_to_be_deleted <- append(location_backspace, location_previous)
     vector_input            <- vector_input[-locations_to_be_deleted]
   }
-  
+
   # convert puntuation to characters and collapse string
   vector_input <- vector_input %>%
     str_replace_all(., "return",       "")  %>%
@@ -224,7 +225,7 @@ psychopy_text_to_string <- function(vector_input){
     str_replace_all(., "num_8",        "8") %>%
     str_replace_all(., "num_9",        "9") %>%
     paste(., collapse = "")
-  
+
   return(vector_input)
 }
 
@@ -239,7 +240,7 @@ data_awareness_1 <- data_trimmed %>%
   mutate(awareness_1_response = psychopy_text_to_string(awareness_1_response)) %>%
   ungroup() %>%
   select(unique_id, awareness_1_question, awareness_1_response) %>%
-  mutate(awareness_1_question = recode(awareness_1_question, 
+  mutate(awareness_1_question = recode(awareness_1_question,
                                        "0" = "awareness_1_out_of_ordinary",
                                        "1" = "awareness_1_systematic",
                                        "2" = "awareness_1_words_and_images")) %>%
@@ -254,10 +255,10 @@ recode other awareness variables and create exclusion variables
 data_awareness_2a <- data_trimmed %>%
   filter(!is.na(awareness_2a_response)) %>%
   select(unique_id, awareness_2a_question, awareness_2a_response) %>%
-  mutate(awareness_2a_question = recode(awareness_2a_question, 
+  mutate(awareness_2a_question = recode(awareness_2a_question,
                                        "0" = "awareness_2_regularity"),
          awareness_2a_response = as.numeric(awareness_2a_response)) %>%
-  mutate(awareness_2a_response = recode(awareness_2a_response, 
+  mutate(awareness_2a_response = recode(awareness_2a_response,
                                          "1" = FALSE,
                                          "2" = TRUE)) %>%
   select(-awareness_2a_question)
@@ -265,7 +266,7 @@ data_awareness_2a <- data_trimmed %>%
 data_awareness_2b <- data_trimmed %>%
   filter(!is.na(awareness_2b_response)) %>%
   select(unique_id, awareness_2b_question, awareness_2b_response) %>%
-  mutate(awareness_2b_question = recode(awareness_2b_question, 
+  mutate(awareness_2b_question = recode(awareness_2b_question,
                                        "0" = "awareness_2_stim_paired_with_positive",
                                        "1" = "awareness_2_stim_paired_with_negative"),
          awareness_2b_response = as.numeric(awareness_2b_response)) %>%
@@ -275,12 +276,12 @@ data_awareness_2b <- data_trimmed %>%
 data_awareness_2c <- data_trimmed %>%
   filter(!is.na(awareness_2c_response)) %>%
   select(unique_id, awareness_2c_question, awareness_2c_response) %>%
-  mutate(awareness_2c_question = recode(awareness_2c_question, 
+  mutate(awareness_2c_question = recode(awareness_2c_question,
                                        "0" = "familiarity"),
          awareness_2c_response = as.numeric(awareness_2c_response)) %>%
   spread(awareness_2c_question, awareness_2c_response)
 
-# combine 
+# combine
 data_combined <- data_demographics %>%
   left_join(data_surveillance,  by = "unique_id") %>%
   left_join(data_filler_1,      by = "unique_id") %>%
@@ -303,10 +304,10 @@ data_exclusions_temp_1 <- data_combined %>%
 data_exclusions_temp_2 <- data_combined %>%
   left_join(data_exclusions_temp_1, by = "data_collection_site") %>%
   mutate(exclude_surveillance = ifelse(surveillance_response_total_correct_responses <
-                                         (mean_surveillance_response_total_correct_responses_by_site - 
+                                         (mean_surveillance_response_total_correct_responses_by_site -
                                             sd_surveillance_response_total_correct_responses_by_site*3) |
                                          surveillance_response_total_correct_responses >
-                                         (mean_surveillance_response_total_correct_responses_by_site + 
+                                         (mean_surveillance_response_total_correct_responses_by_site +
                                             sd_surveillance_response_total_correct_responses_by_site*3), TRUE, FALSE))
 
 # awareness of the stimulus pairings
@@ -317,22 +318,22 @@ data_intermediate <- data_exclusions_temp_2 %>%
   # "The second (exploratory) score will be computed based on Bar-Anan et al.’s (2010) criteria. Here participants will be excluded if they chose the “yes” answer on question 1 of the Bar-Anan et al. measure, and retained if they chose “no”."
   mutate(exclude_awareness_baranan_dehouwer_nosek = awareness_2a_response) %>%
   # Exploratory 3: bar anan, de houwer and nosek criteria
-  # "The third (exploratory) score will be computed based on a modification to Bar-Anan et al.’s (2010) criteria in order to verify that responding is not driven by guessing. Participants will be excluded if they chose the “yes” answer on question 1 and correctly identify the valence with which each of the two CSs appeared during the task (providing either a probably or certainly response on questions 2-3). All other participants will be retained." 
-  mutate(exclude_awareness_baranan_dehouwer_nosek_modified = ifelse((exclude_awareness_baranan_dehouwer_nosek == TRUE & 
-                                                                       condition == "CS1_USpos" & 
-                                                                       awareness_2_stim_paired_with_positive %in% c(1, 2) & 
+  # "The third (exploratory) score will be computed based on a modification to Bar-Anan et al.’s (2010) criteria in order to verify that responding is not driven by guessing. Participants will be excluded if they chose the “yes” answer on question 1 and correctly identify the valence with which each of the two CSs appeared during the task (providing either a probably or certainly response on questions 2-3). All other participants will be retained."
+  mutate(exclude_awareness_baranan_dehouwer_nosek_modified = ifelse((exclude_awareness_baranan_dehouwer_nosek == TRUE &
+                                                                       condition == "CS1_USpos" &
+                                                                       awareness_2_stim_paired_with_positive %in% c(1, 2) &
                                                                        awareness_2_stim_paired_with_negative %in% c(5, 6)) |
                                                                       (exclude_awareness_baranan_dehouwer_nosek == TRUE &
-                                                                         condition == "CS1_USneg" & 
-                                                                         awareness_2_stim_paired_with_positive %in% c(5, 6) & 
-                                                                         awareness_2_stim_paired_with_negative %in% c(1, 2)), 
+                                                                         condition == "CS1_USneg" &
+                                                                         awareness_2_stim_paired_with_positive %in% c(5, 6) &
+                                                                         awareness_2_stim_paired_with_negative %in% c(1, 2)),
                                                                     TRUE, FALSE))
 
 # add columns for hand scoring
 data_awareness_for_hand_scoring <- data_intermediate %>%
-  select(unique_id, 
-         condition, 
-         awareness_1_out_of_ordinary, 
+  select(unique_id,
+         condition,
+         awareness_1_out_of_ordinary,
          awareness_1_systematic) %>%
   mutate(fazio_and_olsen_criteria_scorer_1 = "",
          fazio_and_olsen_modified_criteria_scorer_1 = "",
@@ -347,7 +348,3 @@ write_csv(data_intermediate, "intermediate/data_intermediate.csv")
 write_csv(data_awareness_for_hand_scoring, "intermediate/data_awareness_for_hand_scoring.csv")
 
 ```
-
-
-
-

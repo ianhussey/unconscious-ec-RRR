@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v3.0.4),
-    on Mon Apr  1 11:15:09 2019
+    on November 07, 2019, at 16:46
 If you publish work using this script please cite the PsychoPy publications:
     Peirce, JW (2007) PsychoPy - Psychophysics software in Python.
         Journal of Neuroscience Methods, 162(1-2), 8-13.
@@ -47,7 +47,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='/Users/Ian/git/unconscious-ec-RRR/measures/experiment.py',
+    originPath='C:\\Users\\tmoranyo\\Documents\\GitHub\\RRR_fazio-olson2001-local\\tal-creation\\4 site-specific measures for data collection\\Hütter\\experiment.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -65,6 +65,7 @@ win = visual.Window(
     monitor='testMonitor', color='white', colorSpace='rgb',
     blendMode='avg', useFBO=True,
     units='height')
+
 # store frame rate of monitor if we can measure it
 expInfo['frameRate'] = win.getActualFrameRate()
 if expInfo['frameRate'] != None:
@@ -345,6 +346,8 @@ thisRecord_data_collection_site_variable = record_data_collection_site_variable.
 if thisRecord_data_collection_site_variable != None:
     for paramName in thisRecord_data_collection_site_variable:
         exec('{} = thisRecord_data_collection_site_variable[paramName]'.format(paramName))
+
+mouse = event.Mouse(visible=False)
 
 for thisRecord_data_collection_site_variable in record_data_collection_site_variable:
     currentLoop = record_data_collection_site_variable
@@ -689,6 +692,7 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
         
     # completed 1 repeats of 'surveillance_blocks_loop'
     
+    mouse.setVisible(1)
     
     # set up handler to look after randomisation of conditions etc
     filler_1_instructions_loop = data.TrialHandler(nReps=1, method='sequential', 
@@ -1541,8 +1545,20 @@ for thisRecord_data_collection_site_variable in record_data_collection_site_vari
                     inputText += '"'
                     i = i + 1
             
+                elif theseKeys[i] == 'minus':
+                    inputText += u'ß'
+                    i = i + 1
+            
+                elif theseKeys[i] == 'bracketleft':
+                    inputText += u'ü'
+                    i = i + 1
+            
+                elif theseKeys[i] == 'semicolon':
+                    inputText += u'ö'
+                    i = i + 1
+            
                 elif theseKeys[i] == 'apostrophe':
-                    inputText += "'"
+                    inputText += u'ä'
                     i = i + 1
             
                 elif theseKeys[i] in ['lshift', 'rshift']:

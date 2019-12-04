@@ -226,10 +226,13 @@ psychopy_text_to_string <- function(vector_input){
     str_replace_all(., "num_7",        "7") %>%
     str_replace_all(., "num_8",        "8") %>%
     str_replace_all(., "num_9",        "9") %>%
-    str_replace_all(., "ÃƒÂ¤",           "Ã¤") %>%
-    str_replace_all(., "ÃƒÂ¶",           "Ã¶") %>%
-    str_replace_all(., "ÃƒÅ¸",           "ÃŸ") %>%
-    str_replace_all(., "ÃƒÂ¼",           "Ã¼") %>%
+    str_replace_all(., "Ã¤",           "ä") %>%
+    str_replace_all(., "Ã¶",           "ö") %>%
+    str_replace_all(., "ÃY",           "ß") %>%
+    str_replace_all(., "Ã¼",           "ü") %>%
+    str_replace_all(., "Ã"",           "Ä") %>%   
+    str_replace_all(., "Ã-",           "Ö") %>%     
+    
     paste(., collapse = "")
 
   return(vector_input)

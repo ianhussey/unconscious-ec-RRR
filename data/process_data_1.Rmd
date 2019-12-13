@@ -204,34 +204,34 @@ psychopy_text_to_string <- function(vector_input){
 
   # convert puntuation to characters and collapse string
   vector_input <- vector_input %>%
-    str_replace_all(., "return",       "")  %>%
-    str_replace_all(., "period",       ".") %>%
-    str_replace_all(., "comma",        ",") %>%
-    str_replace_all(., "space",        " ") %>%
-    str_replace_all(., "question",     "?") %>%
-    str_replace_all(., "doublequote",  "'") %>%
-    str_replace_all(., "apostrophe",   "'") %>%
-    str_replace_all(., "semicolon",    ";") %>%
-    str_replace_all(., "num_decimal",  ".") %>%
-    str_replace_all(., "num_subtract", "-") %>%
-    str_replace_all(., "capslock",     "") %>%
-    str_replace_all(., "numlock",      "") %>%
-    str_replace_all(., "num_0",        "0") %>%
-    str_replace_all(., "num_1",        "1") %>%
-    str_replace_all(., "num_2",        "2") %>%
-    str_replace_all(., "num_3",        "3") %>%
-    str_replace_all(., "num_4",        "4") %>%
-    str_replace_all(., "num_5",        "5") %>%
-    str_replace_all(., "num_6",        "6") %>%
-    str_replace_all(., "num_7",        "7") %>%
-    str_replace_all(., "num_8",        "8") %>%
-    str_replace_all(., "num_9",        "9") %>%
-    str_replace_all(., "Ã¤",           "ä") %>%
-    str_replace_all(., "Ã¶",           "ö") %>%
-    str_replace_all(., "ÃY",           "ß") %>%
-    str_replace_all(., "Ã¼",           "ü") %>%
+   str_replace_all(., "return",       "")  %>%
+   str_replace_all(., "period",       ".") %>%
+   str_replace_all(., "comma",        ",") %>%
+   str_replace_all(., "space",        " ") %>%
+   str_replace_all(., "question",     "?") %>%
+   str_replace_all(., "doublequote",  "'") %>%
+   str_replace_all(., "apostrophe",   "'") %>%
+   str_replace_all(., "semicolon",    ";") %>%
+   str_replace_all(., "num_decimal",  ".") %>%
+   str_replace_all(., "num_subtract", "-") %>%
+   str_replace_all(., "capslock",     "") %>%
+   str_replace_all(., "numlock",      "") %>%
+   str_replace_all(., "num_0",        "0") %>%
+   str_replace_all(., "num_1",        "1") %>%
+   str_replace_all(., "num_2",        "2") %>%
+   str_replace_all(., "num_3",        "3") %>%
+   str_replace_all(., "num_4",        "4") %>%
+   str_replace_all(., "num_5",        "5") %>%
+   str_replace_all(., "num_6",        "6") %>%
+   str_replace_all(., "num_7",        "7") %>%
+   str_replace_all(., "num_8",        "8") %>%
+   str_replace_all(., "num_9",        "9") %>%
+   str_replace_all(., "Ã¤",           "ä") %>%
+   str_replace_all(., "Ã¶",           "ö") %>%
+   str_replace_all(., "ÃY",           "ß") %>%
+   str_replace_all(., "Ã¼",           "ü") %>%
     # str_replace_all(., "Ã-",           "Ö")
-    str_replace_all(., "Ã-",           "Ö") %>% 
+   str_replace_all(., "Ã-",           "Ö") %>% 
     #str_replace_all(., "Ã"",           "Ä")
     #str_replace_all(., "Ã"",           "Ä") %>% 
     
@@ -240,8 +240,8 @@ psychopy_text_to_string <- function(vector_input){
    
     paste(., collapse = "")
 
-  return(vector_input)
-}
+ return(vector_input)
+ }
 
 data_awareness_1 <- data_trimmed %>%
   mutate(awareness_1_response = ifelse(awareness_1_response == "", NA, awareness_1_response)) %>%

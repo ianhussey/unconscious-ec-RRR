@@ -216,6 +216,16 @@ psychopy_text_to_string <- function(vector_input){
    str_replace_all(., "num_subtract", "-") %>%
    str_replace_all(., "capslock",     "") %>%
    str_replace_all(., "numlock",      "") %>%
+   str_replace_all(., "lctrl",     "") %>%
+   str_replace_all(., "minus",      "") %>%   
+   str_replace_all(., "ralt",     "") %>%
+   str_replace_all(., "left",      "") %>%    
+   str_replace_all(., "bracket",      "") %>%   
+   str_replace_all(., "lalt",      "") %>%      
+   str_replace_all(., "left",      "") %>%   
+   str_replace_all(., "up",      "") %>%   
+   str_replace_all(., "rcommand",      "") %>%      
+   str_replace_all(., "backslash",      "") %>%       
    str_replace_all(., "num_0",        "0") %>%
    str_replace_all(., "num_1",        "1") %>%
    str_replace_all(., "num_2",        "2") %>%

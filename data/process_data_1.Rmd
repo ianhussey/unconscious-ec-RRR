@@ -224,8 +224,11 @@ psychopy_text_to_string <- function(vector_input){
    str_replace_all(., "lalt",      "") %>%      
    str_replace_all(., "left",      "") %>%   
    str_replace_all(., "up",      "") %>%   
+   str_replace_all(., "slash",      "") %>%       
    str_replace_all(., "rcommand",      "") %>%      
-   str_replace_all(., "backslash",      "") %>%       
+   str_replace_all(., "backslash",      "") %>%   
+   str_replace_all(., "less",      "") %>% 
+   str_replace_all(., "colon",      "") %>%     
    str_replace_all(., "num_0",        "0") %>%
    str_replace_all(., "num_1",        "1") %>%
    str_replace_all(., "num_2",        "2") %>%
@@ -243,7 +246,7 @@ psychopy_text_to_string <- function(vector_input){
     # str_replace_all(., "Ã-",           "Ö")
    str_replace_all(., "Ã-",           "Ö") %>% 
     #str_replace_all(., "Ã"",           "Ä")
-    #str_replace_all(., "Ã"",           "Ä") %>% 
+   str_replace_all(., "Ã"",           "Ä") %>% 
     
     
     

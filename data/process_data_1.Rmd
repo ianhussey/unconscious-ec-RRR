@@ -246,7 +246,7 @@ psychopy_text_to_string <- function(vector_input){
     # str_replace_all(., "Ã-",           "Ö")
    str_replace_all(., "Ã-",           "Ö") %>% 
     #str_replace_all(., "Ã"",           "Ä")
-   str_replace_all(., "Ã"",           "Ä") %>% 
+   #str_replace_all(., "Ã"",           "Ä") %>% 
     
     
     

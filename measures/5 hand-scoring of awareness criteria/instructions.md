@@ -62,7 +62,7 @@ Please code the participant as ‘aware’ (“TRUE”) if in response to at lea
 
 OR
 
-\-              Their answer indicates that CSpos (its name or a description of its appearance) appeared during the task with words/images of positive valence OR CSneg (its name or a description of its appearance) appeared during the task with words/images of negative valence. If both judgements are made by the participant then they should be assigned to the ‘fully aware’ group.
+\-              Their answer indicates that CSpos (its name or a description of its appearance) appeared during the task with words/images of positive valence OR CSneg (its name or a description of its appearance) appeared during the task with words/images of negative valence. If both judgements are made by the participant then they should be assigned to the ‘TRUE’ group.
 
 Participants can also be assigned to the ‘aware’ (“TRUE”) group if one of the following occurs:
 

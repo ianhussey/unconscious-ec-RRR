@@ -49,7 +49,7 @@ Get data
 # write to disk
 ## data for hand scoring
 
-data_awareness_1_for_hand_scoring <- read.xlsx("intermediate/data_awareness_for_hand_scoring.xlsx", sheetIndex = 1) %>%
+data_awareness_1_for_hand_scoring <- read.xlsx("intermediate/data_awareness_for_hand_scoring_all.xlsx", sheetIndex = 1) %>%
   select(unique_id, 
          fazio_and_olsen_criteria_scorer_1, 
          fazio_and_olsen_modified_criteria_scorer_1,

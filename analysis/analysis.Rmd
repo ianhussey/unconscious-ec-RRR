@@ -153,6 +153,8 @@ meta_analysis_workflow <- function(data,
   
   p_value <- apa_p_value(fitted_model$pval)
   
+  z_value <- fitted_model$zval
+  
   # model predictions
   meta_analysis_results <-
     predict(fitted_model, digits = 5) %>%
@@ -169,18 +171,20 @@ meta_analysis_workflow <- function(data,
                                   "cr.ub" = "95% CR upper"))
   
   meta_analysis_results <- rbind(meta_analysis_results,
-                                 data.frame(metric = "p", estimate = p_value))
+                                 data.frame(metric = "p", estimate = p_value),
+                                 data.frame(metric = "z", estimate = z_value))
   
   # summarize results
   meta_analysis_results_text <- 
     paste0("k = ", fitted_model$k, ", ", 
            effect_size_label, " = ", meta_analysis_results$estimate[1],
            # dynamic indexing of some values as different models return variables in different locations, but relative location is reliable
-           ", 95% CI = [", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-4],  
-           ", ", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-3], 
-           "], 95% CR = [", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-2], 
-           ", ", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-1],
-           "], p ", meta_analysis_results$estimate[length(meta_analysis_results$estimate)])
+           ", 95% CI = [", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-5],  
+           ", ", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-4], 
+           "], 95% CR = [", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-3], 
+           ", ", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-2],
+           "], z = ", signif(as.numeric(as.character(meta_analysis_results$estimate[length(meta_analysis_results$estimate)])), digits = 3),
+           ", p ", meta_analysis_results$estimate[length(meta_analysis_results$estimate)-1])
   
   heterogeneity_test_results_text <- 
     paste0("Q(df = ",    fitted_model$k - 1, ") = ", round(fitted_model$QE, 2), 

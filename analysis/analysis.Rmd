@@ -865,6 +865,8 @@ results_5 <- moderator_meta_analysis_workflow(data_5)
 # forest plot (if using custom ggplot option)
 results_5$plot
 
+summary(results_5$fitted_model)
+
 ```
 
 - Heterogeneity test: `r results_5$moderator_test_results_text` 
@@ -903,6 +905,8 @@ results_6 <- moderator_meta_analysis_workflow(data_6)
 
 # forest plot (if using custom ggplot option)
 results_6$plot
+
+summary(results_6$fitted_model)
 
 ```
 
@@ -943,6 +947,8 @@ results_7 <- moderator_meta_analysis_workflow(data_7)
 # forest plot (if using custom ggplot option)
 results_7$plot
 
+summary(results_7$fitted_model)
+
 ```
 
 - Heterogeneity test: `r results_7$moderator_test_results_text` 
@@ -981,6 +987,8 @@ results_8 <- moderator_meta_analysis_workflow(data_8)
 
 # forest plot (if using custom ggplot option)
 results_8$plot
+
+summary(results_8$fitted_model)
 
 ```
 
@@ -1023,6 +1031,8 @@ results_9 <- criterion_moderator_meta_analysis_workflow(data_9)
 
 # forest plot (if using custom ggplot option)
 results_9$plot
+
+summary(results_9$fitted_model)
 
 ```
 

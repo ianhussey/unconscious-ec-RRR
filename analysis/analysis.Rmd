@@ -610,13 +610,30 @@ data_processed %>%
 
 ```
 
-# Awareness rates by criterion and site
-
-Exploratory analysis not include in prereg
+# Surveillance task exclusion rate
 
 ```{r}
 
 data_processed %>%
+  dplyr::select(exclude_surveillance) %>%
+  summarize_all(.funs = mean) %>%
+  round_df(3) %>%
+  gather() %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+```
+
+# Awareness rates by criterion and site
+
+Exploratory analysis not include in prereg, as far as I know.
+
+Awareness exclusion rate after doing surveillance exclusions. 
+
+```{r}
+
+data_processed %>%
+  filter(exclude_surveillance == FALSE) %>%
   dplyr::select(exclude_aware_olsen_and_fazio,
                 exclude_aware_olsen_and_fazio_modified,
                 exclude_awareness_baranan_dehouwer_nosek,
@@ -628,6 +645,7 @@ data_processed %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
 
 # results_awareness_by_site <- data_processed %>%
+#   filter(exclude_surveillance == FALSE) %>%
 #   dplyr::select(data_collection_site,
 #                 exclude_aware_olsen_and_fazio,
 #                 exclude_aware_olsen_and_fazio_modified,

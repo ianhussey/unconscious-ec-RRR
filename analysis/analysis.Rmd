@@ -97,21 +97,6 @@ data_processed <- read.csv("../data/processed/data_processed.csv") %>%
                                               "Unkelbach and Hogden" = "Unkelbach",
                                               "Vadillo" = "Vadillo"))
 
-# filter out data from sites that did not meet the preregistered minimum sample size
-sites_meeting_minimum_n <- data_processed %>%
-  filter(simulated_data == FALSE) %>%
-  count(data_collection_site) %>%
-  
-  # manual modifications to these participant counts based on participants run who do not have data files
-  mutate(n_run = ifelse(data_collection_site == "Moran Hussey and Hughes", n + 1, # one particpant's files were manually excluded based on missing data on the open ended response questions. this was diagnosed by the processing script not running when their files were included. 
-                    ifelse(data_collection_site == "Corneille and Mierop", n + 1, # one particpant's files were manually excluded based on missing data on the open ended response questions. this was diagnosed by the processing script not running when their files were included. 
-                           n))) %>%
-  # exclude sites that didn't reach the preregistered minimum n
-  filter(n_run >= 100)
-  
-data_processed_sites_meeting_minimum_n <- data_processed %>%
-  semi_join(sites_meeting_minimum_n, by = "data_collection_site")
-
 ```
 
 # Functions & analytic workflow
@@ -628,7 +613,7 @@ criterion_moderator_meta_analysis_workflow <- function(data,
 
 ```{r}
 
-data_processed_sites_meeting_minimum_n %>%
+data_processed %>%
   summarize(n = n(),
             mean_age = mean(age, na.rm = TRUE),
             sd_age = sd(age, na.rm = TRUE)) %>%
@@ -636,7 +621,7 @@ data_processed_sites_meeting_minimum_n %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
 
-data_processed_sites_meeting_minimum_n %>%
+data_processed %>%
   mutate(gender = tolower(gender),
          gender = ifelse(gender %in% c("m", "mãƒâ¤nnlich", "male", "mujer", "hombre"), "male",
                          ifelse(gender %in% c("f", "female", "femenino", "fm", "mujer", "w", "weiblich"), "female", 
@@ -651,7 +636,7 @@ data_processed_sites_meeting_minimum_n %>%
 
 ```{r}
 
-data_processed_sites_meeting_minimum_n %>%
+data_processed %>%
   dplyr::select(exclude_surveillance) %>%
   summarize_all(.funs = mean) %>%
   round_df(3) %>%
@@ -669,7 +654,7 @@ Awareness exclusion rate after doing surveillance exclusions.
 
 ```{r}
 
-data_processed_sites_meeting_minimum_n %>%
+data_processed %>%
   filter(exclude_surveillance == FALSE) %>%
   dplyr::select(exclude_aware_olsen_and_fazio,
                 exclude_aware_olsen_and_fazio_modified,
@@ -681,7 +666,7 @@ data_processed_sites_meeting_minimum_n %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
 
-exclusion_rate_per_site <- data_processed_sites_meeting_minimum_n %>%
+exclusion_rate_per_site <- data_processed %>%
   filter(exclude_surveillance == FALSE) %>%
   dplyr::select(data_collection_site,
                 exclude_aware_olsen_and_fazio,
@@ -692,7 +677,7 @@ exclusion_rate_per_site <- data_processed_sites_meeting_minimum_n %>%
   summarize_all(.funs = mean) %>%
   round_df(3)
 
-data_processed_sites_meeting_minimum_n %>%
+data_processed %>%
   filter(exclude_surveillance == FALSE) %>%
   dplyr::select(data_collection_site,
                 exclude_aware_olsen_and_fazio,
@@ -723,7 +708,7 @@ data_processed_sites_meeting_minimum_n %>%
 
 ```{r}
 
-data_1 <- data_processed_sites_meeting_minimum_n %>%
+data_1 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_aware_olsen_and_fazio == FALSE) %>%  # exclude using the olsen and fazio criteria
@@ -757,8 +742,8 @@ metafor::forest(results_1$fitted_model,
                 at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_1$fitted_model))
-text(-1.1, 11, "Olsen & Fazio (2001) exclusions", pos = 4)
-text(1.2, 10.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 13, "Olsen & Fazio (2001) exclusions", pos = 4)
+text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 ```
 
@@ -771,7 +756,7 @@ text(1.2, 10.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 
 
 ```{r}
 
-data_2 <- data_processed_sites_meeting_minimum_n %>%
+data_2 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_aware_olsen_and_fazio_modified == FALSE) %>%  # exclude using a modification of the olsen and fazio criteria
@@ -805,8 +790,8 @@ metafor::forest(results_2$fitted_model,
                 at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_2$fitted_model))
-text(-1.1, 11, "Olsen & Fazio (2001, modified) exclusions", pos = 4)
-text(1.2, 10.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 13, "Olsen & Fazio (2001) modified exclusions", pos = 4)
+text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 ```
 
@@ -819,7 +804,7 @@ text(1.2, 10.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 
 
 ```{r}
 
-data_3 <- data_processed_sites_meeting_minimum_n %>%
+data_3 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_awareness_baranan_dehouwer_nosek == FALSE) %>%  # exclude using the bar-anan, de houwer, and nosek criteria
@@ -853,8 +838,8 @@ metafor::forest(results_3$fitted_model,
                 at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_3$fitted_model))
-text(-1.1, 11, "Bar-Anan et al. (2010) exclusions", pos = 4)
-text(1.2, 10.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 13, "Bar-Anan et al. (2010) exclusions", pos = 4)
+text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 ```
 
@@ -867,7 +852,7 @@ text(1.2, 10.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 
 
 ```{r}
 
-data_4 <- data_processed_sites_meeting_minimum_n %>%
+data_4 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_awareness_baranan_dehouwer_nosek_modified == FALSE) %>%  # exclude using our modification of the bar-anan, de houwer, and nosek criteria
@@ -901,8 +886,8 @@ metafor::forest(results_4$fitted_model,
                 at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_4$fitted_model))
-text(-1.1, 11, "Bar-Anan et al. (2010, modified) exclusions", pos = 4)
-text(1.2, 10.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 13, "Bar-Anan et al. (2010) modified exclusions", pos = 4)
+text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 ```
 
@@ -918,7 +903,7 @@ text(1.2, 10.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 
 
 ```{r fig.height=6, fig.width=8}
 
-data_5 <- data_processed_sites_meeting_minimum_n %>%
+data_5 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE) %>% # exclude if accuracy on surveillance task is >3SD worse than group
   mutate(DV = sum_score_evaluation_CSpos_preferred,
@@ -959,7 +944,7 @@ summary(results_5$fitted_model)
 
 ```{r fig.height=6, fig.width=8}
 
-data_6 <- data_processed_sites_meeting_minimum_n %>%
+data_6 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE) %>% # exclude if accuracy on surveillance task is >3SD worse than group
   mutate(DV = sum_score_evaluation_CSpos_preferred,
@@ -1000,7 +985,7 @@ summary(results_6$fitted_model)
 
 ```{r fig.height=6, fig.width=8}
 
-data_7 <- data_processed_sites_meeting_minimum_n %>%
+data_7 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE) %>% # exclude if accuracy on surveillance task is >3SD worse than group
   mutate(DV = sum_score_evaluation_CSpos_preferred,
@@ -1041,7 +1026,7 @@ summary(results_7$fitted_model)
 
 ```{r fig.height=6, fig.width=8}
 
-data_8 <- data_processed_sites_meeting_minimum_n %>%
+data_8 <- data_processed %>%
   filter(simulated_data == FALSE &  # exclude simulated data used for script development
            exclude_surveillance == FALSE) %>% # exclude if accuracy on surveillance task is >3SD worse than group
   mutate(DV = sum_score_evaluation_CSpos_preferred,

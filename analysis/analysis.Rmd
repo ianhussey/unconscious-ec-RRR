@@ -118,23 +118,6 @@ apa_p_value <- function(p){
   p_formatted
 }
 
-# helper function to apply to each resample to calculate hedges g -----
-preferences_effect_size <- function(split){
-  
-  summary_preferences <- analysis(split) %>%
-    group_by(data_collection_site) %>%
-    dplyr::summarize(preference_mean = mean(DV),
-                     preference_sd = sd(DV),
-                     preference_n = n(),
-                     preference_cohens_dz = preference_mean/preference_sd,
-                     # Hedges' g bias correction formula suggested by Miguel:
-                     preference_hedges_g = preference_cohens_dz*(1 - (3/(4*(preference_n-1)-1)))) %>%
-    ungroup()
-  
-  return(summary_preferences)
-  
-}
-
 # add heterogeneity metrics to metafor forest plot
 add_heterogeneity_metrics_to_forest <- function(fit) {
   bquote(paste("RE Model (", 
@@ -145,26 +128,28 @@ add_heterogeneity_metrics_to_forest <- function(fit) {
 # meta analysis and forest plot workflow -----
 meta_analysis_workflow <- function(data, 
                                    effect_size_label = "Hedges' g", 
-                                   nboots = 2000,
                                    reference_line = 0, 
                                    plot = TRUE) {
   
   # calculate effect sizes for meta
+  # NB the original preregistered code used a bootstrapping method to calculate effect sizes, CIs, and SEIs. However, the unexpectedly small number of participants collected at some sites meant that results - particularly heterogeneity effect sizes - were relatively unstable across re-running the script. For the sake of computational reproducibility, I therefore exchange the bootstrapping method for the arithmetic method throughout. Sites with N <= 2 are then excluded so that ES can be calculated (see [link](https://www.meta-analysis.com/downloads/Meta-analysis%20Effect%20sizes%20based%20on%20means.pdf)).
   data_effect_sizes <- data %>%
-    # create resamples
     group_by(data_collection_site) %>%
-    bootstraps(times = nboots) %>%
-    # apply to each bootstrap
-    mutate(es_boots = map(splits, preferences_effect_size)) %>%
-    # unnest
-    unnest(es_boots) %>%
-    # summarize across resamples
-    group_by(data_collection_site) %>%
-    dplyr::summarize(hedges_g        = quantile(preference_hedges_g, 0.500, na.rm = TRUE),
-                     hedges_g_se     = sd(preference_hedges_g, na.rm = TRUE),  # nb SEM is SD of the mean 
-                     hedges_g_ci_lwr = quantile(preference_hedges_g, 0.025, na.rm = TRUE),
-                     hedges_g_ci_upr = quantile(preference_hedges_g, 0.975, na.rm = TRUE)) %>%
-    ungroup()
+    dplyr::summarize(preference_mean = mean(DV),
+                     preference_sd = sd(DV),
+                     preference_n = n()) %>%
+    # must have greater than N=2 per site to calculate SD etc
+    filter(preference_n > 2) %>%
+    # calculate h and its SE
+    dplyr::mutate(preference_cohens_dz = preference_mean/preference_sd,
+                  cohens_dz_V = ((preference_n*2)/(preference_n^2)) +
+                    ((preference_cohens_dz^2) / (preference_n*4)),
+                  J = 1 - (3/(4*(preference_n-1)-1)),
+                  hedges_g = preference_cohens_dz * J,
+                  hedges_g_V = J^2 * cohens_dz_V,
+                  hedges_g_se = sqrt(hedges_g_V)) %>%
+    ungroup() %>%
+    dplyr::select(data_collection_site, hedges_g, hedges_g_se)
   
   # fit random effects model 
   fitted_model <- 
@@ -300,13 +285,10 @@ meta_analysis_workflow <- function(data,
 # multivariate moderator meta analysis and forest plot workflow -----
 moderator_meta_analysis_workflow <- function(data, 
                                              effect_size_label = substitute(paste("Hedges' ", italic('g'))), 
-                                             nboots = 2000,
                                              reference_line = 0, 
                                              plot = TRUE) {
   
   # calculate effect sizes for meta
-  # Whereas bootstrapping was used to calculate the ES that were then entered in the non moderator meta analyses above, the arithmetic method is used here on the basis of very low sample sizes in some conditions (e.g., 2 in some sites aware condition). Sites with N <= 2 are then excluded so that ES can be calculated 
-  # https://www.meta-analysis.com/downloads/Meta-analysis%20Effect%20sizes%20based%20on%20means.pdf
   data_effect_sizes <- data %>%
     group_by(data_collection_site, awareness) %>%
     dplyr::summarize(preference_mean = mean(DV),
@@ -467,33 +449,34 @@ criterion_moderator_preferences_effect_size <- function(split){
 # multivariate moderator meta analysis and forest plot workflow -----
 criterion_moderator_meta_analysis_workflow <- function(data, 
                                                        effect_size_label = "Hedges' g", 
-                                                       nboots = 2000,
                                                        reference_line = 0, 
                                                        plot = TRUE) {
   
   # calculate effect sizes for meta
   data_effect_sizes <- data %>%
-    # create resamples
     group_by(data_collection_site, awareness) %>%
-    bootstraps(times = nboots) %>%
-    # apply to each bootstrap
-    mutate(es_boots = map(splits, criterion_moderator_preferences_effect_size)) %>%
-    # unnest
-    unnest(es_boots) %>%
-    # summarize across resamples
-    group_by(data_collection_site, awareness) %>%
-    dplyr::summarize(hedges_g        = quantile(preference_hedges_g, 0.500, na.rm = TRUE),
-                     hedges_g_se     = sd(preference_hedges_g, na.rm = TRUE),  # nb SEM is SD of the mean 
-                     hedges_g_ci_lwr = quantile(preference_hedges_g, 0.025, na.rm = TRUE),
-                     hedges_g_ci_upr = quantile(preference_hedges_g, 0.975, na.rm = TRUE)) %>%
-    ungroup()
+    dplyr::summarize(preference_mean = mean(DV),
+                     preference_sd = sd(DV),
+                     preference_n = n()) %>%
+    # must have greater than N=2 per site to calculate SD etc
+    filter(preference_n > 2) %>%
+    # calculate h and its SE
+    dplyr::mutate(preference_cohens_dz = preference_mean/preference_sd,
+                  cohens_dz_V = ((preference_n*2)/(preference_n^2)) +
+                    ((preference_cohens_dz^2) / (preference_n*4)),
+                  J = 1 - (3/(4*(preference_n-1)-1)),
+                  hedges_g = preference_cohens_dz * J,
+                  hedges_g_V = J^2 * cohens_dz_V,
+                  hedges_g_se = sqrt(hedges_g_V)) %>%
+    ungroup() %>%
+    dplyr::select(data_collection_site, awareness, hedges_g, hedges_g_se)
   
   # fit random effects model 
   fitted_model <- 
     rma.mv(yi   = hedges_g, 
            V   = hedges_g_se^2,
            mods = ~ awareness,
-           random =  ~1 | data_collection_site,
+           random = ~1 | data_collection_site,
            data = data_effect_sizes,
            slab = data_collection_site)
   
@@ -537,13 +520,15 @@ criterion_moderator_meta_analysis_workflow <- function(data,
     
     meta_data_temp <- meta_analysis_results %>%
       mutate(data_collection_site = "Meta") %>%
-      dplyr::select(data_collection_site, awareness, hedges_g, hedges_g_se, hedges_g_ci_lwr, hedges_g_ci_upr)
+      dplyr::select(data_collection_site, awareness, hedges_g, hedges_g_se)
     
     combined_plotting_data <- data_effect_sizes %>%
       mutate(awareness = as.factor(awareness)) %>%
-      dplyr::select(data_collection_site, awareness, hedges_g, hedges_g_se, hedges_g_ci_lwr, hedges_g_ci_upr) %>%
+      dplyr::select(data_collection_site, awareness, hedges_g, hedges_g_se) %>%
       bind_rows(meta_data_temp) %>%
       rename(Awareness = awareness) %>%
+      mutate(hedges_g_ci_lwr = hedges_g - hedges_g_se*1.96,
+             hedges_g_ci_upr = hedges_g + hedges_g_se*1.96) %>%
       round_df(2) %>%
       mutate(Site = forcats::fct_relevel(data_collection_site, "Meta", after = Inf),
              Site      = fct_rev(Site),
@@ -702,6 +687,10 @@ data_processed %>%
 
 # Meta analyses
 
+In one sense, all of the analyses below are "confirmatory" in the sense that all were preregistered. In another sense, the Olson & Fazio (2001) exclusion criteria represents the closest replication of the original study's method, and therefore is used as the confimatory test for closely (but not exactly) replicating the original study's effect, whereas the other three methods are "exploratory" in the sense that they test the underlying verbal hypothesis.
+
+NB the original preregistered code used a bootstrapping method to calculate effect sizes, CIs, and SEIs. However, the unexpectedly small number of participants collected at some sites meant that results - particularly heterogeneity effect sizes - were relatively unstable across re-running the script. For the sake of computational reproducibility, I therefore exchange the bootstrapping method for the arithmetic method throughout. Sites with N <= 2 are then excluded so that ES can be calculated (see [link](https://www.meta-analysis.com/downloads/Meta-analysis%20Effect%20sizes%20based%20on%20means.pdf)).
+
 ## Analysis 1 (Confirmatory): Olson & Fazio (2001) exclusion criteria
 
 "As recommended by the original authors, participants will be excluded if both raters agree that participants identified the valence of the USs that were paired with each of the CSs, in at least one of the two questions. If participants identify that one of the CSs was paired with a US of a particular valence, or report that CSs and USs were paired during the task (even if they do not mention the specific way in which they were paired), then they will be retained and coded as being ‘contingency unaware’. Likewise, in cases of rater disagreement, participants will also be retained and coded as ‘contingency unaware’ as per the original authors criteria."
@@ -713,23 +702,6 @@ data_1 <- data_processed %>%
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_aware_olsen_and_fazio == FALSE) %>%  # exclude using the olsen and fazio criteria
   mutate(DV = sum_score_evaluation_CSpos_preferred)
-
-# distribution plots
-# ## all sites
-# ggplot(data_1, aes(DV)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density() +
-#   theme_classic() +
-#   xlab("Preference")
-
-# ## split by site
-# ggplot(data_1, aes(DV, color = data_collection_site)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density(alpha = 0.2) +
-#   theme_classic() +
-#   scale_color_viridis_d() +
-#   labs(color = "Site") + 
-#   xlab("Preference") 
 
 # meta analysis
 results_1 <- meta_analysis_workflow(data_1, plot = FALSE)
@@ -762,23 +734,6 @@ data_2 <- data_processed %>%
            exclude_aware_olsen_and_fazio_modified == FALSE) %>%  # exclude using a modification of the olsen and fazio criteria
   mutate(DV = sum_score_evaluation_CSpos_preferred)
 
-# distribution plots
-# ## all sites
-# ggplot(data_2, aes(DV)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density() +
-#   theme_classic() +
-#   xlab("Preference")
-
-# ## split by site
-# ggplot(data_2, aes(DV, color = data_collection_site)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density(alpha = 0.2) +
-#   theme_classic() +
-#   scale_color_viridis_d() +
-#   labs(color = "Site") + 
-#   xlab("Preference") 
-
 # meta analysis
 results_2 <- meta_analysis_workflow(data_2, plot = FALSE)
 
@@ -810,23 +765,6 @@ data_3 <- data_processed %>%
            exclude_awareness_baranan_dehouwer_nosek == FALSE) %>%  # exclude using the bar-anan, de houwer, and nosek criteria
   mutate(DV = sum_score_evaluation_CSpos_preferred)
 
-# distribution plots
-# ## all sites
-# ggplot(data_3, aes(DV)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density() +
-#   theme_classic() +
-#   xlab("Preference")
-
-# ## split by site
-# ggplot(data_3, aes(DV, color = data_collection_site)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density(alpha = 0.2) +
-#   theme_classic() +
-#   scale_color_viridis_d() +
-#   labs(color = "Site") + 
-#   xlab("Preference") 
-
 # meta analysis
 results_3 <- meta_analysis_workflow(data_3, plot = FALSE)
 
@@ -857,23 +795,6 @@ data_4 <- data_processed %>%
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_awareness_baranan_dehouwer_nosek_modified == FALSE) %>%  # exclude using our modification of the bar-anan, de houwer, and nosek criteria
   mutate(DV = sum_score_evaluation_CSpos_preferred)
-
-# distribution plots
-# ## all sites
-# ggplot(data_4, aes(DV)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density() +
-#   theme_classic() +
-#   xlab("Preference")
-
-# ## split by site
-# ggplot(data_4, aes(DV, color = data_collection_site)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density(alpha = 0.2) +
-#   theme_classic() +
-#   scale_color_viridis_d() +
-#   labs(color = "Site") + 
-#   xlab("Preference") 
 
 # meta analysis
 results_4 <- meta_analysis_workflow(data_4, plot = FALSE)
@@ -909,25 +830,6 @@ data_5 <- data_processed %>%
   mutate(DV = sum_score_evaluation_CSpos_preferred,
          awareness = exclude_aware_olsen_and_fazio)
 
-# distribution plots
-# ## all sites
-# ggplot(data_5, aes(DV)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density() +
-#   theme_classic() +
-#   xlab("Preference") +
-#   facet_wrap(~awareness)
-
-# ## split by site
-# ggplot(data_5, aes(DV, color = data_collection_site)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density(alpha = 0.2) +
-#   theme_classic() +
-#   scale_color_viridis_d() +
-#   labs(color = "Site") + 
-#   xlab("Preference") +
-#   facet_wrap(~awareness)
-
 # meta analysis
 results_5 <- moderator_meta_analysis_workflow(data_5)
 
@@ -949,25 +851,6 @@ data_6 <- data_processed %>%
            exclude_surveillance == FALSE) %>% # exclude if accuracy on surveillance task is >3SD worse than group
   mutate(DV = sum_score_evaluation_CSpos_preferred,
          awareness = exclude_aware_olsen_and_fazio_modified)
-
-# distribution plots
-# ## all sites
-# ggplot(data_6, aes(DV)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density() +
-#   theme_classic() +
-#   xlab("Preference") +
-#   facet_wrap(~awareness)
-
-# ## split by site
-# ggplot(data_6, aes(DV, color = data_collection_site)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density(alpha = 0.2) +
-#   theme_classic() +
-#   scale_color_viridis_d() +
-#   labs(color = "Site") + 
-#   xlab("Preference") +
-#   facet_wrap(~awareness)
 
 # meta analysis
 results_6 <- moderator_meta_analysis_workflow(data_6)
@@ -991,25 +874,6 @@ data_7 <- data_processed %>%
   mutate(DV = sum_score_evaluation_CSpos_preferred,
          awareness = exclude_awareness_baranan_dehouwer_nosek)
 
-# distribution plots
-# ## all sites
-# ggplot(data_7, aes(DV)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density() +
-#   theme_classic() +
-#   xlab("Preference") +
-#   facet_wrap(~awareness)
-
-# ## split by site
-# ggplot(data_7, aes(DV, color = data_collection_site)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density(alpha = 0.2) +
-#   theme_classic() +
-#   scale_color_viridis_d() +
-#   labs(color = "Site") + 
-#   xlab("Preference") +
-#   facet_wrap(~awareness)
-
 # meta analysis
 results_7 <- moderator_meta_analysis_workflow(data_7)
 
@@ -1031,25 +895,6 @@ data_8 <- data_processed %>%
            exclude_surveillance == FALSE) %>% # exclude if accuracy on surveillance task is >3SD worse than group
   mutate(DV = sum_score_evaluation_CSpos_preferred,
          awareness = exclude_awareness_baranan_dehouwer_nosek_modified)
-
-# distribution plots
-# ## all sites
-# ggplot(data_8, aes(DV)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density() +
-#   theme_classic() +
-#   xlab("Preference") +
-#   facet_wrap(~awareness)
-
-# ## split by site
-# ggplot(data_8, aes(DV, color = data_collection_site)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density(alpha = 0.2) +
-#   theme_classic() +
-#   scale_color_viridis_d() +
-#   labs(color = "Site") + 
-#   xlab("Preference") +
-#   facet_wrap(~awareness)
 
 # meta analysis
 results_8 <- moderator_meta_analysis_workflow(data_8)
@@ -1076,27 +921,8 @@ data_9 <-
             mutate(data_4, awareness = "BA,DeH,&N modified")) %>%
   mutate(awareness = fct_relevel(awareness, "O&F", "O&F modified", "BA,DeH,&N", "BA,DeH,&N modified"))
 
-# distribution plots
-# ## all sites
-# ggplot(data_9, aes(DV)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density() +
-#   theme_classic() +
-#   xlab("Preference") +
-#   facet_wrap(~awareness)
-
-# ## split by site
-# ggplot(data_9, aes(DV, color = data_collection_site)) +
-#   geom_vline(xintercept = 0, linetype = "dotted", alpha = 0.5) +
-#   geom_density(alpha = 0.2) +
-#   theme_classic() +
-#   scale_color_viridis_d() +
-#   labs(color = "Site") + 
-#   xlab("Preference") +
-#   facet_wrap(~awareness)
-
 # meta analysis
-results_9 <- criterion_moderator_meta_analysis_workflow(data_9)
+results_9 <- criterion_moderator_meta_analysis_workflow(data = data_9)
 
 # forest plot (if using custom ggplot option)
 results_9$plot

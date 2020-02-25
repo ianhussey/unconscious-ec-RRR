@@ -17,7 +17,7 @@ metafor::forest(results_1$fitted_model,
                 at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_1$fitted_model))
-text(-1.1, 14, "Olsen & Fazio (2001) exclusions", pos = 4)
+text(-1.1, 14, "Olson & Fazio (2001) exclusions", pos = 4)
 text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 
@@ -28,7 +28,7 @@ metafor::forest(results_2$fitted_model,
                 at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_2$fitted_model))
-text(-1.1, 14, "Olsen & Fazio (2001) modified exclusions", pos = 4)
+text(-1.1, 14, "Olson & Fazio (2001) modified exclusions", pos = 4)
 text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 

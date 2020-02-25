@@ -722,7 +722,24 @@ summary(results_5$fitted_model)
 
 ```
 
-- Heterogeneity test: `r results_5$moderator_test_results_text` 
+#### z and p values for the awareTRUE condition
+
+Metafor by default treatment codes the conditions, so results from the above analysis refer to the difference between the conditions. In order to obtain the p and z values for the effect in the awareTRUE condition, I refit the model to just the aware participants. Ie the results of this test are only to obtain z and p values for the awareTRUE condition's effect as being different from zero. 
+
+```{r}
+
+data_1_aware <- data_processed %>%
+  filter(simulated_data == FALSE &  # exclude simulated data used for script development
+           exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
+           exclude_aware_olsen_and_fazio == TRUE) %>%  
+  mutate(DV = sum_score_evaluation_CSpos_preferred)
+
+# meta analysis
+results_1_aware <- meta_analysis_workflow(data_1_aware, plot = FALSE)
+
+```
+
+- Meta anaysis results: `r results_1_aware$meta_analysis_results_text`
 
 ### Analysis 6 (Exploratory): Olson & Fazio (2001)'s modified exclusion criteria as a moderator
 
@@ -746,6 +763,25 @@ summary(results_6$fitted_model)
 
 - Heterogeneity test: `r results_6$moderator_test_results_text` 
 
+#### z and p values for the awareTRUE condition
+
+Metafor by default treatment codes the conditions, so results from the above analysis refer to the difference between the conditions. In order to obtain the p and z values for the effect in the awareTRUE condition, I refit the model to just the aware participants. Ie the results of this test are only to obtain z and p values for the awareTRUE condition's effect as being different from zero. 
+
+```{r}
+
+data_2_aware <- data_processed %>%
+  filter(simulated_data == FALSE &  # exclude simulated data used for script development
+           exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
+           exclude_aware_olsen_and_fazio_modified == TRUE) %>% 
+  mutate(DV = sum_score_evaluation_CSpos_preferred)
+
+# meta analysis
+results_2_aware <- meta_analysis_workflow(data_2_aware, plot = FALSE)
+
+```
+
+- Meta anaysis results: `r results_2_aware$meta_analysis_results_text`
+
 ### Analysis 7 (Exploratory): Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
 
 ```{r fig.height=6, fig.width=8}
@@ -768,6 +804,25 @@ summary(results_7$fitted_model)
 
 - Heterogeneity test: `r results_7$moderator_test_results_text` 
 
+#### z and p values for the awareTRUE condition
+
+Metafor by default treatment codes the conditions, so results from the above analysis refer to the difference between the conditions. In order to obtain the p and z values for the effect in the awareTRUE condition, I refit the model to just the aware participants. Ie the results of this test are only to obtain z and p values for the awareTRUE condition's effect as being different from zero. 
+
+```{r}
+
+data_3_aware <- data_processed %>%
+  filter(simulated_data == FALSE &  # exclude simulated data used for script development
+           exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
+           exclude_awareness_baranan_dehouwer_nosek == TRUE) %>%  
+  mutate(DV = sum_score_evaluation_CSpos_preferred)
+
+# meta analysis
+results_3_aware <- meta_analysis_workflow(data_3_aware, plot = FALSE)
+
+```
+
+- Meta anaysis results: `r results_3_aware$meta_analysis_results_text`
+
 ### Analysis 8 (Exploratory): Modification of Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
 
 ```{r fig.height=6, fig.width=8}
@@ -789,6 +844,25 @@ summary(results_8$fitted_model)
 ```
 
 - Heterogeneity test: `r results_8$moderator_test_results_text` 
+
+#### z and p values for the awareTRUE condition
+
+Metafor by default treatment codes the conditions, so results from the above analysis refer to the difference between the conditions. In order to obtain the p and z values for the effect in the awareTRUE condition, I refit the model to just the aware participants. Ie the results of this test are only to obtain z and p values for the awareTRUE condition's effect as being different from zero. 
+
+```{r}
+
+data_4_aware <- data_processed %>%
+  filter(simulated_data == FALSE &  # exclude simulated data used for script development
+           exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
+           exclude_awareness_baranan_dehouwer_nosek_modified == TRUE) %>%  
+  mutate(DV = sum_score_evaluation_CSpos_preferred)
+
+# meta analysis
+results_4_aware <- meta_analysis_workflow(data_4_aware, plot = FALSE)
+
+```
+
+- Meta anaysis results: `r results_4_aware$meta_analysis_results_text`
 
 ## Moderation of the unaware EC effect by the awareness exclusion criterion employed
 

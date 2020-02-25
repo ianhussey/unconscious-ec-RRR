@@ -198,69 +198,7 @@ meta_analysis_workflow <- function(data,
            ", I^2 = ",   round(fitted_model$I2, 2),
            ", H^2 = ",   round(fitted_model$H2, 2))
   
-  # # custom ggplot forest plots - plots actual CI values rather than recalculating symmetrical ones from the effect size SEs
-  # if (plot == TRUE) {
-  #   
-  #   cr_lwr <- meta_analysis_results %>%
-  #     filter(metric == "95% CR lower") %>%
-  #     pull(estimate)
-  #   
-  #   cr_upr <- meta_analysis_results %>%
-  #     filter(metric == "95% CR upper") %>%
-  #     pull(estimate)
-  #   
-  #   combined_plotting_data <- data_effect_sizes %>%
-  #     select(data_collection_site, hedges_g, hedges_g_se, hedges_g_ci_lwr, hedges_g_ci_upr) %>%
-  #     rbind(data.frame(data_collection_site = "Meta analysis",
-  #                      hedges_g             = meta_analysis_results$estimate[1],
-  #                      hedges_g_se          = meta_analysis_results$estimate[2],
-  #                      hedges_g_ci_lwr      = meta_analysis_results$estimate[3],
-  #                      hedges_g_ci_upr      = meta_analysis_results$estimate[4])) %>%
-  #     mutate(hedges_g        = as.numeric(hedges_g),
-  #            hedges_g_se     = as.numeric(hedges_g_se),
-  #            hedges_g_ci_lwr = as.numeric(hedges_g_ci_lwr),
-  #            hedges_g_ci_upr = as.numeric(hedges_g_ci_upr)) %>%
-  #     round_df(2) %>%
-  #     mutate(Site      = fct_rev(data_collection_site),
-  #            # set point size to proportionate range from 1-5
-  #            size             = 5 - (hedges_g_se - min(hedges_g_se)) / (max(hedges_g_se) - min(hedges_g_se)) * 4,
-  #            hedges_g_cr_lwr  = ifelse(as.character(data_collection_site) == "Meta analysis", cr_lwr, NA),
-  #            hedges_g_cr_upr  = ifelse(as.character(data_collection_site) == "Meta analysis", cr_upr, NA),
-  #            results_string   = paste0(format(round(hedges_g, 2), nsmall = 2), " [",
-  #                                      format(round(hedges_g_ci_lwr, 2), nsmall = 2), ", ",
-  #                                      format(round(hedges_g_ci_upr, 2), nsmall = 2), "]"))
-  # 
-  #   p1 <- 
-  #     ggplot(combined_plotting_data, aes(Site, hedges_g)) +
-  #     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.5) +
-  #     geom_linerange(aes(ymin = hedges_g_ci_lwr, ymax = hedges_g_ci_upr)) +
-  #     geom_point(shape = "square", size = 4) +  # combined_plotting_data$size
-  #     coord_flip() +
-  #     labs(x = "", y = "Hedges' g") +
-  #     theme(strip.placement = "outside", 
-  #           axis.line.x = element_line(size = 0.5), 
-  #           axis.ticks.y = element_blank(), 
-  #           panel.background = element_rect(fill = "transparent", color = NA))
-  # 
-  #   p2 <- 
-  #     ggplot(combined_plotting_data, aes(Site, 1)) +
-  #     geom_text(aes_string(label = "results_string"),
-  #               hjust = "inward", 
-  #               size = 3) +
-  #     coord_flip() +
-  #     theme_void() + 
-  #     theme(panel.grid = element_blank(), panel.border = element_blank())
-  #   
-  #   # combine plots
-  #   plot <- p1 + p2 + plot_layout(nrow = 1, widths = c(3, 1))
-  #   
-  # } else {
-  #   
-  #   plot <- NULL
-  #   
-  # }
-  
-  # alt forest plot using the metafor library
+  # forest plot 
   if (plot == TRUE) {
     forest_plot <- metafor::forest(fitted_model,
                                    xlab = effect_size_label,
@@ -624,60 +562,6 @@ data_processed %>%
   summarize_all(.funs = mean) %>%
   round_df(3) %>%
   gather() %>%
-  kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
-
-```
-
-# Awareness rates by criterion and site
-
-Exploratory analysis not include in prereg, as far as I know.
-
-Awareness exclusion rate after doing surveillance exclusions. 
-
-```{r}
-
-data_processed %>%
-  filter(exclude_surveillance == FALSE) %>%
-  dplyr::select(exclude_aware_olsen_and_fazio,
-                exclude_aware_olsen_and_fazio_modified,
-                exclude_awareness_baranan_dehouwer_nosek,
-                exclude_awareness_baranan_dehouwer_nosek_modified) %>%
-  summarize_all(.funs = mean) %>%
-  round_df(3) %>%
-  gather() %>%
-  kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
-
-exclusion_rate_per_site <- data_processed %>%
-  filter(exclude_surveillance == FALSE) %>%
-  dplyr::select(data_collection_site,
-                exclude_aware_olsen_and_fazio,
-                exclude_aware_olsen_and_fazio_modified,
-                exclude_awareness_baranan_dehouwer_nosek,
-                exclude_awareness_baranan_dehouwer_nosek_modified) %>%
-  group_by(data_collection_site) %>%
-  summarize_all(.funs = mean) %>%
-  round_df(3)
-
-data_processed %>%
-  filter(exclude_surveillance == FALSE) %>%
-  dplyr::select(data_collection_site,
-                exclude_aware_olsen_and_fazio,
-                exclude_aware_olsen_and_fazio_modified,
-                exclude_awareness_baranan_dehouwer_nosek,
-                exclude_awareness_baranan_dehouwer_nosek_modified) %>%
-  group_by(data_collection_site) %>%
-  summarize_all(.funs = mean) %>%
-  round_df(3) %>%
-  gather(criterion, proportion, c(exclude_aware_olsen_and_fazio,
-                                  exclude_aware_olsen_and_fazio_modified,
-                                  exclude_awareness_baranan_dehouwer_nosek,
-                                  exclude_awareness_baranan_dehouwer_nosek_modified)) %>% 
-  group_by(criterion) %>%
-  dplyr::summarize(mean_proportion = mean(proportion),
-                   sd_proportion = sd(proportion)) %>%
-  round_df(3) %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
 

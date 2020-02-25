@@ -88,7 +88,7 @@ data_processed <- read.csv("../data/processed/data_processed.csv") %>%
                                               "Corneille and Mierop" = "Mierop",
                                               "Gast Richter and Benedict" = "Gast",
                                               "Gawronski" = "Gawronski",
-                                              "Hutter" = "Hütter",
+                                              "Hutter" = "HÃ¼tter",
                                               "Kurdi and Ferguson" = "Kurdi",
                                               "Moran Hussey and Hughes" = "Moran",
                                               "Olsen and Fritzlen" = "Olson",
@@ -160,10 +160,10 @@ meta_analysis_workflow <- function(data,
     unnest(es_boots) %>%
     # summarize across resamples
     group_by(data_collection_site) %>%
-    summarize(hedges_g        = quantile(preference_hedges_g, 0.500, na.rm = TRUE),
-              hedges_g_se     = sd(preference_hedges_g, na.rm = TRUE),  # nb SEM is SD of the mean 
-              hedges_g_ci_lwr = quantile(preference_hedges_g, 0.025, na.rm = TRUE),
-              hedges_g_ci_upr = quantile(preference_hedges_g, 0.975, na.rm = TRUE)) %>%
+    dplyr::summarize(hedges_g        = quantile(preference_hedges_g, 0.500, na.rm = TRUE),
+                     hedges_g_se     = sd(preference_hedges_g, na.rm = TRUE),  # nb SEM is SD of the mean 
+                     hedges_g_ci_lwr = quantile(preference_hedges_g, 0.025, na.rm = TRUE),
+                     hedges_g_ci_upr = quantile(preference_hedges_g, 0.975, na.rm = TRUE)) %>%
     ungroup()
   
   # fit random effects model 
@@ -333,7 +333,7 @@ moderator_meta_analysis_workflow <- function(data,
            random =  ~1 | data_collection_site,
            data = data_effect_sizes,
            slab = data_collection_site)
-    
+  
   # model predictions
   temp <-
     data.frame(awareness = c(levels(as.factor(data$awareness))),
@@ -366,14 +366,14 @@ moderator_meta_analysis_workflow <- function(data,
                                         round(meta_analysis_heterogeneity_and_moderator_results$QM, 3), 
                                         ", p ", 
                                         apa_p_value(meta_analysis_heterogeneity_and_moderator_results$QMp))
-
+  
   # custom ggplot forest plots - plots actual CI values rather than recalculating symmetrical ones from the effect size SEs
   if (plot == TRUE) {
     
     meta_data_temp <- meta_analysis_results %>%
       mutate(data_collection_site = "Meta") %>%
       dplyr::select(data_collection_site, awareness, hedges_g, hedges_g_se, hedges_g_ci_lwr, hedges_g_ci_upr)
-
+    
     combined_plotting_data <- data_effect_sizes %>%
       mutate(awareness = as.factor(awareness)) %>%
       dplyr::select(data_collection_site, awareness, hedges_g, hedges_g_se) %>%
@@ -391,7 +391,7 @@ moderator_meta_analysis_workflow <- function(data,
              results_string   = paste0(format(round(hedges_g, 2), nsmall = 2), " [",
                                        format(round(hedges_g_ci_lwr, 2), nsmall = 2), ", ",
                                        format(round(hedges_g_ci_upr, 2), nsmall = 2), "]"))
-
+    
     p1 <-
       ggplot(combined_plotting_data, aes(Site, hedges_g, color = Awareness)) +
       geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.5) +
@@ -405,7 +405,7 @@ moderator_meta_analysis_workflow <- function(data,
             panel.background = element_rect(fill = "transparent", color = NA),
             legend.position = "bottom") +
       scale_color_viridis_d(begin = 0.3, end = 0.7)
-
+    
     p2 <-
       ggplot(combined_plotting_data, aes(Site, 1, fill = Awareness)) +
       geom_text(aes_string(label = "results_string"),
@@ -415,14 +415,14 @@ moderator_meta_analysis_workflow <- function(data,
       coord_flip() +
       theme_void() +
       theme(panel.grid = element_blank(), panel.border = element_blank())
-
+    
     # combine plots
     plot <- p1 + p2 + plot_layout(nrow = 1, widths = c(3, 1))
-
+    
   } else {
-
+    
     plot <- NULL
-
+    
   }
   
   # # alt forest plot using the metafor library
@@ -466,10 +466,10 @@ criterion_moderator_preferences_effect_size <- function(split){
 
 # multivariate moderator meta analysis and forest plot workflow -----
 criterion_moderator_meta_analysis_workflow <- function(data, 
-                                             effect_size_label = "Hedges' g", 
-                                             nboots = 2000,
-                                             reference_line = 0, 
-                                             plot = TRUE) {
+                                                       effect_size_label = "Hedges' g", 
+                                                       nboots = 2000,
+                                                       reference_line = 0, 
+                                                       plot = TRUE) {
   
   # calculate effect sizes for meta
   data_effect_sizes <- data %>%
@@ -482,10 +482,10 @@ criterion_moderator_meta_analysis_workflow <- function(data,
     unnest(es_boots) %>%
     # summarize across resamples
     group_by(data_collection_site, awareness) %>%
-    summarize(hedges_g        = quantile(preference_hedges_g, 0.500, na.rm = TRUE),
-              hedges_g_se     = sd(preference_hedges_g, na.rm = TRUE),  # nb SEM is SD of the mean 
-              hedges_g_ci_lwr = quantile(preference_hedges_g, 0.025, na.rm = TRUE),
-              hedges_g_ci_upr = quantile(preference_hedges_g, 0.975, na.rm = TRUE)) %>%
+    dplyr::summarize(hedges_g        = quantile(preference_hedges_g, 0.500, na.rm = TRUE),
+                     hedges_g_se     = sd(preference_hedges_g, na.rm = TRUE),  # nb SEM is SD of the mean 
+                     hedges_g_ci_lwr = quantile(preference_hedges_g, 0.025, na.rm = TRUE),
+                     hedges_g_ci_upr = quantile(preference_hedges_g, 0.975, na.rm = TRUE)) %>%
     ungroup()
   
   # fit random effects model 
@@ -496,7 +496,7 @@ criterion_moderator_meta_analysis_workflow <- function(data,
            random =  ~1 | data_collection_site,
            data = data_effect_sizes,
            slab = data_collection_site)
-    
+  
   # model predictions
   temp <-
     data.frame(awareness = c(levels(as.factor(data$awareness))),
@@ -531,14 +531,14 @@ criterion_moderator_meta_analysis_workflow <- function(data,
                                         round(meta_analysis_heterogeneity_and_moderator_results$QM, 3), 
                                         ", p ", 
                                         apa_p_value(meta_analysis_heterogeneity_and_moderator_results$QMp))
-
+  
   # custom ggplot forest plots - plots actual CI values rather than recalculating symmetrical ones from the effect size SEs
   if (plot == TRUE) {
     
     meta_data_temp <- meta_analysis_results %>%
       mutate(data_collection_site = "Meta") %>%
       dplyr::select(data_collection_site, awareness, hedges_g, hedges_g_se, hedges_g_ci_lwr, hedges_g_ci_upr)
-
+    
     combined_plotting_data <- data_effect_sizes %>%
       mutate(awareness = as.factor(awareness)) %>%
       dplyr::select(data_collection_site, awareness, hedges_g, hedges_g_se, hedges_g_ci_lwr, hedges_g_ci_upr) %>%
@@ -554,7 +554,7 @@ criterion_moderator_meta_analysis_workflow <- function(data,
              results_string   = paste0(format(round(hedges_g, 2), nsmall = 2), " [",
                                        format(round(hedges_g_ci_lwr, 2), nsmall = 2), ", ",
                                        format(round(hedges_g_ci_upr, 2), nsmall = 2), "]"))
-
+    
     p1 <-
       ggplot(combined_plotting_data, aes(Site, hedges_g, color = Awareness)) +
       geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.5) +
@@ -568,7 +568,7 @@ criterion_moderator_meta_analysis_workflow <- function(data,
             panel.background = element_rect(fill = "transparent", color = NA),
             legend.position = "bottom") +
       scale_color_viridis_d(begin = 0.3, end = 0.7)
-
+    
     p2 <-
       ggplot(combined_plotting_data, aes(Site, 1, fill = Awareness)) +
       geom_text(aes_string(label = "results_string"),
@@ -578,14 +578,14 @@ criterion_moderator_meta_analysis_workflow <- function(data,
       coord_flip() +
       theme_void() +
       theme(panel.grid = element_blank(), panel.border = element_blank())
-
+    
     # combine plots
     plot <- p1 + p2 + plot_layout(nrow = 1, widths = c(3, 1))
-
+    
   } else {
-
+    
     plot <- NULL
-
+    
   }
   
   # # alt forest plot using the metafor library
@@ -614,9 +614,9 @@ criterion_moderator_meta_analysis_workflow <- function(data,
 ```{r}
 
 data_processed %>%
-  summarize(n = n(),
-            mean_age = mean(age, na.rm = TRUE),
-            sd_age = sd(age, na.rm = TRUE)) %>%
+  dplyr::summarize(n = n(),
+                   mean_age = mean(age, na.rm = TRUE),
+                   sd_age = sd(age, na.rm = TRUE)) %>%
   round_df(1) %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
@@ -692,8 +692,8 @@ data_processed %>%
                                   exclude_awareness_baranan_dehouwer_nosek,
                                   exclude_awareness_baranan_dehouwer_nosek_modified)) %>% 
   group_by(criterion) %>%
-  summarize(mean_proportion = mean(proportion),
-            sd_proportion = sd(proportion)) %>%
+  dplyr::summarize(mean_proportion = mean(proportion),
+                   sd_proportion = sd(proportion)) %>%
   round_df(3) %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
@@ -738,12 +738,12 @@ results_1 <- meta_analysis_workflow(data_1, plot = FALSE)
 metafor::forest(results_1$fitted_model,
                 xlab = substitute(paste("Hedges' ", italic('g'))),
                 addcred = TRUE,
-                xlim = c(-1.1, 1.2),
-                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
+                xlim = c(-1.1, 1.6),
+                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_1$fitted_model))
-text(-1.1, 13, "Olsen & Fazio (2001) exclusions", pos = 4)
-text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 14, "Olsen & Fazio (2001) exclusions", pos = 4)
+text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 ```
 
@@ -761,7 +761,7 @@ data_2 <- data_processed %>%
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_aware_olsen_and_fazio_modified == FALSE) %>%  # exclude using a modification of the olsen and fazio criteria
   mutate(DV = sum_score_evaluation_CSpos_preferred)
-  
+
 # distribution plots
 # ## all sites
 # ggplot(data_2, aes(DV)) +
@@ -786,12 +786,12 @@ results_2 <- meta_analysis_workflow(data_2, plot = FALSE)
 metafor::forest(results_2$fitted_model,
                 xlab = substitute(paste("Hedges' ", italic('g'))),
                 addcred = TRUE,
-                xlim = c(-1.1, 1.2),
-                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
+                xlim = c(-1.1, 1.6),
+                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_2$fitted_model))
-text(-1.1, 13, "Olsen & Fazio (2001) modified exclusions", pos = 4)
-text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 14, "Olsen & Fazio (2001) modified exclusions", pos = 4)
+text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 ```
 
@@ -809,7 +809,7 @@ data_3 <- data_processed %>%
            exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
            exclude_awareness_baranan_dehouwer_nosek == FALSE) %>%  # exclude using the bar-anan, de houwer, and nosek criteria
   mutate(DV = sum_score_evaluation_CSpos_preferred)
-  
+
 # distribution plots
 # ## all sites
 # ggplot(data_3, aes(DV)) +
@@ -834,12 +834,12 @@ results_3 <- meta_analysis_workflow(data_3, plot = FALSE)
 metafor::forest(results_3$fitted_model,
                 xlab = substitute(paste("Hedges' ", italic('g'))),
                 addcred = TRUE,
-                xlim = c(-1.1, 1.2),
-                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
+                xlim = c(-1.1, 1.6),
+                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_3$fitted_model))
-text(-1.1, 13, "Bar-Anan et al. (2010) exclusions", pos = 4)
-text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 14, "Bar-Anan et al. (2010) exclusions", pos = 4)
+text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 ```
 
@@ -882,12 +882,12 @@ results_4 <- meta_analysis_workflow(data_4, plot = FALSE)
 metafor::forest(results_4$fitted_model,
                 xlab = substitute(paste("Hedges' ", italic('g'))),
                 addcred = TRUE,
-                xlim = c(-1.1, 1.2),
-                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
+                xlim = c(-1.1, 1.6),
+                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_4$fitted_model))
-text(-1.1, 13, "Bar-Anan et al. (2010) modified exclusions", pos = 4)
-text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 14, "Bar-Anan et al. (2010) modified exclusions", pos = 4)
+text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 ```
 

@@ -13,45 +13,45 @@ size <- 1
 metafor::forest(results_1$fitted_model,
                 xlab = substitute(paste("Hedges' ", italic('g'))),
                 addcred = TRUE,
-                xlim = c(-1.1, 1.2),
-                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
+                xlim = c(-1.1, 1.6),
+                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_1$fitted_model))
-text(-1.1, 13, "Olsen & Fazio (2001) exclusions", pos = 4)
-text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 14, "Olsen & Fazio (2001) exclusions", pos = 4)
+text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 
 metafor::forest(results_2$fitted_model,
                 xlab = substitute(paste("Hedges' ", italic('g'))),
                 addcred = TRUE,
-                xlim = c(-1.1, 1.2),
-                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
+                xlim = c(-1.1, 1.6),
+                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_2$fitted_model))
-text(-1.1, 13, "Olsen & Fazio (2001) modified exclusions", pos = 4)
-text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 14, "Olsen & Fazio (2001) modified exclusions", pos = 4)
+text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 
 metafor::forest(results_3$fitted_model,
                 xlab = substitute(paste("Hedges' ", italic('g'))),
                 addcred = TRUE,
-                xlim = c(-1.1, 1.2),
-                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
+                xlim = c(-1.1, 1.6),
+                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_3$fitted_model))
-text(-1.1, 13, "Bar-Anan et al. (2010) exclusions", pos = 4)
-text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 14, "Bar-Anan et al. (2010) exclusions", pos = 4)
+text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 
 metafor::forest(results_4$fitted_model,
                 xlab = substitute(paste("Hedges' ", italic('g'))),
                 addcred = TRUE,
-                xlim = c(-1.1, 1.2),
-                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6),
+                xlim = c(-1.1, 1.6),
+                at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_4$fitted_model))
-text(-1.1, 13, "Bar-Anan et al. (2010) modified exclusions", pos = 4)
-text(1.2, 12.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
+text(-1.1, 14, "Bar-Anan et al. (2010) modified exclusions", pos = 4)
+text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 2)
 
 
 p1 <- recordPlot()

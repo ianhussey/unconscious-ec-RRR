@@ -66,7 +66,7 @@ metafor::forest(results_4$fitted_model,
                 at = c(-0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0),
                 refline = 0,
                 mlab = add_heterogeneity_metrics_to_forest(results_4$fitted_model))
-text(-1.1, 14, substitute(paste("(c) Bar-Anan et al. (2010) modified exclusions (", italic('n'), " = 1060)")), pos = 4)
+text(-1.1, 14, substitute(paste("(d) Bar-Anan et al. (2010) modified exclusions (", italic('n'), " = 1060)")), pos = 4)
 text(1.6, 13.97, substitute(paste(italic('g'), " [95% CI]")), pos = 2)
 
 

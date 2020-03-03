@@ -530,7 +530,41 @@ criterion_moderator_meta_analysis_workflow <- function(data,
 
 ```
 
+# Manual exclusions prior to data processing
+
+Exclusions for partial data, technical failures, participant behaviour, etc were done manually prior to data processing. Details of these exclusions are found below.
+
+The raw data files for these experimental sessions are *not* found in the sites' data folders as data files with partial data break the data processing script.  
+
+```{r}
+
+manual_exclusions <- read.csv("../data/manual_exclusions.csv")
+
+
+manual_exclusions %>%
+  count() %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+
+manual_exclusions_by_site <- manual_exclusions %>%
+  count(data_collection_site) 
+
+manual_exclusions_by_site %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+
+manual_exclusions %>%
+  select(-excluded_from_data_processing) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+```
+
 # Sample descriptives
+
+## Overall
 
 ```{r}
 
@@ -551,19 +585,53 @@ data_processed %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
 
-```
-
-# Surveillance task exclusion rate
-
-```{r}
-
 data_processed %>%
   dplyr::select(exclude_surveillance) %>%
   summarize_all(.funs = mean) %>%
   round_df(3) %>%
-  gather() %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+```
+
+## By site
+
+```{r}
+
+demographics_by_site_1 <- data_processed %>%
+  group_by(data_collection_site) %>%
+  dplyr::summarize(n = n(),
+                   mean_age = mean(age, na.rm = TRUE),
+                   sd_age = sd(age, na.rm = TRUE)) %>%
+  round_df(1) 
+
+demographics_by_site_2 <- data_processed %>%
+  group_by(data_collection_site) %>%
+  mutate(gender = tolower(gender),
+         gender = ifelse(gender %in% c("m", "mãƒâ¤nnlich", "male", "mujer", "hombre"), "male",
+                         ifelse(gender %in% c("f", "female", "femenino", "fm", "mujer", "w", "weiblich"), "female", 
+                                ifelse(is.na(gender), "did not answer", "other identity")))) %>%
+  count(gender) %>%
+  spread(gender, n)
+
+demographics_by_site <- demographics_by_site_1 %>%
+  full_join(demographics_by_site_2, by = "data_collection_site") %>%
+  full_join(rename(manual_exclusions_by_site, n_manual_exclusions = n), by = "data_collection_site") %>%
+  rename(n_for_analysis = n,
+         mean = mean_age,
+         sd = sd_age) %>%
+  mutate(`did not answer` = ifelse(is.na(`did not answer`), 0, `did not answer`),
+         female = ifelse(is.na(female), 0, female),
+         male = ifelse(is.na(male), 0, male),
+         `other identity` = ifelse(is.na(`other identity`), 0, `other identity`),
+         n_manual_exclusions = ifelse(is.na(n_manual_exclusions), 0, n_manual_exclusions)) %>%
+  select(data_collection_site, n_manual_exclusions, n_for_analysis, 
+         mean, sd, female, male, `other identity`, `did not answer`)
+
+demographics_by_site %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) %>%
+  add_header_above(c(" " = 3, "Age" = 2, "Gender" = 4))
 
 ```
 

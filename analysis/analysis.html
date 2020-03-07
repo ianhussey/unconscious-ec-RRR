@@ -11,7 +11,7 @@
 
 <meta name="author" content="Ian Hussey" />
 
-<meta name="date" content="2020-03-03" />
+<meta name="date" content="2020-03-07" />
 
 <title>Unconscious EC RRR</title>
 
@@ -1672,7 +1672,7 @@ div.tocify {
 <h1 class="title toc-ignore">Unconscious EC RRR</h1>
 <h3 class="subtitle">Analyses and meta analysis</h3>
 <h4 class="author">Ian Hussey<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h4>
-<h4 class="date">03 March 2020</h4>
+<h4 class="date">07 March 2020</h4>
 
 </div>
 
@@ -3519,6 +3519,111 @@ Vadillo
 </ul>
 </div>
 </div>
+</div>
+<div id="power-analysis-of-existing-literature" class="section level1">
+<h1>Power analysis of existing literature</h1>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">library</span>(pwr)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">data_existing_literature &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="st">  </span><span class="kw">read.csv</span>(<span class="st">&quot;../meta analysis of previous studies/data/meta-analysis_exclude_awere.csv&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="st">  </span><span class="kw">select</span>(paper, Note.multipule.comarisions, analyzed.N, g, var.g) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ci_lower =</span> g <span class="op">-</span><span class="st"> </span><span class="kw">sqrt</span>(var.g)<span class="op">*</span><span class="fl">1.96</span>,</a>
+<a class="sourceLine" id="cb34-7" data-line-number="7">         <span class="dt">significant =</span> <span class="kw">ifelse</span>(ci_lower <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb34-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb34-9" data-line-number="9"><span class="co"># observed power</span></a>
+<a class="sourceLine" id="cb34-10" data-line-number="10">data_existing_literature <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-11" data-line-number="11"><span class="st">  </span><span class="kw">rowwise</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-12" data-line-number="12"><span class="st">  </span><span class="kw">do</span>(<span class="dt">power =</span> <span class="kw">pwr.t.test</span>(<span class="dt">n =</span> .<span class="op">$</span>analyzed.N, </a>
+<a class="sourceLine" id="cb34-13" data-line-number="13">                        <span class="dt">d =</span> <span class="fl">0.12</span>,   <span class="co"># meta effect size in RRR using confirmatory Olson and Fazio criteria  </span></a>
+<a class="sourceLine" id="cb34-14" data-line-number="14">                        <span class="dt">sig.level =</span> <span class="fl">0.05</span>, </a>
+<a class="sourceLine" id="cb34-15" data-line-number="15">                        <span class="dt">power =</span> <span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb34-16" data-line-number="16">                        <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;one.sample&quot;</span>),</a>
+<a class="sourceLine" id="cb34-17" data-line-number="17">                        <span class="dt">alternative =</span> <span class="kw">c</span>(<span class="st">&quot;two.sided&quot;</span>))<span class="op">$</span>power) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-18" data-line-number="18"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-19" data-line-number="19"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">power =</span> <span class="kw">as.numeric</span>(power)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-20" data-line-number="20"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">min =</span> <span class="kw">min</span>(power),</a>
+<a class="sourceLine" id="cb34-21" data-line-number="21">            <span class="dt">max =</span> <span class="kw">max</span>(power),</a>
+<a class="sourceLine" id="cb34-22" data-line-number="22">            <span class="dt">median =</span> <span class="kw">median</span>(power),</a>
+<a class="sourceLine" id="cb34-23" data-line-number="23">            <span class="dt">mad =</span> <span class="kw">mad</span>(power)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-24" data-line-number="24"><span class="st">  </span><span class="kw">gather</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-25" data-line-number="25"><span class="st">  </span><span class="kw">round_df</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-26" data-line-number="26"><span class="st">  </span><span class="kw">kable</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-27" data-line-number="27"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>), <span class="dt">full_width =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+key
+</th>
+<th style="text-align:right;">
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+min
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+max
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+median
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mad
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">data_existing_literature <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(paper <span class="op">==</span><span class="st"> &quot;Olson &amp; Fazio (2001)&quot;</span> <span class="op">&amp;</span><span class="st"> </span>Note.multipule.comarisions <span class="op">==</span><span class="st"> &quot;explicit&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="st">  </span><span class="kw">do</span>(<span class="dt">power_olson_fazio_2001 =</span> <span class="kw">pwr.t.test</span>(<span class="dt">n =</span> .<span class="op">$</span>analyzed.N, </a>
+<a class="sourceLine" id="cb35-4" data-line-number="4">                                         <span class="dt">d =</span> <span class="fl">0.12</span>,   <span class="co"># meta effect size in RRR using confirmatory Olson and Fazio criteria  </span></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">                                         <span class="dt">sig.level =</span> <span class="fl">0.05</span>, </a>
+<a class="sourceLine" id="cb35-6" data-line-number="6">                                         <span class="dt">power =</span> <span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb35-7" data-line-number="7">                                         <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;one.sample&quot;</span>),</a>
+<a class="sourceLine" id="cb35-8" data-line-number="8">                                         <span class="dt">alternative =</span> <span class="kw">c</span>(<span class="st">&quot;two.sided&quot;</span>))<span class="op">$</span>power) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-9" data-line-number="9"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-10" data-line-number="10"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">power_olson_fazio_2001 =</span> <span class="kw">as.numeric</span>(power_olson_fazio_<span class="dv">2001</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-11" data-line-number="11"><span class="st">  </span><span class="kw">round_df</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-12" data-line-number="12"><span class="st">  </span><span class="kw">kable</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-13" data-line-number="13"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>), <span class="dt">full_width =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+power_olson_fazio_2001
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.13
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="footnotes">
 <hr />

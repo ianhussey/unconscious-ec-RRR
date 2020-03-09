@@ -970,5 +970,52 @@ summary(results_9$fitted_model)
 
 - Heterogeneity test: `r results_9$moderator_test_results_text`
 
+# Power analysis of existing literature
+
+```{r}
+
+library(pwr)
+
+data_existing_literature <- 
+  read.csv("../meta analysis of previous studies/data/meta-analysis_exclude_awere.csv") %>%
+  select(paper, Note.multipule.comarisions, analyzed.N, g, var.g) %>%
+  mutate(ci_lower = g - sqrt(var.g)*1.96,
+         significant = ifelse(ci_lower > 0, TRUE, FALSE))
+
+# observed power
+data_existing_literature %>%
+  rowwise() %>%
+  do(power = pwr.t.test(n = .$analyzed.N, 
+                        d = 0.12,   # meta effect size in RRR using confirmatory Olson and Fazio criteria  
+                        sig.level = 0.05, 
+                        power = NULL, 
+                        type = c("one.sample"),
+                        alternative = c("two.sided"))$power) %>%
+  ungroup() %>%
+  mutate(power = as.numeric(power)) %>%
+  summarize(min = min(power),
+            max = max(power),
+            median = median(power),
+            mad = mad(power)) %>%
+  gather() %>%
+  round_df(2) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+data_existing_literature %>%
+  filter(paper == "Olson & Fazio (2001)" & Note.multipule.comarisions == "explicit") %>%
+  do(power_olson_fazio_2001 = pwr.t.test(n = .$analyzed.N, 
+                                         d = 0.12,   # meta effect size in RRR using confirmatory Olson and Fazio criteria  
+                                         sig.level = 0.05, 
+                                         power = NULL, 
+                                         type = c("one.sample"),
+                                         alternative = c("two.sided"))$power) %>%
+  ungroup() %>%
+  mutate(power_olson_fazio_2001 = as.numeric(power_olson_fazio_2001)) %>%
+  round_df(2) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+```
 
 

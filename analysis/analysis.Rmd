@@ -58,6 +58,7 @@ check_for_and_install_packages("purrr")
 check_for_and_install_packages("devtools")
 check_for_and_install_packages("knitr")
 check_for_and_install_packages("kableExtra")
+check_for_and_install_packages("pwr")
 if (!"patchwork" %in% installed.packages()) devtools::install_github("thomasp85/patchwork")
 
 library(tidyverse)
@@ -70,6 +71,7 @@ library(purrr)
 library(patchwork)
 library(knitr)
 library(kableExtra)
+library(pwr)
 
 ```
 
@@ -974,8 +976,6 @@ summary(results_9$fitted_model)
 
 ```{r}
 
-library(pwr)
-
 data_existing_literature <- 
   read.csv("../meta analysis of previous studies/data/meta-analysis_exclude_awere.csv") %>%
   select(paper, Note.multipule.comarisions, analyzed.N, g, var.g) %>%
@@ -983,6 +983,7 @@ data_existing_literature <-
          significant = ifelse(ci_lower > 0, TRUE, FALSE))
 
 # observed power
+## whole literature:
 data_existing_literature %>%
   rowwise() %>%
   do(power = pwr.t.test(n = .$analyzed.N, 
@@ -1002,6 +1003,7 @@ data_existing_literature %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
 
+## just the study we closely replicate
 data_existing_literature %>%
   filter(paper == "Olson & Fazio (2001)" & Note.multipule.comarisions == "explicit") %>%
   do(power_olson_fazio_2001 = pwr.t.test(n = .$analyzed.N, 
@@ -1013,6 +1015,12 @@ data_existing_literature %>%
   ungroup() %>%
   mutate(power_olson_fazio_2001 = as.numeric(power_olson_fazio_2001)) %>%
   round_df(2) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+## proportion of significant effects in the literature
+data_existing_literature %>%
+  summarize(percent_sig_results_in_literature = round(sum(significant)/n()*100, 1)) %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
 

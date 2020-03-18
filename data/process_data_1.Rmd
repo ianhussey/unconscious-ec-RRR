@@ -37,10 +37,12 @@ check_for_and_install_packages <- function(package) {
 check_for_and_install_packages("tidyverse")
 check_for_and_install_packages("plyr")
 check_for_and_install_packages("data.table")
-check_for_and_install_packages("xlsx")
+check_for_and_install_packages("readxl")
 
 library(tidyverse)
-library(xlsx)
+library(plyr)
+library(data.table)
+library(readxl)
 
 ```
 
@@ -239,14 +241,14 @@ psychopy_text_to_string <- function(vector_input){
    str_replace_all(., "num_7",        "7") %>%
    str_replace_all(., "num_8",        "8") %>%
    str_replace_all(., "num_9",        "9") %>%
-   str_replace_all(., "Ã¤",           "ä") %>%
-   str_replace_all(., "Ã¶",           "ö") %>%
-   str_replace_all(., "ÃY",           "ß") %>%
-   str_replace_all(., "Ã¼",           "ü") %>%
-    # str_replace_all(., "Ã-",           "Ö")
-   str_replace_all(., "Ã-",           "Ö") %>% 
-    #str_replace_all(., "Ã"",           "Ä")
-   #str_replace_all(., "Ã"",           "Ä") %>% 
+   str_replace_all(., "Ã¤",           "?") %>%
+   str_replace_all(., "Ã¶",           "?") %>%
+   str_replace_all(., "?Y",           "?") %>%
+   str_replace_all(., "Ã¼",           "?") %>%
+    # str_replace_all(., "?-",           "?")
+   str_replace_all(., "?-",           "?") %>% 
+    #str_replace_all(., "?"",           "?")
+   #str_replace_all(., "?"",           "?") %>% 
     
     
     
@@ -372,6 +374,6 @@ data_awareness_for_hand_scoring <- data_intermediate %>%
 write_csv(data_intermediate, "intermediate/data_intermediate.csv")
 
 ## data for hand scoring
-write.xlsx(data_awareness_for_hand_scoring, "intermediate/data_awareness_for_hand_scoring.xlsx")
+write.csv(data_awareness_for_hand_scoring, "intermediate/data_awareness_for_hand_scoring.csv")
 
 ```

@@ -35,10 +35,10 @@ check_for_and_install_packages <- function(package) {
 }
 
 check_for_and_install_packages("tidyverse")
-check_for_and_install_packages("xlsx")
+check_for_and_install_packages("readxl")
 
 library(tidyverse)
-library(xlsx)
+library(readxl)
 
 ```
 
@@ -49,12 +49,16 @@ Get data
 # write to disk
 ## data for hand scoring
 
-data_awareness_1_for_hand_scoring <- read.xlsx("intermediate/data_awareness_for_hand_scoring_all.xlsx", sheetIndex = 1) %>%
+data_awareness_1_hand_scored <- read_excel("intermediate/data_awareness_hand_scored.xlsx", sheet = 1) %>%
   select(unique_id, 
          fazio_and_olsen_criteria_scorer_1, 
          fazio_and_olsen_modified_criteria_scorer_1,
          fazio_and_olsen_criteria_scorer_2,
-         fazio_and_olsen_modified_criteria_scorer_2)
+         fazio_and_olsen_modified_criteria_scorer_2) %>%
+  mutate_at(.funs = as.logical, .vars = c("fazio_and_olsen_criteria_scorer_1",
+                                          "fazio_and_olsen_modified_criteria_scorer_1",
+                                          "fazio_and_olsen_criteria_scorer_2",
+                                          "fazio_and_olsen_modified_criteria_scorer_2"))
 
 ## combined data
 data_intermediate <- read.csv("intermediate/data_intermediate.csv") 
@@ -67,7 +71,7 @@ NB details of the how the open ended responses were hand scored is available els
 
 ```{r}
 
-data_processed <- left_join(data_intermediate, data_awareness_1_for_hand_scoring, by = "unique_id") %>%
+data_processed <- left_join(data_intermediate, data_awareness_1_hand_scored, by = "unique_id") %>%
   # create final awareness responses
   ## confirmatory 1: olsen and fazio criteria
   ## "As recommended by the original authors, participants will be excluded if both raters agree that participants identified the valence of the USs that were paired with each of the CSs, in at least one of the two questions. If participants identify that one of the CSs was paired with a US of a particular valence, or report that CSs and USs were paired during the task (even if they do not mention the specific way in which they were paired), then they will be retained and coded as being ‘contingency unaware’. Likewise, in cases of rater disagreement, participants will also be retained and coded as ‘contingency unaware’ as per the original authors criteria.  "

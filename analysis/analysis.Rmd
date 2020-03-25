@@ -650,13 +650,15 @@ demographics_by_site %>%
 
 - Note on exclusions: n_manual_exclusions were performed first. n_for_analysis represents the sample size after these exclusions. % surveillance exclusions represents the percent of n_for_analysis that was excluded. % for olson & fazio, olson & fazio modified, bar-anan, and bar-anan modified represents the percent of n_for_analysis *after surveillance excludions* that were excluded for awareness reasons. This mirrors the way these exclusions have been reported in the manuscript. 
 
-# Meta analyses
+# Preregistered analyses
 
-In one sense, all of the analyses below are "confirmatory" in the sense that all were preregistered. In another sense, the Olson & Fazio (2001) exclusion criteria represents the closest replication of the original study's method, and therefore is used as the confimatory test for closely (but not exactly) replicating the original study's effect, whereas the other three methods are "exploratory" in the sense that they test the underlying verbal hypothesis.
+## Meta analyses
+
+The Olson & Fazio (2001) exclusion criteria represents the closest replication of the original study's method, and therefore is used as the primary analysis for the close (but not exact) replication the original study's effect. The other three methods are secondary in the sense that they test the robustness of the effect to alternative exclusion criteria.
 
 NB the original preregistered code used a bootstrapping method to calculate effect sizes, CIs, and SEIs. However, the unexpectedly small number of participants collected at some sites meant that results - particularly heterogeneity effect sizes - were relatively unstable across re-running the script. For the sake of computational reproducibility, I therefore exchange the bootstrapping method for the arithmetic method throughout. Sites with N <= 2 are then excluded so that ES can be calculated (see [link](https://www.meta-analysis.com/downloads/Meta-analysis%20Effect%20sizes%20based%20on%20means.pdf)).
 
-## Analysis 1 (Confirmatory): Olson & Fazio (2001) exclusion criteria
+### Analysis 1 (primary): Olson & Fazio (2001) exclusion criteria
 
 "As recommended by the original authors, participants will be excluded if both raters agree that participants identified the valence of the USs that were paired with each of the CSs, in at least one of the two questions. If participants identify that one of the CSs was paired with a US of a particular valence, or report that CSs and USs were paired during the task (even if they do not mention the specific way in which they were paired), then they will be retained and coded as being ‘contingency unaware’. Likewise, in cases of rater disagreement, participants will also be retained and coded as ‘contingency unaware’ as per the original authors criteria."
 
@@ -684,10 +686,13 @@ text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 
 
 ```
 
+- N full sample (after surveillance task accuracy exclusions): `r nrow(data_processed)`
+- n this subsample: `r nrow(data_1)`
+- % exclusions due to this criterion: `r 100 - round(nrow(data_1)/nrow(data_processed)*100, 1)`
 - Meta anaysis results: `r results_1$meta_analysis_results_text`
 - Heterogeneity tests: `r results_1$heterogeneity_test_results_text`
 
-## Analysis 2 (Exploratory): Modification of Olsen and Fazio's exclusion criteria
+### Analysis 2 (secondary): Modification of Olsen and Fazio's exclusion criteria
 
 "The first (exploratory) score will use a more conservative coding of the original authors’ questions. Participants will be coded as ‘aware’ if they express full or partial memory. Specifically, assignment to the ‘aware’ group will occur when both judges agree that the participant identified the valence of the USs that were paired with each of the CSs, or identified that one of the CSs was paired with a US of a particular valence, or reports that CSs and USs were paired during the task (even if they do not mention the specific way in which they were paired), in at least one of the two questions. Assignment to the ‘unaware’ group will occur when both judges indicate that the participant did not report that CSs were systematically paired with USs, or that a CS was paired with a US of a specific valance, in at least one of the two questions. In cases of rater disagreement, a third judge will be recruited and asked to provide their own judgement according to the above criteria. The majority judgement will be adopted. Participants in the ‘aware’ group will be excluded from subsequent analysis."
 
@@ -715,10 +720,12 @@ text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 
 
 ```
 
+- n this subsample: `r nrow(data_2)`
+- % exclusions due to this criterion: `r 100 - round(nrow(data_2)/nrow(data_processed)*100, 1)`
 - Meta anaysis results: `r results_2$meta_analysis_results_text`
 - Heterogeneity tests: `r results_2$heterogeneity_test_results_text`
 
-## Analysis 3 (Exploratory): Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria
+### Analysis 3 (secondary): Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria
 
 "The second (exploratory) score will be computed based on Bar-Anan et al.’s (2010) criteria. Here participants will be excluded if they chose the “yes” answer on question 1 of the Bar-Anan et al. measure, and retained if they chose “no”."
 
@@ -746,10 +753,12 @@ text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 
 
 ```
 
+- n this subsample: `r nrow(data_3)`
+- % exclusions due to this criterion: `r 100 - round(nrow(data_3)/nrow(data_processed)*100, 1)`
 - Meta anaysis results: `r results_3$meta_analysis_results_text`
 - Heterogeneity tests: `r results_3$heterogeneity_test_results_text`
 
-## Analysis 4 (Exploratory): Modification of Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria
+### Analysis 4 (secondary): Modification of Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria
 
 "The third (exploratory) score will be computed based on a modification to Bar-Anan et al.’s (2010) criteria in order to verify that responding is not driven by guessing. Participants will be excluded if they chose the “yes” answer on question 1 and correctly identify the valence with which each of the two CSs appeared during the task (providing either a probably or certainly response on questions 2-3). All other participants will be retained."
 
@@ -777,15 +786,16 @@ text(1.6, 13.85, substitute(paste("Hedges' ", italic('g'), " [95% CI]")), pos = 
 
 ```
 
+- n this subsample: `r nrow(data_4)`
+- % exclusions due to this criterion: `r 100 - round(nrow(data_4)/nrow(data_processed)*100, 1)`
 - Meta anaysis results: `r results_4$meta_analysis_results_text`
 - Heterogeneity tests: `r results_4$heterogeneity_test_results_text`
 
+## Multivariate moderator meta analyses
 
-# Multivariate moderator meta analyses
+### Moderation of EC effect by individuals' awareness
 
-## Moderation of EC effect by individuals' awareness
-
-### Analysis 5 (Exploratory): Olson & Fazio (2001) exclusion criteria as a moderator
+#### Analysis 5: Olson & Fazio (2001) exclusion criteria as a moderator
 
 ```{r fig.height=6, fig.width=8}
 
@@ -805,7 +815,7 @@ summary(results_5$fitted_model)
 
 ```
 
-#### z and p values for the awareTRUE condition
+##### z and p values for the awareTRUE condition
 
 Metafor by default treatment codes the conditions, so results from the above analysis refer to the difference between the conditions. In order to obtain the p and z values for the effect in the awareTRUE condition, I refit the model to just the aware participants. Ie the results of this test are only to obtain z and p values for the awareTRUE condition's effect as being different from zero. 
 
@@ -824,7 +834,7 @@ results_1_aware <- meta_analysis_workflow(data_1_aware, plot = FALSE)
 
 - Meta anaysis results: `r results_1_aware$meta_analysis_results_text`
 
-### Analysis 6 (Exploratory): Olson & Fazio (2001)'s modified exclusion criteria as a moderator
+#### Analysis 6: Olson & Fazio (2001)'s modified exclusion criteria as a moderator
 
 ```{r fig.height=6, fig.width=8}
 
@@ -846,7 +856,7 @@ summary(results_6$fitted_model)
 
 - Heterogeneity test: `r results_6$moderator_test_results_text` 
 
-#### z and p values for the awareTRUE condition
+##### z and p values for the awareTRUE condition
 
 Metafor by default treatment codes the conditions, so results from the above analysis refer to the difference between the conditions. In order to obtain the p and z values for the effect in the awareTRUE condition, I refit the model to just the aware participants. Ie the results of this test are only to obtain z and p values for the awareTRUE condition's effect as being different from zero. 
 
@@ -865,7 +875,7 @@ results_2_aware <- meta_analysis_workflow(data_2_aware, plot = FALSE)
 
 - Meta anaysis results: `r results_2_aware$meta_analysis_results_text`
 
-### Analysis 7 (Exploratory): Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
+#### Analysis 7: Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
 
 ```{r fig.height=6, fig.width=8}
 
@@ -887,7 +897,7 @@ summary(results_7$fitted_model)
 
 - Heterogeneity test: `r results_7$moderator_test_results_text` 
 
-#### z and p values for the awareTRUE condition
+##### z and p values for the awareTRUE condition
 
 Metafor by default treatment codes the conditions, so results from the above analysis refer to the difference between the conditions. In order to obtain the p and z values for the effect in the awareTRUE condition, I refit the model to just the aware participants. Ie the results of this test are only to obtain z and p values for the awareTRUE condition's effect as being different from zero. 
 
@@ -906,7 +916,7 @@ results_3_aware <- meta_analysis_workflow(data_3_aware, plot = FALSE)
 
 - Meta anaysis results: `r results_3_aware$meta_analysis_results_text`
 
-### Analysis 8 (Exploratory): Modification of Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
+#### Analysis 8: Modification of Bar-Anan, De-Houwer & Nosek (2010)'s exclusion criteria as a moderator
 
 ```{r fig.height=6, fig.width=8}
 
@@ -928,7 +938,7 @@ summary(results_8$fitted_model)
 
 - Heterogeneity test: `r results_8$moderator_test_results_text` 
 
-#### z and p values for the awareTRUE condition
+##### z and p values for the awareTRUE condition
 
 Metafor by default treatment codes the conditions, so results from the above analysis refer to the difference between the conditions. In order to obtain the p and z values for the effect in the awareTRUE condition, I refit the model to just the aware participants. Ie the results of this test are only to obtain z and p values for the awareTRUE condition's effect as being different from zero. 
 
@@ -947,9 +957,9 @@ results_4_aware <- meta_analysis_workflow(data_4_aware, plot = FALSE)
 
 - Meta anaysis results: `r results_4_aware$meta_analysis_results_text`
 
-## Moderation of the unaware EC effect by the awareness exclusion criterion employed
+### Moderation of the unaware EC effect by the awareness exclusion criterion employed
 
-### Analysis 9 (Exploratory): Assess differences between the 4 exclusion methods
+#### Analysis 9: Assess differences between the 4 exclusion methods
 
 ```{r fig.height=12, fig.width=8}
 
@@ -970,9 +980,66 @@ summary(results_9$fitted_model)
 
 ```
 
-- Heterogeneity test: `r results_9$moderator_test_results_text`
+- Moderation test: `r results_9$moderator_test_results_text`
 
-# Power analysis of existing literature
+# Non-preregistered analyses
+
+### Moderation of the unaware EC effect by the awareness exclusion criterion employed acknowledging non-independence
+
+#### Analysis 10: Assess differences between the 4 exclusion methods
+
+Stahl pointed out that analysis 9, the model technically assumes independence of the exclusion criteria and that they violate these assumptions given they are nested. We therefore construct a model that acknowledges this non-independence. However, prior to doing so we note that the power to detect moderation in this new model will be at best equal to the power of the original model given that additional parameters are estimated in this new model. We therefore expected no changes to conclusions. 
+
+```{r fig.height=12, fig.width=8}
+
+data_10 <- 
+  bind_rows(mutate(data_1, awareness = "O&F"),
+            mutate(data_2, awareness = "O&F modified"),
+            mutate(data_3, awareness = "BA,DeH,&N"),
+            mutate(data_4, awareness = "BA,DeH,&N modified"))
+
+
+# calculate effect sizes for meta
+data_effect_sizes_10 <- data_10 %>%
+  group_by(data_collection_site, awareness) %>%
+  dplyr::summarize(preference_mean = mean(DV),
+                   preference_sd = sd(DV),
+                   preference_n = n()) %>%
+  mutate(criterion_type = ifelse(str_detect(awareness, "O&F"), "O&F",
+                                 ifelse(str_detect(awareness, "BA,DeH,&N"), "BA,DeH,&N", NA))) %>%
+  # must have greater than N=2 per site to calculate SD etc
+  filter(preference_n > 2) %>%
+  # calculate h and its SE
+  dplyr::mutate(preference_cohens_dz = preference_mean/preference_sd,
+                cohens_dz_V = ((preference_n*2)/(preference_n^2)) +
+                  ((preference_cohens_dz^2) / (preference_n*4)),
+                J = 1 - (3/(4*(preference_n-1)-1)),
+                hedges_g = preference_cohens_dz * J,
+                hedges_g_V = J^2 * cohens_dz_V,
+                hedges_g_se = sqrt(hedges_g_V)) %>%
+  ungroup() %>%
+  dplyr::select(data_collection_site, awareness, criterion_type, hedges_g, hedges_g_se) %>%
+  mutate(awareness = fct_relevel(awareness, "O&F", "O&F modified", "BA,DeH,&N", "BA,DeH,&N modified"),
+         criterion_type = fct_relevel(criterion_type, "O&F", "BA,DeH,&N"))
+
+# fit random effects model 
+results_10 <- 
+  rma.mv(yi  = hedges_g, 
+         V   = hedges_g_se^2,
+         mods = ~ awareness,
+         random =  ~1 | data_collection_site/criterion_type,
+         data = data_effect_sizes_10,
+         slab = paste(data_collection_site, criterion_type))
+
+summary(results_10)
+
+```
+
+Moderation test: p = `r results_10$QMp`
+
+## Power analyses 
+
+### Of existing literature
 
 ```{r}
 
@@ -987,7 +1054,7 @@ data_existing_literature <-
 data_existing_literature %>%
   rowwise() %>%
   do(power = pwr.t.test(n = .$analyzed.N, 
-                        d = 0.12,   # meta effect size in RRR using confirmatory Olson and Fazio criteria  
+                        d = 0.12,   # meta effect size in RRR using primary Olson and Fazio criteria  
                         sig.level = 0.05, 
                         power = NULL, 
                         type = c("one.sample"),
@@ -1007,7 +1074,7 @@ data_existing_literature %>%
 data_existing_literature %>%
   filter(paper == "Olson & Fazio (2001)" & Note.multipule.comarisions == "explicit") %>%
   do(power_olson_fazio_2001 = pwr.t.test(n = .$analyzed.N, 
-                                         d = 0.12,   # meta effect size in RRR using confirmatory Olson and Fazio criteria  
+                                         d = 0.12,   # meta effect size in RRR using primary Olson and Fazio criteria  
                                          sig.level = 0.05, 
                                          power = NULL, 
                                          type = c("one.sample"),
@@ -1023,6 +1090,92 @@ data_existing_literature %>%
   summarize(percent_sig_results_in_literature = round(sum(significant)/n()*100, 1)) %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+```
+
+### A priori for future studies
+
+sample size required if power = .80 and ES = 0.12
+
+```{r}
+
+pwr.t.test(n = NULL, 
+           d = 0.12,
+           sig.level = 0.05, 
+           power = 0.80, 
+           type = c("one.sample"),
+           alternative = c("two.sided"))$n %>%
+  round(0)
+
+```
+
+sample size required if power = .80 and ES = 0.03
+
+```{r}
+
+pwr.t.test(n = NULL, 
+           d = 0.03,
+           sig.level = 0.05, 
+           power = 0.80, 
+           type = c("one.sample"),
+           alternative = c("two.sided"))$n %>%
+  round(0)
+
+```
+
+sample size required if power = .95 and ES = 0.12
+
+```{r}
+
+pwr.t.test(n = NULL, 
+           d = 0.12,
+           sig.level = 0.05, 
+           power = 0.95, 
+           type = c("one.sample"),
+           alternative = c("two.sided"))$n %>%
+  round(0)
+
+```
+
+sample size required if power = .95 and ES = 0.03
+
+```{r}
+
+pwr.t.test(n = NULL, 
+           d = 0.03,
+           sig.level = 0.05, 
+           power = 0.95, 
+           type = c("one.sample"),
+           alternative = c("two.sided"))$n %>%
+  round(0)
+
+```
+
+power if N = 150 and ES = 0.12
+
+```{r}
+
+pwr.t.test(n = 150, 
+           d = 0.12,
+           sig.level = 0.05, 
+           power = NULL, 
+           type = c("one.sample"),
+           alternative = c("two.sided"))$power %>%
+  round(3)
+
+```
+
+power if N = 150 and ES = 0.03
+
+```{r}
+
+pwr.t.test(n = 150, 
+           d = 0.03,
+           sig.level = 0.05, 
+           power = NULL, 
+           type = c("one.sample"),
+           alternative = c("two.sided"))$power %>%
+  round(3)
 
 ```
 

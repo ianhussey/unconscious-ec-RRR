@@ -11,7 +11,7 @@
 
 <meta name="author" content="Ian Hussey" />
 
-<meta name="date" content="2020-03-25" />
+<meta name="date" content="2020-03-26" />
 
 <title>Unconscious EC RRR</title>
 
@@ -1672,7 +1672,7 @@ div.tocify {
 <h1 class="title toc-ignore">Unconscious EC RRR</h1>
 <h3 class="subtitle">Analyses and meta analysis</h3>
 <h4 class="author">Ian Hussey<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h4>
-<h4 class="date">25 March 2020</h4>
+<h4 class="date">26 March 2020</h4>
 
 </div>
 
@@ -3584,7 +3584,8 @@ NA
 <h3>Moderation of the unaware EC effect by the awareness exclusion criterion employed acknowledging non-independence</h3>
 <div id="analysis-10-assess-differences-between-the-4-exclusion-methods" class="section level4">
 <h4>Analysis 10: Assess differences between the 4 exclusion methods</h4>
-<p>Stahl pointed out that analysis 9, the model technically assumes independence of the exclusion criteria and that they violate these assumptions given they are nested. We therefore construct a model that acknowledges this non-independence. However, prior to doing so we note that the power to detect moderation in this new model will be at best equal to the power of the original model given that additional parameters are estimated in this new model. We therefore expected no changes to conclusions.</p>
+<p>Stahl pointed out that analysis 9, the model technically assumes independence of the exclusion criteria and that they violate these assumptions given they are nested. We therefore construct a model that treats the criteria as the 2X2 that they are: i.e., differing in their ‘family’ (Olson and Fazio vs Bar-Anan et al) and strictness (one of original or modified is stricter). These variables and their interaction were then used as moderators.</p>
+<p>However, prior to doing so we note that the power to detect moderation in this new model will be at best equal to the power of the original model given that additional parameters are estimated in this new model. We therefore expected no changes to conclusions.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">data_<span class="dv">10</span> &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="st">  </span><span class="kw">bind_rows</span>(<span class="kw">mutate</span>(data_<span class="dv">1</span>, <span class="dt">awareness =</span> <span class="st">&quot;O&amp;F&quot;</span>),</a>
 <a class="sourceLine" id="cb34-3" data-line-number="3">            <span class="kw">mutate</span>(data_<span class="dv">2</span>, <span class="dt">awareness =</span> <span class="st">&quot;O&amp;F modified&quot;</span>),</a>
@@ -3598,44 +3599,48 @@ NA
 <a class="sourceLine" id="cb34-11" data-line-number="11"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">summarize</span>(<span class="dt">preference_mean =</span> <span class="kw">mean</span>(DV),</a>
 <a class="sourceLine" id="cb34-12" data-line-number="12">                   <span class="dt">preference_sd =</span> <span class="kw">sd</span>(DV),</a>
 <a class="sourceLine" id="cb34-13" data-line-number="13">                   <span class="dt">preference_n =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb34-14" data-line-number="14"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">criterion_type =</span> <span class="kw">ifelse</span>(<span class="kw">str_detect</span>(awareness, <span class="st">&quot;O&amp;F&quot;</span>), <span class="st">&quot;O&amp;F&quot;</span>,</a>
-<a class="sourceLine" id="cb34-15" data-line-number="15">                                 <span class="kw">ifelse</span>(<span class="kw">str_detect</span>(awareness, <span class="st">&quot;BA,DeH,&amp;N&quot;</span>), <span class="st">&quot;BA,DeH,&amp;N&quot;</span>, <span class="ot">NA</span>))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb34-16" data-line-number="16"><span class="st">  </span><span class="co"># must have greater than N=2 per site to calculate SD etc</span></a>
-<a class="sourceLine" id="cb34-17" data-line-number="17"><span class="st">  </span><span class="kw">filter</span>(preference_n <span class="op">&gt;</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb34-18" data-line-number="18"><span class="st">  </span><span class="co"># calculate h and its SE</span></a>
-<a class="sourceLine" id="cb34-19" data-line-number="19"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">preference_cohens_dz =</span> preference_mean<span class="op">/</span>preference_sd,</a>
-<a class="sourceLine" id="cb34-20" data-line-number="20">                <span class="dt">cohens_dz_V =</span> ((preference_n<span class="op">*</span><span class="dv">2</span>)<span class="op">/</span>(preference_n<span class="op">^</span><span class="dv">2</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb34-21" data-line-number="21"><span class="st">                  </span>((preference_cohens_dz<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(preference_n<span class="op">*</span><span class="dv">4</span>)),</a>
-<a class="sourceLine" id="cb34-22" data-line-number="22">                <span class="dt">J =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">3</span><span class="op">/</span>(<span class="dv">4</span><span class="op">*</span>(preference_n<span class="dv">-1</span>)<span class="op">-</span><span class="dv">1</span>)),</a>
-<a class="sourceLine" id="cb34-23" data-line-number="23">                <span class="dt">hedges_g =</span> preference_cohens_dz <span class="op">*</span><span class="st"> </span>J,</a>
-<a class="sourceLine" id="cb34-24" data-line-number="24">                <span class="dt">hedges_g_V =</span> J<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>cohens_dz_V,</a>
-<a class="sourceLine" id="cb34-25" data-line-number="25">                <span class="dt">hedges_g_se =</span> <span class="kw">sqrt</span>(hedges_g_V)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb34-26" data-line-number="26"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb34-27" data-line-number="27"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(data_collection_site, awareness, criterion_type, hedges_g, hedges_g_se) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb34-28" data-line-number="28"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">awareness =</span> <span class="kw">fct_relevel</span>(awareness, <span class="st">&quot;O&amp;F&quot;</span>, <span class="st">&quot;O&amp;F modified&quot;</span>, <span class="st">&quot;BA,DeH,&amp;N&quot;</span>, <span class="st">&quot;BA,DeH,&amp;N modified&quot;</span>),</a>
-<a class="sourceLine" id="cb34-29" data-line-number="29">         <span class="dt">criterion_type =</span> <span class="kw">fct_relevel</span>(criterion_type, <span class="st">&quot;O&amp;F&quot;</span>, <span class="st">&quot;BA,DeH,&amp;N&quot;</span>))</a>
-<a class="sourceLine" id="cb34-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb34-31" data-line-number="31"><span class="co"># fit random effects model </span></a>
-<a class="sourceLine" id="cb34-32" data-line-number="32">results_<span class="dv">10</span> &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb34-33" data-line-number="33"><span class="st">  </span><span class="kw">rma.mv</span>(<span class="dt">yi  =</span> hedges_g, </a>
-<a class="sourceLine" id="cb34-34" data-line-number="34">         <span class="dt">V   =</span> hedges_g_se<span class="op">^</span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb34-35" data-line-number="35">         <span class="dt">mods =</span> <span class="op">~</span><span class="st"> </span>awareness,</a>
-<a class="sourceLine" id="cb34-36" data-line-number="36">         <span class="dt">random =</span>  <span class="op">~</span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span>data_collection_site<span class="op">/</span>criterion_type,</a>
-<a class="sourceLine" id="cb34-37" data-line-number="37">         <span class="dt">data =</span> data_effect_sizes_<span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb34-38" data-line-number="38">         <span class="dt">slab =</span> <span class="kw">paste</span>(data_collection_site, criterion_type))</a>
-<a class="sourceLine" id="cb34-39" data-line-number="39"></a>
-<a class="sourceLine" id="cb34-40" data-line-number="40"><span class="kw">summary</span>(results_<span class="dv">10</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb34-14" data-line-number="14"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">criterion_family =</span> <span class="kw">ifelse</span>(<span class="kw">str_detect</span>(awareness, <span class="st">&quot;O&amp;F&quot;</span>), <span class="st">&quot;O&amp;F&quot;</span>,</a>
+<a class="sourceLine" id="cb34-15" data-line-number="15">                                   <span class="kw">ifelse</span>(<span class="kw">str_detect</span>(awareness, <span class="st">&quot;BA,DeH,&amp;N&quot;</span>), <span class="st">&quot;BA,DeH,&amp;N&quot;</span>, <span class="ot">NA</span>)),</a>
+<a class="sourceLine" id="cb34-16" data-line-number="16">         <span class="dt">criterion_stringency =</span> <span class="kw">ifelse</span>(awareness <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;O&amp;F&quot;</span>, <span class="st">&quot;BA,DeH,&amp;N modified&quot;</span>), <span class="st">&quot;lower&quot;</span>, </a>
+<a class="sourceLine" id="cb34-17" data-line-number="17">                                       <span class="kw">ifelse</span>(awareness <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;O&amp;F modified&quot;</span>, <span class="st">&quot;BA,DeH,&amp;N&quot;</span>), <span class="st">&quot;higher&quot;</span>, <span class="ot">NA</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-18" data-line-number="18"><span class="st">  </span><span class="co"># must have greater than N=2 per site to calculate SD etc</span></a>
+<a class="sourceLine" id="cb34-19" data-line-number="19"><span class="st">  </span><span class="kw">filter</span>(preference_n <span class="op">&gt;</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-20" data-line-number="20"><span class="st">  </span><span class="co"># calculate h and its SE</span></a>
+<a class="sourceLine" id="cb34-21" data-line-number="21"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">preference_cohens_dz =</span> preference_mean<span class="op">/</span>preference_sd,</a>
+<a class="sourceLine" id="cb34-22" data-line-number="22">                <span class="dt">cohens_dz_V =</span> ((preference_n<span class="op">*</span><span class="dv">2</span>)<span class="op">/</span>(preference_n<span class="op">^</span><span class="dv">2</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-23" data-line-number="23"><span class="st">                  </span>((preference_cohens_dz<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(preference_n<span class="op">*</span><span class="dv">4</span>)),</a>
+<a class="sourceLine" id="cb34-24" data-line-number="24">                <span class="dt">J =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">3</span><span class="op">/</span>(<span class="dv">4</span><span class="op">*</span>(preference_n<span class="dv">-1</span>)<span class="op">-</span><span class="dv">1</span>)),</a>
+<a class="sourceLine" id="cb34-25" data-line-number="25">                <span class="dt">hedges_g =</span> preference_cohens_dz <span class="op">*</span><span class="st"> </span>J,</a>
+<a class="sourceLine" id="cb34-26" data-line-number="26">                <span class="dt">hedges_g_V =</span> J<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>cohens_dz_V,</a>
+<a class="sourceLine" id="cb34-27" data-line-number="27">                <span class="dt">hedges_g_se =</span> <span class="kw">sqrt</span>(hedges_g_V)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-28" data-line-number="28"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-29" data-line-number="29"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(data_collection_site, awareness, </a>
+<a class="sourceLine" id="cb34-30" data-line-number="30">                criterion_family, criterion_stringency,</a>
+<a class="sourceLine" id="cb34-31" data-line-number="31">                hedges_g, hedges_g_se) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-32" data-line-number="32"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">awareness =</span> <span class="kw">fct_relevel</span>(awareness, <span class="st">&quot;O&amp;F&quot;</span>, <span class="st">&quot;O&amp;F modified&quot;</span>, <span class="st">&quot;BA,DeH,&amp;N&quot;</span>, <span class="st">&quot;BA,DeH,&amp;N modified&quot;</span>),</a>
+<a class="sourceLine" id="cb34-33" data-line-number="33">         <span class="dt">criterion_family =</span> <span class="kw">fct_relevel</span>(criterion_family, <span class="st">&quot;O&amp;F&quot;</span>, <span class="st">&quot;BA,DeH,&amp;N&quot;</span>),</a>
+<a class="sourceLine" id="cb34-34" data-line-number="34">         <span class="dt">criterion_stringency =</span> <span class="kw">fct_relevel</span>(criterion_stringency, <span class="st">&quot;lower&quot;</span>, <span class="st">&quot;higher&quot;</span>))</a>
+<a class="sourceLine" id="cb34-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb34-36" data-line-number="36"><span class="co"># fit random effects model </span></a>
+<a class="sourceLine" id="cb34-37" data-line-number="37">results_<span class="dv">10</span> &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb34-38" data-line-number="38"><span class="st">  </span><span class="kw">rma.mv</span>(<span class="dt">yi  =</span> hedges_g, </a>
+<a class="sourceLine" id="cb34-39" data-line-number="39">         <span class="dt">V   =</span> hedges_g_se<span class="op">^</span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb34-40" data-line-number="40">         <span class="dt">mods =</span> <span class="op">~</span><span class="st"> </span>criterion_family <span class="op">*</span><span class="st"> </span>criterion_stringency,</a>
+<a class="sourceLine" id="cb34-41" data-line-number="41">         <span class="dt">random =</span>  <span class="op">~</span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span>data_collection_site,</a>
+<a class="sourceLine" id="cb34-42" data-line-number="42">         <span class="dt">data =</span> data_effect_sizes_<span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb34-43" data-line-number="43">         <span class="dt">slab =</span> <span class="kw">paste</span>(data_collection_site, criterion_family, criterion_stringency))</a>
+<a class="sourceLine" id="cb34-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb34-45" data-line-number="45"><span class="kw">summary</span>(results_<span class="dv">10</span>)</a></code></pre></div>
 <pre><code>## 
 ## Multivariate Meta-Analysis Model (k = 48; method: REML)
 ## 
 ##   logLik  Deviance       AIC       BIC      AICc 
-##  31.9258  -63.8516  -51.8516  -41.1464  -49.5813   
+##  31.9258  -63.8516  -53.8516  -44.9306  -52.2726   
 ## 
 ## Variance Components:
 ## 
-##             estim    sqrt  nlvls  fixed                               factor 
-## sigma^2.1  0.0016  0.0399     12     no                 data_collection_site 
-## sigma^2.2  0.0000  0.0000     24     no  data_collection_site/criterion_type 
+##             estim    sqrt  nlvls  fixed                factor 
+## sigma^2    0.0016  0.0399     12     no  data_collection_site 
 ## 
 ## Test for Residual Heterogeneity:
 ## QE(df = 44) = 16.2143, p-val = 1.0000
@@ -3645,16 +3650,21 @@ NA
 ## 
 ## Model Results:
 ## 
-##                              estimate      se     zval    pval    ci.lb   ci.ub 
-## intrcpt                        0.1240  0.0403   3.0774  0.0021   0.0450  0.2029 
-## awarenessO&amp;F modified         -0.0743  0.0586  -1.2678  0.2049  -0.1892  0.0406 
-## awarenessBA,DeH,&amp;N            -0.0872  0.0638  -1.3682  0.1712  -0.2122  0.0377 
-## awarenessBA,DeH,&amp;N modified   -0.0712  0.0577  -1.2334  0.2174  -0.1844  0.0419 
+##                                                       estimate      se     zval 
+## intrcpt                                                 0.1240  0.0403   3.0774 
+## criterion_familyBA,DeH,&amp;N                              -0.0712  0.0577  -1.2334 
+## criterion_stringencyhigher                             -0.0743  0.0586  -1.2678 
+## criterion_familyBA,DeH,&amp;N:criterion_stringencyhigher    0.0583  0.0888   0.6565 
+##                                                         pval    ci.lb   ci.ub 
+## intrcpt                                               0.0021   0.0450  0.2029 
+## criterion_familyBA,DeH,&amp;N                             0.2174  -0.1844  0.0419 
+## criterion_stringencyhigher                            0.2049  -0.1892  0.0406 
+## criterion_familyBA,DeH,&amp;N:criterion_stringencyhigher  0.5115  -0.1157  0.2322 
 ##  
-## intrcpt                      ** 
-## awarenessO&amp;F modified 
-## awarenessBA,DeH,&amp;N 
-## awarenessBA,DeH,&amp;N modified 
+## intrcpt                                               ** 
+## criterion_familyBA,DeH,&amp;N 
+## criterion_stringencyhigher 
+## criterion_familyBA,DeH,&amp;N:criterion_stringencyhigher 
 ## 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>

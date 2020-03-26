@@ -988,7 +988,9 @@ summary(results_9$fitted_model)
 
 #### Analysis 10: Assess differences between the 4 exclusion methods
 
-Stahl pointed out that analysis 9, the model technically assumes independence of the exclusion criteria and that they violate these assumptions given they are nested. We therefore construct a model that acknowledges this non-independence. However, prior to doing so we note that the power to detect moderation in this new model will be at best equal to the power of the original model given that additional parameters are estimated in this new model. We therefore expected no changes to conclusions. 
+Stahl pointed out that analysis 9, the model technically assumes independence of the exclusion criteria and that they violate these assumptions given they are nested. We therefore construct a model that treats the criteria as the 2X2 that they are: i.e., differing in their 'family' (Olson and Fazio vs Bar-Anan et al) and strictness (one of original or modified is stricter). These variables and their interaction were then used as moderators.
+
+However, prior to doing so we note that the power to detect moderation in this new model will be at best equal to the power of the original model given that additional parameters are estimated in this new model. We therefore expected no changes to conclusions. 
 
 ```{r fig.height=12, fig.width=8}
 
@@ -1005,8 +1007,10 @@ data_effect_sizes_10 <- data_10 %>%
   dplyr::summarize(preference_mean = mean(DV),
                    preference_sd = sd(DV),
                    preference_n = n()) %>%
-  mutate(criterion_type = ifelse(str_detect(awareness, "O&F"), "O&F",
-                                 ifelse(str_detect(awareness, "BA,DeH,&N"), "BA,DeH,&N", NA))) %>%
+  mutate(criterion_family = ifelse(str_detect(awareness, "O&F"), "O&F",
+                                   ifelse(str_detect(awareness, "BA,DeH,&N"), "BA,DeH,&N", NA)),
+         criterion_stringency = ifelse(awareness %in% c("O&F", "BA,DeH,&N modified"), "lower", 
+                                       ifelse(awareness %in% c("O&F modified", "BA,DeH,&N"), "higher", NA))) %>%
   # must have greater than N=2 per site to calculate SD etc
   filter(preference_n > 2) %>%
   # calculate h and its SE
@@ -1018,18 +1022,21 @@ data_effect_sizes_10 <- data_10 %>%
                 hedges_g_V = J^2 * cohens_dz_V,
                 hedges_g_se = sqrt(hedges_g_V)) %>%
   ungroup() %>%
-  dplyr::select(data_collection_site, awareness, criterion_type, hedges_g, hedges_g_se) %>%
+  dplyr::select(data_collection_site, awareness, 
+                criterion_family, criterion_stringency,
+                hedges_g, hedges_g_se) %>%
   mutate(awareness = fct_relevel(awareness, "O&F", "O&F modified", "BA,DeH,&N", "BA,DeH,&N modified"),
-         criterion_type = fct_relevel(criterion_type, "O&F", "BA,DeH,&N"))
+         criterion_family = fct_relevel(criterion_family, "O&F", "BA,DeH,&N"),
+         criterion_stringency = fct_relevel(criterion_stringency, "lower", "higher"))
 
 # fit random effects model 
 results_10 <- 
   rma.mv(yi  = hedges_g, 
          V   = hedges_g_se^2,
-         mods = ~ awareness,
-         random =  ~1 | data_collection_site/criterion_type,
+         mods = ~ criterion_family * criterion_stringency,
+         random =  ~1 | data_collection_site,
          data = data_effect_sizes_10,
-         slab = paste(data_collection_site, criterion_type))
+         slab = paste(data_collection_site, criterion_family, criterion_stringency))
 
 summary(results_10)
 

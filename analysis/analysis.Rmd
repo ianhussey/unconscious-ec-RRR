@@ -247,12 +247,12 @@ moderator_meta_analysis_workflow <- function(data,
   
   # fit random effects model 
   fitted_model <- 
-    rma.mv(yi  = hedges_g, 
-           V   = hedges_g_se^2,
-           mods = ~ awareness,
-           random =  ~1 | data_collection_site,
-           data = data_effect_sizes,
-           slab = data_collection_site)
+    rma.mv(yi     = hedges_g, 
+           V      = hedges_g_se^2,
+           mods   = ~ awareness,
+           random = ~ 1 | data_collection_site,
+           data   = data_effect_sizes,
+           slab   = data_collection_site)
   
   # model predictions
   temp <-

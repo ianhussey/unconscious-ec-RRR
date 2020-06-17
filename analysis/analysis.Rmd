@@ -1199,4 +1199,10 @@ pwr.t.test(n = 150,
 
 ```
 
+# Session Info
 
+```{r}
+
+sessionInfo()
+
+```

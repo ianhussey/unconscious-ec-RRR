@@ -1,0 +1,122 @@
+---
+title: "Unconscious EC RRR"
+subtitle: "Analyses and meta analysis"
+author: "Ian Hussey^[Ghent University. Email: ian.hussey@ugent.be]"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    code_folding: hide
+    highlight: haddock
+    number_sections: no
+    theme: flatly
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE)
+
+# options
+options(knitr.table.format = "html") # necessary configuration of tables
+
+# disable scientific notation
+options(scipen = 999) 
+
+```
+
+# Dependencies
+
+```{r}
+
+check_for_and_install_packages <- function(package) {
+  if (!package %in% installed.packages()) install.packages(package)
+}
+
+check_for_and_install_packages("tidyverse")
+check_for_and_install_packages("broom")
+check_for_and_install_packages("metafor")
+check_for_and_install_packages("knitr")
+check_for_and_install_packages("kableExtra")
+check_for_and_install_packages("rsample")
+check_for_and_install_packages("purrr")
+check_for_and_install_packages("devtools")
+check_for_and_install_packages("knitr")
+check_for_and_install_packages("kableExtra")
+check_for_and_install_packages("pwr")
+if (!"patchwork" %in% installed.packages()) devtools::install_github("thomasp85/patchwork")
+
+library(tidyverse)
+library(broom)
+library(metafor)
+library(knitr)
+library(kableExtra)
+library(rsample)
+library(purrr)
+library(patchwork)
+library(knitr)
+library(kableExtra)
+library(pwr)
+
+```
+
+# Data
+
+# Get data
+
+```{r}
+
+# get data
+data_processed <- read.csv("../data/processed/data_processed.csv") %>%
+  mutate(data_collection_site = dplyr::recode(data_collection_site,
+                                              "Balas and Sarzynnska" = "Balas",
+                                              "Corneille and Mierop" = "Mierop",
+                                              "Gast Richter and Benedict" = "Gast",
+                                              "Gawronski" = "Gawronski",
+                                              "Hutter" = "Hütter",
+                                              "Kurdi and Ferguson" = "Kurdi",
+                                              "Moran Hussey and Hughes" = "Moran",
+                                              "Olsen and Fritzlen" = "Olson",
+                                              "Smith and Douglas" = "Douglas",
+                                              "Stahl Bading Aust Heycke and Thomasius" = "Stahl",
+                                              "Unkelbach and Hogden" = "Unkelbach",
+                                              "Vadillo" = "Vadillo"),
+         data_collection_site = fct_relevel(data_collection_site,
+                                            "Balas",
+                                            "Douglas",
+                                            "Gast",
+                                            "Gawronski",
+                                            "Hütter",
+                                            "Kurdi",
+                                            "Mierop",
+                                            "Moran",
+                                            "Olson",
+                                            "Stahl",
+                                            "Unkelbach",
+                                            "Vadillo")) %>%
+  filter(simulated_data == FALSE &  # exclude simulated data used for script development
+           exclude_surveillance == FALSE &  # exclude if accuracy on surveillance task is >3SD worse than group
+           exclude_aware_olsen_and_fazio == FALSE) %>%  # exclude using the olsen and fazio criteria
+  mutate(DV = sum_score_evaluation_CSpos_preferred)
+
+
+library(broom)
+
+results_1 <- data_processed %>%
+  group_by(data_collection_site) %>%
+  do(tidy(t.test(.$DV))) %>%
+  ungroup() %>%
+  mutate(p.value = round(p.value, 3)) %>%
+  rownames_to_column(var = "study") %>%
+  select(study, p.value) %>%
+  mutate(significant = ifelse(p.value < .05, "*", ""))
+
+results_1 %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+
+```
+
+

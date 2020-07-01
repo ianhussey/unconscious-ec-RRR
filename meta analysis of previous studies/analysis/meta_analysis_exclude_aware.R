@@ -2,7 +2,7 @@
 library(metafor)
 library(MAd)
 #read the file:
-all <- read.csv("C:\\Users\\tmoranyo\\Documents\\LipLab\\projects\\RRR_fazio&olson2001\\meta-analysis\\meta-analysis_exclude_awere.csv")
+all <- read.csv("C:\\Users\\tmoranyo\\Documents\\GitHub\\unconscious-ec-RRR\\meta analysis of previous studies\\analysis\\meta-analysis_exclude_awere.csv")
 
 #first aggragate when needed Hedge's g:
 all.agg <- agg(
